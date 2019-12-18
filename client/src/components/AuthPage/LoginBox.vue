@@ -50,7 +50,11 @@
           <app-btn
             isDark
             class="login-page-btn"
+<<<<<<< HEAD
             @click.native="AUTH_TRANSITION({ type: 'SIGNUP' })"
+=======
+            @click.native="AUTH_TRANSITION('SIGNUP')"
+>>>>>>> 778f9da9e67f0b6fcd8386c0af7b08cfe234975e
             >Sign Up Here</app-btn
           >
         </div>
