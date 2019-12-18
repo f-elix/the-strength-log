@@ -1,0 +1,26 @@
+{
+  "name": "the-strength-log",
+  "version": "1.0.0",
+  "description": "A training log app",
+  "main": "server.js",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"cd client && npm run serve\"",
+    "server": "nodemon server.js"
+  },
+  "author": "Felix Guerin",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.0.0",
+    "nodemon": "^2.0.1"
+  },
+  "dependencies": {
+    "apollo-server": "^2.9.13",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "graphql": "^14.5.8",
+    "graphql-scalars": "^1.0.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.14",
+    "validator": "^12.1.0"
+  }
+}
