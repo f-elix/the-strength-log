@@ -1,0 +1,31 @@
+:root {
+  /* Colors */
+  --color-primary: #111111;
+  --color-secondary: #f8f8f8;
+  --color-darkblue: #000033;
+  --color-red: #7a2129;
+  --color-lightgrey: #b8bac5;
+  --color-darkgrey: #707070;
+  --color-dimmer: rgba(255, 255, 255, 0.9);
+
+  /* Border radius */
+  --default-radius: 5px;
+}
+
+html {
+  font-size: 14px;
+  letter-spacing: -0.5px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+}
+
+button {
+  display: block;
+  border: none;
+  background: none;
+  cursor: pointer;
+}

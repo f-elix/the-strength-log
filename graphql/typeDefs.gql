@@ -1,0 +1,83 @@
+# CUSTOM SCALAR TYPES
+scalar Date
+
+# TYPES
+type User {
+  _id: ID
+  name: String!
+  email: String!
+  password: String!
+  createdAt: String!
+  log: [Session]
+  token: String
+}
+
+type Session {
+  _id: ID
+  createdAt: String
+  updatedAt: String
+  title: String!
+  sessionDate: Date!
+  exercises: [Exercise]
+  notes: String
+  creator: User!
+}
+
+type Exercise {
+  name: String!
+  sets: [Set]
+}
+
+type Set {
+  setQty: Int!
+  repQty: Int!
+  weigth: String!
+}
+
+type AuthData {
+  userId: String!
+  token: String!
+}
+
+# INPUT TYPES
+input ExerciseInput {
+  name: String!
+  sets: [SetInput]
+}
+
+input SetInput {
+  setQty: Int!
+  repQty: Int!
+  weigth: String!
+}
+
+# ROOT
+type Query {
+  getSessionByID(sessionId: ID!): Session
+  getSessionByDate(sessionDate: Date!): Session
+  getSessionsFromTo(fromDate: Date!, toDate: Date!): [Session]
+  isAuth(token: String!): Boolean
+}
+
+type Mutation {
+  signupUser(name: String!, email: String!, password: String!): AuthData!
+  loginUser(email: String!, password: String!): AuthData!
+  addSession(
+    title: String!
+    sessionDate: Date!
+    exercises: [ExerciseInput]
+    notes: String
+    creatorId: ID!
+    createdAt: String
+  ): Session!
+  editSession(
+    sessionId: ID!
+    title: String
+    sessionDate: Date!
+    exercises: [ExerciseInput]
+    notes: String
+    createdAt: String
+    updatedAt: String
+  ): Session!
+  deleteSession(sessionId: ID!): Boolean
+}
