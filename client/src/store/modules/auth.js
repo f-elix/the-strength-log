@@ -5,23 +5,25 @@ import router from "../../router";
 
 const state = {
   currentState: authMachine.initialState,
-  authQuery: null,
-  error: null,
-  userData: null
+  userData: null,
+  error: null
 };
 
 const mutations = {
   updateAuthState(state, nextState) {
     state.currentState = nextState;
   },
-  updateAuthQuery(state, query) {
-    state.authQuery = query;
+  updateUserData(state, data) {
+    state.userData = {
+      ...state.userData,
+      data
+    };
   },
   updateError(state, msg) {
     state.error = msg;
   },
-  updateUserData(state, data) {
-    state.userData = data;
+  clearError(state) {
+    state.error = null;
   }
 };
 
@@ -60,17 +62,17 @@ const actions = {
       dispatch("AUTH_TRANSITION", { type: "ERROR" });
     }
   },
-  POST_USER: async ({ state, dispatch, commit }) => {
+  AUTH_USER: async ({ dispatch, commit }, { params }) => {
+    const { authQuery, queryName } = params;
     fetch(process.env.VUE_APP_API, {
       method: "POST",
       headers: {
         "content-type": "application/json"
       },
-      body: JSON.stringify(state.authQuery)
+      body: JSON.stringify(authQuery)
     })
       .then(res => res.json())
       .then(data => {
-        // Extract data
         if (data.errors) {
           const error = {
             message: data.errors[0].message,
@@ -79,24 +81,27 @@ const actions = {
           throw error;
         }
         const query = data.data.signupUser ? "signupUser" : "loginUser";
-        const token = data.data[query].token;
-        const userId = data.data[query].userId;
-        // Store token and id in local storage
-        localStorage.setItem("token", token);
-        localStorage.setItem("userId", userId);
-        // Update user
-        commit("updateUserData", { userId, token });
-        // Transition state
-        dispatch("AUTH_TRANSITION", { type: "SUCCESS" });
+        const token = data.data[queryName].token;
+        const userId = data.data[queryName].userId;
+        dispatch("AUTH_TRANSITION", { type: "SUCCESS", params: { token, userId } });
       })
-      .catch(err => {
-        // Update error
-        commit("updateError", err);
-        // Transition state
-        dispatch("AUTH_TRANSITION", { type: "ERROR" });
+      .catch(error => {
+        dispatch("AUTH_TRANSITION", { type: "ERROR", params: { error } });
       });
   },
-  GO_TO_DASHBOARD: () => {
+  SHOW_ERROR: ({ commit }, { params }) => {
+    commit("updateError", params.error);
+  },
+  HIDE_ERROR: ({ commit }) => {
+    commit("clearError");
+  },
+  STORE_TOKEN_IN_LOCALSTORAGE: (_, { params }) => {
+    localStorage.setItem("token", params.token);
+  },
+  STORE_USERID_IN_STATE: ({ commit }, { params }) => {
+    commit("updateUserData", params.userId);
+  },
+  LOGIN: () => {
     router.push("/dashboard");
   },
   CLEAR_STORAGE: () => {

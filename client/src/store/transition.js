@@ -1,9 +1,8 @@
-function transition(machine, { state, commit, dispatch }, { type, data }) {
-  const nextState = machine.transition(state.currentState, { type, data });
+function transition(machine, { state, commit, dispatch }, { type, params }) {
+  const nextState = machine.transition(state.currentState, { type, params });
   commit(`update${machine.config.id}State`, nextState);
-  console.log(nextState);
   nextState.actions.forEach(action => {
-    dispatch(action.type, { type, data });
+    dispatch(action.type, { type, params });
   });
 }
 

@@ -107,8 +107,10 @@ export default {
           password: this.password
         }
       };
-      this.updateAuthQuery(authQuery);
-      this.AUTH_TRANSITION({ type: "LOGIN" });
+      this.AUTH_TRANSITION({
+        type: "LOGIN",
+        params: { authQuery, queryName: "loginUser" }
+      });
     }
   }
 };

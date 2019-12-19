@@ -24,13 +24,15 @@ const authMachine = Machine({
           on: {
             SIGNUP: "signup",
             LOGIN: "#fetching"
-          }
+          },
+          exit: ["HIDE_ERROR"]
         },
         signup: {
           on: {
             LOGIN: "login",
             SIGNUP: "#fetching"
-          }
+          },
+          exit: ["HIDE_ERROR"]
         },
         last: {
           type: "history"
@@ -39,14 +41,17 @@ const authMachine = Machine({
     },
     fetching: {
       id: "fetching",
-      entry: ["POST_USER"],
+      entry: ["AUTH_USER"],
       on: {
         SUCCESS: "authenticated",
-        ERROR: "idle.last"
+        ERROR: {
+          target: "idle.last",
+          actions: ["SHOW_ERROR"]
+        }
       }
     },
     authenticated: {
-      entry: ["GO_TO_DASHBOARD"],
+      entry: ["STORE_TOKEN_IN_LOCALSTORAGE", "STORE_USERID_IN_STATE", "LOGIN"],
       on: {
         LOGOUT: "idle"
       },
