@@ -53,6 +53,7 @@ input SetInput {
 
 # ROOT
 type Query {
+  getUserData(userId: ID!): User
   getSessionByID(sessionId: ID!): Session
   getSessionByDate(sessionDate: Date!): Session
   getSessionsFromTo(fromDate: Date!, toDate: Date!): [Session]
