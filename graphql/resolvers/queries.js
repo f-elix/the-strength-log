@@ -6,13 +6,13 @@ const User = require("../../models/User");
 const Session = require("../../models/Session");
 
 const queries = {
-  getUserData: async (_, { userId }, {}) => {
-    const user = await User.findById(userId);
-    if (!user) {
+  getUserData: async (_, args, { currentUser }) => {
+    if (!currentUser) {
       const error = new Error("Not authenticated");
       error.statusCode = 403;
       throw error;
     }
+    const user = await User.findById(currentUser.userId);
     return {
       ...user._doc,
       createdAt: user.createdAt.toString(),

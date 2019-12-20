@@ -5,7 +5,7 @@
       <button @click="AUTH_TRANSITION({ type: 'LOGOUT' })" class="logout-btn">
         Logout
       </button>
-      <h1 class="text-center">{{ username }}'s Strength Log</h1>
+      <h1 class="text-center">{{ user.name }}'s Strength Log</h1>
       <app-btn isDarkBlue class="app-btn">Create Session</app-btn>
       <app-btn class="app-btn">View Current Week</app-btn>
       <!-- Search by date form -->
@@ -47,7 +47,7 @@
 
 <script>
 // Vuex
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 // Components
 import AppBtn from "../components/utils/AppBtn";
@@ -60,11 +60,15 @@ export default {
   },
   data() {
     return {
-      username: "Username",
       fromDate: "",
       toDate: "",
       sessionName: ""
     };
+  },
+  computed: {
+    ...mapState({
+      user: state => state.auth.userData
+    })
   },
   methods: {
     ...mapActions(["AUTH_TRANSITION"])

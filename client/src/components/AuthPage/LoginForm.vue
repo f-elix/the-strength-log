@@ -97,7 +97,6 @@ export default {
         query: `
           mutation loginUser($email: String!, $password: String!) {
             loginUser(email: $email, password: $password) {
-              userId
               token
             }
           }

@@ -9,7 +9,6 @@ type User {
   password: String!
   createdAt: String!
   log: [Session]
-  token: String
 }
 
 type Session {
@@ -35,7 +34,6 @@ type Set {
 }
 
 type AuthData {
-  userId: String!
   token: String!
 }
 
@@ -53,7 +51,7 @@ input SetInput {
 
 # ROOT
 type Query {
-  getUserData(userId: ID!): User
+  getUserData: User
   getSessionByID(sessionId: ID!): Session
   getSessionByDate(sessionDate: Date!): Session
   getSessionsFromTo(fromDate: Date!, toDate: Date!): [Session]

@@ -10,14 +10,7 @@ const routes = [
   {
     path: "/",
     name: "auth",
-    component: Auth,
-    beforeEnter: (to, from, next) => {
-      if (auth.state.currentState.matches("authenticated")) {
-        next("/dashboard");
-      } else {
-        next();
-      }
-    }
+    component: Auth
   },
   {
     path: "/dashboard",

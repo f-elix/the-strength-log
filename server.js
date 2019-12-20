@@ -30,7 +30,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
-    const token = req.headers.authorization.split(" ")[1] || "";
+    const token = req.headers.authorization || "";
     const currentUser = await getUser(token);
     return {
       currentUser

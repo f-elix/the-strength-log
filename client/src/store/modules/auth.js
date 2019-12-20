@@ -5,8 +5,8 @@ import router from "../../router";
 
 const state = {
   currentState: authMachine.initialState,
-  userData: null,
-  error: null
+  userData: {},
+  error: ""
 };
 
 const mutations = {
@@ -14,10 +14,7 @@ const mutations = {
     state.currentState = nextState;
   },
   updateUserData(state, data) {
-    state.userData = {
-      ...state.userData,
-      data
-    };
+    state.userData = data;
   },
   updateError(state, msg) {
     state.error = msg;
@@ -56,7 +53,7 @@ const actions = {
         body: JSON.stringify(isAuthQuery)
       });
       const data = await res.json();
-      dispatch("AUTH_TRANSITION", { type: data.data.isAuth ? "SUCCESS" : "ERROR" });
+      dispatch("AUTH_TRANSITION", { type: data.data.isAuth ? "SUCCESS" : "ERROR", params: { token } });
       return;
     } catch (err) {
       dispatch("AUTH_TRANSITION", { type: "ERROR" });
@@ -81,8 +78,7 @@ const actions = {
           throw error;
         }
         const token = data.data[queryName].token;
-        const userId = data.data[queryName].userId;
-        dispatch("AUTH_TRANSITION", { type: "SUCCESS", params: { token, userId } });
+        dispatch("AUTH_TRANSITION", { type: "SUCCESS", params: { token } });
       })
       .catch(error => {
         dispatch("AUTH_TRANSITION", { type: "ERROR", params: { error } });
@@ -91,28 +87,46 @@ const actions = {
   STORE_USER_IN_STATE: ({ commit }, { params }) => {
     const userQuery = {
       query: `
-        query getUser($userId: String!) {
-          getUserData(userID: $userID) {
-            name
-            email
+      {
+        getUserData {
+          name
+          email
+          _id
+          log {
+            title
+            sessionDate
+            exercises {
+              name
+              sets {
+                setQty
+                repQty
+                weigth
+              }
+            }
+            notes
+            _id
+            createdAt
+            updatedAt
           }
         }
-      `,
-      variables: {
-        userId: params.userId
       }
+    `
     };
     fetch(process.env.VUE_APP_API, {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        authorization: "bearer " + params.token
+        authorization: params.token
       },
       body: JSON.stringify(userQuery)
     })
       .then(res => res.json())
-      .then(user => {
-        console.log(user);
+      .then(data => {
+        const userData = data.data.getUserData;
+        commit("updateUserData", userData);
+      })
+      .catch(err => {
+        console.log(err);
       });
   },
   SHOW_ERROR: ({ commit }, { params }) => {
@@ -124,9 +138,6 @@ const actions = {
   STORE_TOKEN_IN_LOCALSTORAGE: (_, { params }) => {
     localStorage.setItem("token", params.token);
   },
-  // STORE_USERID_IN_STATE: ({ commit }, { params }) => {
-  //   commit("updateUserData", params.userId);
-  // },
   LOGIN: () => {
     router.push("/dashboard");
   },

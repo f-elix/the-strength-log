@@ -2,9 +2,9 @@ import { Machine } from "xstate";
 
 const authMachine = Machine({
   id: "Auth",
-  initial: "mounting",
+  initial: "loading",
   states: {
-    mounting: {
+    loading: {
       on: {
         LOADED: "checkingForAuth"
       }
