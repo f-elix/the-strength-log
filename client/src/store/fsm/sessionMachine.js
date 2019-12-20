@@ -24,3 +24,5 @@ export const sessionMachine = Machine({
     }
   }
 });
+
+export default sessionMachine;

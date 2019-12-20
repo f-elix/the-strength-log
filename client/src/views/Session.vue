@@ -14,9 +14,7 @@
 </template>
 
 <script>
-import { interpret } from "xstate";
-import { sessionMachine } from "../machines/session";
-
+// Components
 import ExerciseList from "../components/SessionPage/ExerciseList";
 import NewExercise from "../components/SessionPage/NewExercise";
 import AppBtn from "../components/utils/AppBtn";
@@ -29,23 +27,13 @@ export default {
   },
   data() {
     return {
-      sessionService: interpret(sessionMachine),
-      current: sessionMachine.initialState,
       sessionTitle: "Session Title"
     };
-  },
-  created() {
-    this.sessionService.onTransition(state => (this.current = state)).start();
   },
   computed: {
     sessionDate() {
       const date = new Date();
       return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-    }
-  },
-  methods: {
-    send(event) {
-      this.sessionService.send(event);
     }
   }
 };
