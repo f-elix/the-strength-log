@@ -91,7 +91,7 @@ const actions = {
         dispatch("AUTH_TRANSITION", { type: "ERROR", params: { error } });
       });
   },
-  STORE_USER_IN_STATE: ({ commit }, { params }) => {
+  STORE_USER_IN_STATE: async ({ commit }, { params }) => {
     const userQuery = {
       query: `
       {
@@ -119,22 +119,28 @@ const actions = {
       }
     `
     };
-    fetch(process.env.VUE_APP_API, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        authorization: params.token
-      },
-      body: JSON.stringify(userQuery)
-    })
-      .then(res => res.json())
-      .then(data => {
-        const userData = data.data.getUserData;
-        commit("updateUserData", userData);
-      })
-      .catch(err => {
-        console.log(err);
+    try {
+      const res = await fetch(process.env.VUE_APP_API, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: params.token
+        },
+        body: JSON.stringify(userQuery)
       });
+      const data = res.json();
+      if (data.errors) {
+        const error = {
+          message: data.errors[0].message,
+          statusCode: data.errors[0].extensions.exception.statusCode
+        };
+        throw error;
+      }
+      const userData = data.data.getUserData;
+      commit("updateUserData", userData);
+    } catch (error) {
+      console.log(err);
+    }
   },
   SHOW_ERROR: ({ commit }, { params }) => {
     commit("updateError", params.error);

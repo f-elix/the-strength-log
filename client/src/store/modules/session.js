@@ -34,8 +34,14 @@ const actions = {
         body: JSON.stringify(query)
       });
       const data = await res.json();
+      if (data.errors) {
+        const error = {
+          message: data.errors[0].message,
+          statusCode: data.errors[0].extensions.exception.statusCode
+        };
+        throw error;
+      }
       return data.data.createSession;
-      // TODO check if errors
     } catch (error) {
       console.log(error);
     }
