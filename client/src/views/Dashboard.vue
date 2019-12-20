@@ -6,7 +6,11 @@
         Logout
       </button>
       <h1 class="text-center">{{ user.name }}'s Strength Log</h1>
-      <app-btn isDarkBlue class="app-btn">Create Session</app-btn>
+      <!-- Create session btn -->
+      <app-btn isDarkBlue class="app-btn" @click.native="CREATE_SESSION"
+        >Create Session</app-btn
+      >
+      <!-- View current week btn -->
       <app-btn class="app-btn">View Current Week</app-btn>
       <!-- Search by date form -->
       <form class="form" @submit.prevent="">
@@ -71,7 +75,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(["AUTH_TRANSITION"])
+    ...mapActions(["AUTH_TRANSITION", "CREATE_SESSION"])
   }
 };
 </script>

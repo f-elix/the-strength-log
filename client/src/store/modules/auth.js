@@ -146,7 +146,6 @@ const actions = {
     commit("showLoading");
   },
   HIDE_LOADING: ({ commit }) => {
-    console.log("hideloading");
     commit("hideLoading");
   },
   STORE_TOKEN_IN_LOCALSTORAGE: (_, { params }) => {

@@ -61,22 +61,8 @@ type Query {
 type Mutation {
   signupUser(name: String!, email: String!, password: String!): AuthData!
   loginUser(email: String!, password: String!): AuthData!
-  addSession(
-    title: String!
-    sessionDate: Date!
-    exercises: [ExerciseInput]
-    notes: String
-    creatorId: ID!
-    createdAt: String
-  ): Session!
-  editSession(
-    sessionId: ID!
-    title: String
-    sessionDate: Date!
-    exercises: [ExerciseInput]
-    notes: String
-    createdAt: String
-    updatedAt: String
-  ): Session!
+  createSession(sessionDate: Date!): ID!
+  addSession(title: String!, sessionDate: Date!, exercises: [ExerciseInput], notes: String, creatorId: ID!): Session!
+  editSession(sessionId: ID!, title: String, sessionDate: Date!, exercises: [ExerciseInput], notes: String): Session!
   deleteSession(sessionId: ID!): Boolean
 }

@@ -80,14 +80,31 @@ const mutations = {
     };
   },
   // SESSION MUTATIONS
-  addSession: async (_, { title, sessionDate, exercises, notes }, { currentUser }) => {
-    // Find user from request
-    const user = await User.findById(currentUser.userId);
-    if (!user) {
+  createSession: async (_, { sessionDate }, { currentUser }) => {
+    if (!currentUser) {
       const error = new Error("Not authenticated");
       error.statusCode = 401;
       throw error;
     }
+    const user = await User.findById(currentUser.userId);
+    const session = new Session({
+      title: "New session",
+      sessionDate,
+      creator: currentUser.userId
+    });
+    const newSession = await session.save();
+    user.log.push(newSession);
+    await user.save();
+    return newSession._id.toString();
+  },
+  addSession: async (_, { title, sessionDate, exercises, notes }, { currentUser }) => {
+    // Find user from request
+    if (!currentUser) {
+      const error = new Error("Not authenticated");
+      error.statusCode = 401;
+      throw error;
+    }
+    const user = await User.findById(currentUser.userId);
     // Create and save session
     const session = new Session({
       title,
