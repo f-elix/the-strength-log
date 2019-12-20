@@ -5,6 +5,7 @@ const authMachine = Machine({
   initial: "loading",
   states: {
     loading: {
+      entry: ["SHOW_LOADING"],
       on: {
         LOADED: "checkingForAuth"
       }
@@ -19,6 +20,7 @@ const authMachine = Machine({
     idle: {
       id: "idle",
       initial: "login",
+      entry: ["HIDE_LOADING"],
       states: {
         login: {
           on: {
@@ -41,7 +43,7 @@ const authMachine = Machine({
     },
     fetching: {
       id: "fetching",
-      entry: ["AUTH_USER"],
+      entry: ["SHOW_LOADING", "AUTH_USER"],
       on: {
         SUCCESS: "authenticated",
         ERROR: {
@@ -51,11 +53,11 @@ const authMachine = Machine({
       }
     },
     authenticated: {
-      entry: ["STORE_TOKEN_IN_LOCALSTORAGE", "STORE_USER_IN_STATE", "LOGIN"],
+      entry: ["STORE_TOKEN_IN_LOCALSTORAGE", "STORE_USER_IN_STATE", "LOGIN", "HIDE_lOADING"],
       on: {
         LOGOUT: "idle"
       },
-      exit: ["CLEAR_STORAGE", "LOGOUT"]
+      exit: ["SHOW_LOADING", "CLEAR_STORAGE", "LOGOUT"]
     }
   }
 });

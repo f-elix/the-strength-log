@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <!-- Loader -->
-    <app-loader v-if="state.matches('fetching')"></app-loader>
     <!-- Title -->
     <h1 class="text-center">The Strength Log</h1>
     <h2 class="text-center">
@@ -21,13 +19,11 @@
 import { mapState, mapActions } from "vuex";
 
 // Components
-import AppLoader from "../components/utils/AppLoader";
 import LoginBox from "../components/AuthPage/LoginBox";
 import ErrorMessage from "../components/utils/forms/ErrorMessage";
 
 export default {
   components: {
-    AppLoader,
     LoginBox,
     ErrorMessage
   },
