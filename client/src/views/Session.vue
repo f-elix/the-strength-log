@@ -4,8 +4,8 @@
       <div class="date">{{ sessionDate }}</div>
       <h1 class="title">{{ sessionTitle }}</h1>
     </div>
-    <exercise-list :exercises="current.context.exerciseList"></exercise-list>
-    <new-exercise v-if="current.matches('editing')"></new-exercise>
+    <exercise-list :exercises="['bench', 'squat']"></exercise-list>
+    <new-exercise></new-exercise>
     <div class="btn-ctn">
       <app-btn isDarkBlue>Save Session</app-btn>
       <app-btn isRed>Discard</app-btn>
