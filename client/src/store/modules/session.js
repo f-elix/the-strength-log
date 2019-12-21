@@ -3,21 +3,32 @@ import transition from "../transition";
 
 import router from "../../router";
 
-const state = {};
-const mutations = {};
+const state = {
+  sessionData: {}
+};
+const mutations = {
+  updateSessionData(state, data) {
+    state.sessionData = data;
+  }
+};
 const actions = {
   SESSION_TRANSITION: (context, event) => {
     transition(sessionMachine, context, event);
   },
-  CREATE_SESSION: async () => {
+  DISPLAY_SESSION: async ({ dispatch }, { params }) => {},
+  CREATE_SESSION: async ({ commit }) => {
     const token = localStorage.getItem("token");
     const date = new Date();
     const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    console.log(date);
     const query = {
       query: `
         mutation createSession($date: Date!) {
-          createSession(sessionDate: $date)
+          createSession(sessionDate: $date) {
+            _id
+            createdAt
+            title
+            sessionDate
+          }
         }
       `,
       variables: {
@@ -41,11 +52,11 @@ const actions = {
         };
         throw error;
       }
-      return data.data.createSession;
+      commit("updateSessionData", data.data.createSession);
+      router.push("/new-session");
     } catch (error) {
       console.log(error);
     }
-    router.push("/new-session");
   }
 };
 

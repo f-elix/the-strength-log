@@ -95,7 +95,11 @@ const mutations = {
     const newSession = await session.save();
     user.log.push(newSession);
     await user.save();
-    return newSession._id.toString();
+    return {
+      ...newSession._doc,
+      _id: newSession._id.toString(),
+      createdAt: newSession.createdAt.toISOString().split("T")[0]
+    };
   },
   addSession: async (_, { title, sessionDate, exercises, notes }, { currentUser }) => {
     // Find user from request

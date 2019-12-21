@@ -4,8 +4,14 @@ const dashboardMachine = Machine({
   id: "Dashboard",
   initial: "idle",
   states: {
-    entry: ["QUERY_USER"],
-    idle: {}
+    idle: {
+      on: {
+        CREATE_SESSION: "creating"
+      }
+    },
+    creating: {
+      type: "final"
+    }
   }
 });
 

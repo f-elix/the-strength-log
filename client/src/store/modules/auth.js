@@ -99,22 +99,7 @@ const actions = {
           name
           email
           _id
-          log {
-            title
-            sessionDate
-            exercises {
-              name
-              sets {
-                setQty
-                repQty
-                weigth
-              }
-            }
-            notes
-            _id
-            createdAt
-            updatedAt
-          }
+          createdAt
         }
       }
     `
@@ -128,7 +113,7 @@ const actions = {
         },
         body: JSON.stringify(userQuery)
       });
-      const data = res.json();
+      const data = await res.json();
       if (data.errors) {
         const error = {
           message: data.errors[0].message,
@@ -139,7 +124,7 @@ const actions = {
       const userData = data.data.getUserData;
       commit("updateUserData", userData);
     } catch (error) {
-      console.log(err);
+      console.log(error);
     }
   },
   SHOW_ERROR: ({ commit }, { params }) => {

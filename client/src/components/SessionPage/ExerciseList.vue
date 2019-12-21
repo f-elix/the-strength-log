@@ -31,12 +31,14 @@
 </template>
 
 <script>
+// Vuex
+import { mapState } from "vuex";
+
 export default {
-  props: {
-    exercises: {
-      type: Array,
-      default: () => []
-    }
+  computed: {
+    ...mapState({
+      exercises: state => state.session.sessionData.exercises
+    })
   }
 };
 </script>

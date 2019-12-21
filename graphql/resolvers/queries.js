@@ -15,8 +15,8 @@ const queries = {
     const user = await User.findById(currentUser.userId);
     return {
       ...user._doc,
-      createdAt: user.createdAt.toString(),
-      updatedAt: user.updatedAt.toString()
+      createdAt: user.createdAt.toISOString().split("T")[0],
+      updatedAt: user.updatedAt.toISOString().split("T")[0]
     };
   },
   getSessionByID: async (_, { sessionId }, { currentUser }) => {

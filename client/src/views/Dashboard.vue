@@ -5,9 +5,13 @@
       <button @click="AUTH_TRANSITION({ type: 'LOGOUT' })" class="logout-btn">
         Logout
       </button>
-      <h1 class="text-center">{{ user.name }}'s Strength Log</h1>
+      <h1 class="text-center log-title">{{ user.name }}'s Log</h1>
+      <p class="text-center">Started {{ user.createdAt }}</p>
       <!-- Create session btn -->
-      <app-btn isDarkBlue class="app-btn" @click.native="CREATE_SESSION"
+      <app-btn
+        isDarkBlue
+        class="app-btn"
+        @click.native="SESSION_TRANSITION({ type: 'CREATE' })"
         >Create Session</app-btn
       >
       <!-- View current week btn -->
@@ -75,15 +79,15 @@ export default {
     })
   },
   methods: {
-    ...mapActions(["AUTH_TRANSITION", "CREATE_SESSION"])
+    ...mapActions(["AUTH_TRANSITION", "SESSION_TRANSITION"])
   }
 };
 </script>
 
 <style scoped>
 .container {
-  height: 100vh;
-  padding: 0.75rem;
+  min-height: 100vh;
+  padding: 1.5rem;
   background-color: var(--color-secondary);
   display: flex;
   flex-direction: column;
@@ -98,9 +102,11 @@ export default {
 
 .logout-btn {
   display: block;
-  margin: 0.75rem 0 0;
-  align-self: start;
   border: 2px solid var(--color-primary);
+}
+
+.log-title {
+  margin: 0;
 }
 
 .app-btn {
