@@ -92,7 +92,7 @@
         <!-- Remove exercise btn -->
         <app-btn
           type="button"
-          isRed
+          color="red"
           class="remove-exercise-btn"
           @click.native="REMOVE_EXERCISE(exercise.id)"
           @keypress.enter.native="REMOVE_EXERCISE(exercise.id)"
@@ -102,7 +102,7 @@
         <app-btn
           type="button"
           class="add-set-btn"
-          isDarkBlue
+          color="dark-blue"
           @click.native="ADD_SET(exercise)"
           @keypress.enter.native="ADD_SET(exercise)"
           >Add Set</app-btn

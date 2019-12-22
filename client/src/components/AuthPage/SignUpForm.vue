@@ -64,7 +64,7 @@
           }}</error-message></transition
         >
       </validation-provider>
-      <app-btn isDark type="submit">Sign Up</app-btn>
+      <app-btn color="dark" type="submit">Sign Up</app-btn>
     </form>
   </validation-observer>
 </template>

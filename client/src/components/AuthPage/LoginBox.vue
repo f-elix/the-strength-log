@@ -48,7 +48,7 @@
             Don't have an account?
           </p>
           <app-btn
-            isDark
+            color="dark"
             class="login-page-btn"
             @click.native="AUTH_TRANSITION({ type: 'SIGNUP' })"
             >Sign Up Here</app-btn

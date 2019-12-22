@@ -33,8 +33,8 @@
     ></app-text-area>
     <!-- Session btns -->
     <div class="btn-ctn">
-      <app-btn isDarkBlue>Save Session</app-btn>
-      <app-btn isRed>Discard</app-btn>
+      <app-btn color="dark-blue">Save Session</app-btn>
+      <app-btn color="red">Discard</app-btn>
     </div>
   </div>
 </template>

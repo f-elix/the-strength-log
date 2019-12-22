@@ -1,31 +1,19 @@
 <template>
-  <button
-    class="btn"
-    :class="{
-      'btn-dark': isDark,
-      'btn-dark-blue': isDarkBlue,
-      'btn-red': isRed
-    }"
-    :type="type"
-  >
+  <button class="btn" :class="colorClass" :type="type">
     <slot />
   </button>
 </template>
 
 <script>
 export default {
+  computed: {
+    colorClass() {
+      return "btn-" + this.color;
+    }
+  },
   props: {
-    isDark: {
-      type: Boolean,
-      default: false
-    },
-    isDarkBlue: {
-      type: Boolean,
-      default: false
-    },
-    isRed: {
-      type: Boolean,
-      default: false
+    color: {
+      type: String
     },
     type: {
       type: String,
@@ -64,5 +52,9 @@ export default {
 
 .btn-red {
   background-color: var(--color-red);
+}
+
+.btn-green {
+  background-color: var(--color-green);
 }
 </style>

@@ -9,7 +9,7 @@
       <p class="text-center">Started {{ user.createdAt }}</p>
       <!-- Create session btn -->
       <app-btn
-        isDarkBlue
+        color="dark-blue"
         class="app-btn"
         @click.native="DASHBOARD_TRANSITION({ type: 'CREATE_SESSION' })"
         >Create Session</app-btn
