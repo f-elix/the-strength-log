@@ -1,6 +1,6 @@
 <template>
   <div class="exercise-list">
-    <!-- Add btn -->
+    <!-- Add exercise btn -->
     <app-btn
       type="button"
       class="add-exercise-btn"
@@ -39,7 +39,7 @@
         v-if="state.matches('editing')"
       >
         <app-input
-          class="list__input"
+          class="list__input list__input--name"
           type="text"
           v-model="exercise.name"
           :id="`name${exercise.id}`"
@@ -54,10 +54,10 @@
           v-for="set in exercise.sets"
           :key="set.id"
         >
+          <!-- Delete set btn -->
           <app-btn
             aria-roledescription="Delete set"
             type="button"
-            isRed
             class="delete-set-btn"
             v-if="Number(set.id.toString().split('')[1]) !== 1"
             @click.native="
@@ -66,8 +66,7 @@
             @keypress.enter.native="
               DELETE_SET({ exerciseId: exercise.id, setId: set.id })
             "
-            >X</app-btn
-          >
+          ></app-btn>
           <app-input
             class="list__input"
             type="number"
@@ -90,7 +89,16 @@
             :name="`weight${set.id}`"
           ></app-input>
         </div>
-
+        <!-- Remove exercise btn -->
+        <app-btn
+          type="button"
+          isRed
+          class="remove-exercise-btn"
+          @click.native="REMOVE_EXERCISE(exercise.id)"
+          @keypress.enter.native="REMOVE_EXERCISE(exercise.id)"
+          >Remove Exercise</app-btn
+        >
+        <!-- Add set btn -->
         <app-btn
           type="button"
           class="add-set-btn"
@@ -124,7 +132,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(["ADD_EXERCISE", "ADD_SET", "DELETE_SET"])
+    ...mapActions(["ADD_EXERCISE", "REMOVE_EXERCISE", "ADD_SET", "DELETE_SET"])
   }
 };
 </script>
@@ -220,15 +228,44 @@ export default {
 }
 
 .add-set-btn {
-  grid-column: 1 / 5;
+  grid-column: 2 / 5;
+}
+
+.remove-exercise-btn {
+  grid-column: 1 / 2;
+}
+
+.add-set-btn,
+.remove-exercise-btn {
+  font-size: 1rem;
   padding: 0;
 }
 
 .delete-set-btn {
+  position: relative;
   grid-column: 1 / 2;
-  max-width: 2rem;
-  padding: 0;
-  font-size: 1rem;
+  max-width: 1.5rem;
+  margin-left: auto;
+  padding: 0 1.5rem;
   border: none;
+}
+
+.delete-set-btn::before,
+.delete-set-btn::after {
+  content: "";
+  position: absolute;
+  height: 3px;
+  width: 60%;
+  top: 47.5%;
+  left: 20%;
+  background-color: var(--color-red);
+}
+
+.delete-set-btn::before {
+  transform: rotate(45deg);
+}
+
+.delete-set-btn::after {
+  transform: rotate(-45deg);
 }
 </style>

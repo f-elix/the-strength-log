@@ -17,6 +17,11 @@ const mutations = {
 	addExercise(state, newExercise) {
 		state.sessionData.exercises.push(newExercise);
 	},
+	removeExercise(state, exerciseId) {
+		state.sessionData.exercises = state.sessionData.exercises.filter(exercise => {
+			return exercise.id !== exerciseId;
+		});
+	},
 	addSet(state, { newSet, exerciseId }) {
 		const exercise = state.sessionData.exercises.find(exercise => {
 			return exercise.id === exerciseId;
@@ -63,6 +68,9 @@ const actions = {
 			]
 		};
 		commit("addExercise", newExercise);
+	},
+	REMOVE_EXERCISE: ({ commit }, exerciseId) => {
+		commit("removeExercise", exerciseId);
 	},
 	ADD_SET: ({ commit }, exercise) => {
 		const id = Number(`${exercise.id}${+exercise.sets[exercise.sets.length - 1].id.toString().split("")[1] + 1}`);
