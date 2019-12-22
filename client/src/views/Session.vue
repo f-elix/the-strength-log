@@ -1,6 +1,31 @@
 <template>
-  <div>
-    <edit-session></edit-session>
+  <div class="session-container">
+    <!-- Session header -->
+    <div class="session-header">
+      <form-group
+        class="title-input"
+        id="title"
+        name="title"
+        type="text"
+        labelText="Session Title"
+        v-model="sessionData.title"
+      ></form-group>
+      <form-group
+        class="date-input"
+        id="date"
+        name="date"
+        type="date"
+        labelText="Session Date"
+        v-model="sessionData.sessionDate"
+      ></form-group>
+    </div>
+    <!-- Session exercise list -->
+    <exercise-list></exercise-list>
+    <!-- Session btns -->
+    <div class="btn-ctn">
+      <app-btn isDarkBlue>Save Session</app-btn>
+      <app-btn isRed>Discard</app-btn>
+    </div>
   </div>
 </template>
 
@@ -9,11 +34,15 @@
 import { mapActions, mapState } from "vuex";
 
 // Components
-import EditSession from "../components/SessionPage/EditSession";
+import ExerciseList from "../components/SessionPage/ExerciseList";
+import AppBtn from "../components/utils/AppBtn";
+import FormGroup from "../components/utils/forms/FormGroup";
 
 export default {
   components: {
-    EditSession
+    ExerciseList,
+    AppBtn,
+    FormGroup
   },
   data() {
     return {
@@ -24,17 +53,10 @@ export default {
     ...mapState({
       state: state => state.session.currentState,
       sessionData: state => state.session.sessionData
-    }),
-    sessionDate() {
-      const date = new Date();
-      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-    }
+    })
   },
   methods: {
     ...mapActions(["SESSION_TRANSITION"])
-  },
-  created() {
-    console.log(this.sessionData);
   }
 };
 </script>
@@ -45,6 +67,7 @@ export default {
   max-width: 32rem;
   min-height: 100vh;
   margin: 0 auto;
+  padding: 1.5rem 0;
   display: flex;
   flex-direction: column;
   background-color: #f8f8f8;
@@ -55,7 +78,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
   padding: 0.75rem;
 }
 
@@ -69,6 +92,13 @@ export default {
   margin: 0;
 }
 
+.title-input {
+  flex-basis: 60%;
+}
+
+.date-input {
+  max-width: 25%;
+}
 .btn-ctn {
   margin-top: auto;
   padding: 0.75rem;

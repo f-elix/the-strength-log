@@ -6,12 +6,16 @@ const dashboardMachine = Machine({
   states: {
     idle: {
       on: {
-        CREATE_SESSION: "creating"
+        CREATE_SESSION: "session"
       }
     },
-    creating: {
-      type: "final"
-    }
+    session: {
+      entry: ["CREATE_SESSION"],
+      on: {
+        DISCARD: "idle"
+      }
+    },
+    fetching: {}
   }
 });
 

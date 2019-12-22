@@ -4,64 +4,84 @@ import transition from "../transition";
 import router from "../../router";
 
 const state = {
-  sessionData: {}
+	currentState: sessionMachine.initialState,
+	sessionData: {}
 };
 const mutations = {
-  updateSessionData(state, data) {
-    state.sessionData = data;
-  }
+	updateSessionState(state, nextState) {
+		state.currentState = nextState;
+	},
+	updateSessionData(state, data) {
+		state.sessionData = data;
+	},
+	addExercise(state, newExercise) {
+		state.sessionData.exercises.push(newExercise);
+	},
+	addSet(state, { newSet, exerciseId }) {
+		const exercise = state.sessionData.exercises.find(exercise => {
+			return exercise.id === exerciseId;
+		});
+		exercise.sets.push(newSet);
+	},
+	deleteSet(state, { exerciseId, setId }) {
+		const exercise = state.sessionData.exercises.find(exercise => {
+			return exercise.id === exerciseId;
+		});
+		exercise.sets = exercise.sets.filter(set => {
+			return set.id !== setId;
+		});
+	}
 };
 const actions = {
-  SESSION_TRANSITION: (context, event) => {
-    transition(sessionMachine, context, event);
-  },
-  DISPLAY_SESSION: async ({ dispatch }, { params }) => {},
-  CREATE_SESSION: async ({ commit }) => {
-    const token = localStorage.getItem("token");
-    const date = new Date();
-    const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    const query = {
-      query: `
-        mutation createSession($date: Date!) {
-          createSession(sessionDate: $date) {
-            _id
-            createdAt
-            title
-            sessionDate
-          }
-        }
-      `,
-      variables: {
-        date: formattedDate
-      }
-    };
-    try {
-      const res = await fetch(process.env.VUE_APP_API, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          authorization: token
-        },
-        body: JSON.stringify(query)
-      });
-      const data = await res.json();
-      if (data.errors) {
-        const error = {
-          message: data.errors[0].message,
-          statusCode: data.errors[0].extensions.exception.statusCode
-        };
-        throw error;
-      }
-      commit("updateSessionData", data.data.createSession);
-      router.push("/new-session");
-    } catch (error) {
-      console.log(error);
-    }
-  }
+	SESSION_TRANSITION: (context, event) => {
+		transition(sessionMachine, context, event);
+	},
+	DISPLAY_SESSION: async ({ dispatch }, { params }) => {},
+	EDIT_SESSION: async ({ commit }, { params }) => {
+		if (params.newSession) {
+			commit("updateSessionData", params.newSession);
+			router.push("/new-session");
+			return;
+		}
+	},
+	ADD_EXERCISE: ({ state, commit }) => {
+		const id =
+			state.sessionData.exercises.length > 0
+				? state.sessionData.exercises[state.sessionData.exercises.length - 1].id + 1
+				: 1;
+		const setId = Number(`${id}1`);
+		const newExercise = {
+			id,
+			name: "",
+			sets: [
+				{
+					id: setId,
+					qty: 1,
+					reps: 1,
+					weigth: ""
+				}
+			]
+		};
+		commit("addExercise", newExercise);
+	},
+	ADD_SET: ({ commit }, exercise) => {
+		const id = Number(`${exercise.id}${+exercise.sets[exercise.sets.length - 1].id.toString().split("")[1] + 1}`);
+		const newSet = {
+			id,
+			qty: 1,
+			reps: 1,
+			weight: ""
+		};
+		const exerciseId = exercise.id;
+		commit("addSet", { newSet, exerciseId });
+	},
+	DELETE_SET: ({ commit }, { exerciseId, setId }) => {
+		commit("deleteSet", { exerciseId, setId });
+	}
 };
 
 export default {
-  state,
-  mutations,
-  actions
+	state,
+	mutations,
+	actions
 };
