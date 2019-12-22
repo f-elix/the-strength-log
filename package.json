@@ -4,7 +4,7 @@
   "description": "A training log app",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"cd client && npm run serve\"",
+    "start": "concurrently \"npm run server --silent\" \"cd client && npm run serve --silent\"",
     "server": "nodemon server.js"
   },
   "author": "Felix Guerin",
