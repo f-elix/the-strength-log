@@ -21,6 +21,16 @@
     </div>
     <!-- Session exercise list -->
     <exercise-list></exercise-list>
+    <!-- Session notes -->
+    <app-text-area
+      class="session-notes"
+      name="notes"
+      id="notes"
+      cols="30"
+      rows="4"
+      labelText="Notes:"
+      :value="sessionData.notes"
+    ></app-text-area>
     <!-- Session btns -->
     <div class="btn-ctn">
       <app-btn isDarkBlue>Save Session</app-btn>
@@ -37,12 +47,14 @@ import { mapActions, mapState } from "vuex";
 import ExerciseList from "../components/SessionPage/ExerciseList";
 import AppBtn from "../components/utils/AppBtn";
 import FormGroup from "../components/utils/forms/FormGroup";
+import AppTextArea from "../components/utils/forms/AppTextArea";
 
 export default {
   components: {
     ExerciseList,
     AppBtn,
-    FormGroup
+    FormGroup,
+    AppTextArea
   },
   data() {
     return {
@@ -99,9 +111,13 @@ export default {
 .date-input {
   max-width: 25%;
 }
-.btn-ctn {
+
+.session-notes {
   margin-top: auto;
-  padding: 0.75rem;
+}
+
+.btn-ctn {
+  padding: 0.75rem 0;
 }
 
 .btn-ctn button {
