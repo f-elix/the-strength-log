@@ -3,66 +3,79 @@ scalar Date
 
 # TYPES
 type User {
-  _id: ID
-  name: String!
-  email: String!
-  password: String!
-  createdAt: String!
-  log: [Session]
+	_id: ID
+	name: String!
+	email: String!
+	password: String!
+	createdAt: String!
+	log: [Session]
 }
 
 type Session {
-  _id: ID
-  createdAt: String
-  updatedAt: String
-  title: String!
-  sessionDate: Date!
-  exercises: [Exercise]
-  notes: String
-  creator: User!
+	_id: ID!
+	createdAt: String
+	updatedAt: String
+	title: String!
+	sessionDate: Date!
+	exercises: [Exercise]
+	notes: String
+	creator: User
 }
 
 type Exercise {
-  name: String!
-  sets: [Set]
+	id: Int!
+	name: String!
+	sets: [Set]
 }
 
 type Set {
-  setQty: Int!
-  repQty: Int!
-  weigth: String!
+	id: Int!
+	setQty: Int!
+	repQty: Int!
+	weight: String!
 }
 
 type AuthData {
-  token: String!
+	token: String!
 }
 
 # INPUT TYPES
+input SessionInput {
+	_id: ID!
+	createdAt: String
+	updatedAt: String
+	title: String!
+	sessionDate: Date!
+	exercises: [ExerciseInput]
+	notes: String
+}
+
 input ExerciseInput {
-  name: String!
-  sets: [SetInput]
+	id: Int!
+	name: String!
+	sets: [SetInput]
 }
 
 input SetInput {
-  setQty: Int!
-  repQty: Int!
-  weigth: String!
+	id: Int!
+	setQty: Int!
+	repQty: Int!
+	weight: String!
 }
 
 # ROOT
 type Query {
-  getUserData: User
-  getSessionByID(sessionId: ID!): Session
-  getSessionByDate(sessionDate: Date!): Session
-  getSessionsFromTo(fromDate: Date!, toDate: Date!): [Session]
-  isAuth(token: String!): Boolean
+	getUserData: User
+	getSessionByID(sessionId: ID!): Session
+	getSessionByDate(sessionDate: Date!): Session
+	getSessionsFromTo(fromDate: Date!, toDate: Date!): [Session]
+	isAuth(token: String!): Boolean
 }
 
 type Mutation {
-  signupUser(name: String!, email: String!, password: String!): AuthData!
-  loginUser(email: String!, password: String!): AuthData!
-  createSession(sessionDate: Date!): Session!
-  addSession(title: String!, sessionDate: Date!, exercises: [ExerciseInput], notes: String, creatorId: ID!): Session!
-  editSession(sessionId: ID!, title: String, sessionDate: Date!, exercises: [ExerciseInput], notes: String): Session!
-  deleteSession(sessionId: ID!): Boolean
+	signupUser(name: String!, email: String!, password: String!): AuthData!
+	loginUser(email: String!, password: String!): AuthData!
+	createSession(sessionDate: Date!): Session!
+	saveSession(sessionData: SessionInput!): Session!
+	deleteSession(sessionId: ID!): Boolean
 }

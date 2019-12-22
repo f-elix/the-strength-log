@@ -33,7 +33,32 @@
     ></app-text-area>
     <!-- Session btns -->
     <div class="btn-ctn">
-      <app-btn color="dark-blue">Save Session</app-btn>
+      <app-btn
+        color="green"
+        type="button"
+        v-if="state.matches('editing')"
+        @click.native="
+          SESSION_TRANSITION({ type: 'SAVE', params: { sessionData } })
+        "
+        @keypress.enter.native="
+          SESSION_TRANSITION({ type: 'SAVE', params: { sessionData } })
+        "
+      >
+        Save Session</app-btn
+      >
+      <app-btn
+        color="dark-blue"
+        type="button"
+        v-if="state.matches('displaying')"
+        @click.native="
+          SESSION_TRANSITION({ type: 'EDIT', params: { sessionData } })
+        "
+        @keypress.enter.native="
+          SESSION_TRANSITION({ type: 'EDIT', params: { sessionData } })
+        "
+      >
+        Edit Session</app-btn
+      >
       <app-btn color="red">Discard</app-btn>
     </div>
   </div>
@@ -109,7 +134,7 @@ export default {
 }
 
 .date-input {
-  max-width: 25%;
+  max-width: 35%;
 }
 
 .session-notes {

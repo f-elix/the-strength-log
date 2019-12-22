@@ -26,8 +26,8 @@
       >
         <div>{{ exercise.name }}</div>
         <div class="list__set" v-for="set in exercise.sets" :key="set.id">
-          <div>{{ set.qty }}</div>
-          <div>{{ set.reps }}</div>
+          <div>{{ set.setQty }}</div>
+          <div>{{ set.setReps }}</div>
           <div>{{ set.weight }}</div>
         </div>
       </div>
@@ -70,16 +70,16 @@
           <app-input
             class="list__input"
             type="number"
-            v-model="set.qty"
-            :id="`qty${set.id}`"
-            :name="`qty${set.id}`"
+            v-model="set.setQty"
+            :id="`setQty${set.id}`"
+            :name="`setQty${set.id}`"
           ></app-input>
           <app-input
             class="list__input"
             type="number"
-            v-model="set.reps"
-            :id="`reps${set.id}`"
-            :name="`reps${set.id}`"
+            v-model="set.repQty"
+            :id="`repQty${set.id}`"
+            :name="`repQty${set.id}`"
           ></app-input>
           <app-input
             class="list__input"
@@ -224,7 +224,7 @@ export default {
 
 .list__input:focus {
   color: var(--color-secondary);
-  background-color: var(--color-darkblue);
+  background-color: var(--color-lightblue);
 }
 
 .add-set-btn {

@@ -47,7 +47,11 @@ export default {
         return this.value;
       },
       set(inputValue) {
-        this.$emit("input", inputValue);
+        if (this.type === "number") {
+          this.$emit("input", Number(inputValue));
+        } else {
+          this.$emit("input", inputValue);
+        }
       }
     }
   }

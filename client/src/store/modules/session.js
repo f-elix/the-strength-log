@@ -41,12 +41,73 @@ const actions = {
 	SESSION_TRANSITION: (context, event) => {
 		transition(sessionMachine, context, event);
 	},
-	DISPLAY_SESSION: async ({ dispatch }, { params }) => {},
+	DISPLAY_SESSION: async ({ commit }, { params }) => {
+		commit("updateSessionData", params.session);
+		router.push("/session/" + params.session._id);
+	},
 	EDIT_SESSION: async ({ commit }, { params }) => {
 		if (params.newSession) {
 			commit("updateSessionData", params.newSession);
 			router.push("/new-session");
 			return;
+		}
+		commit("updateSessionData", params.session);
+		router.push("/session/" + session._id);
+	},
+	SAVE_SESSION: async ({ dispatch }, { params }) => {
+		const token = localStorage.getItem("token");
+		const query = {
+			query: `
+				mutation saveSession($sessionData: SessionInput!) {
+					saveSession(sessionData: $sessionData) {
+						_id
+						createdAt
+						updatedAt
+						title
+						sessionDate
+						exercises {
+							id
+							name
+							sets {
+								id
+								setQty
+								repQty
+								weight
+							}
+						}
+						notes
+						creator {
+							name
+						}
+					}
+				}
+			`,
+			variables: {
+				sessionData: params.sessionData
+			}
+		};
+		try {
+			const res = await fetch(process.env.VUE_APP_API, {
+				method: "POST",
+				headers: {
+					"content-type": "application/json",
+					authorization: token
+				},
+				body: JSON.stringify(query)
+			});
+			const data = await res.json();
+			if (data.errors) {
+				const error = {
+					message: data.errors[0].message,
+					statusCode: data.errors[0].extensions.exception.statusCode
+				};
+				throw error;
+			}
+			const session = data.data.saveSession;
+			dispatch("SESSION_TRANSITION", { type: "SUCCESS", params: { session } });
+		} catch (err) {
+			console.log(err);
+			dispatch("SESSION_TRANSITION", { type: "ERROR", params: { error: err } });
 		}
 	},
 	ADD_EXERCISE: ({ state, commit }) => {
@@ -61,9 +122,9 @@ const actions = {
 			sets: [
 				{
 					id: setId,
-					qty: 1,
-					reps: 1,
-					weigth: ""
+					setQty: 1,
+					repQty: 1,
+					weight: ""
 				}
 			]
 		};
@@ -76,8 +137,8 @@ const actions = {
 		const id = Number(`${exercise.id}${+exercise.sets[exercise.sets.length - 1].id.toString().split("")[1] + 1}`);
 		const newSet = {
 			id,
-			qty: 1,
-			reps: 1,
+			setQty: 1,
+			repQty: 1,
 			weight: ""
 		};
 		const exerciseId = exercise.id;

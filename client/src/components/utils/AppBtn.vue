@@ -38,7 +38,8 @@ export default {
 
 .btn-dark,
 .btn-dark-blue,
-.btn-red {
+.btn-red,
+.btn-green {
   color: var(--color-secondary);
 }
 

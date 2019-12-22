@@ -25,12 +25,12 @@ export default {
       type: String
     },
     cols: {
-      type: Number,
-      default: 30
+      type: String,
+      default: "30"
     },
     rows: {
-      type: Number,
-      default: 5
+      type: String,
+      default: "5"
     },
     labelText: {
       type: String
@@ -57,9 +57,12 @@ export default {
 
 .textarea-label {
   font-weight: bold;
+  font-size: 1.5rem;
 }
 
 .textarea {
+  padding: 0.5rem;
+  font-size: 1.5rem;
   border: 2px solid var(--color-primary);
   background-color: var(--color-secondary);
   transition: all 0.1s linear;
@@ -67,7 +70,6 @@ export default {
 
 .textarea:focus {
   outline: none;
-  background-color: var(--color-darkblue);
-  color: var(--color-secondary);
+  background-color: var(--color-lightblue);
 }
 </style>
