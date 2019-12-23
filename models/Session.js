@@ -27,16 +27,13 @@ const SessionSchema = new mongoose.Schema(
 							required: true
 						},
 						setQty: {
-							type: Number,
-							required: true
+							type: Number
 						},
 						repQty: {
-							type: Number,
-							required: true
+							type: Number
 						},
 						weight: {
-							type: String,
-							required: true
+							type: String
 						}
 					}
 				]
@@ -49,6 +46,10 @@ const SessionSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			required: true,
 			ref: "User"
+		},
+		newSession: {
+			type: Boolean,
+			required: true
 		}
 	},
 	{

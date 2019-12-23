@@ -11,7 +11,7 @@
       <app-btn
         color="dark-blue"
         class="app-btn"
-        @click.native="DASHBOARD_TRANSITION({ type: 'CREATE_SESSION' })"
+        @click.native="SESSION_TRANSITION({ type: 'CREATE' })"
         >Create Session</app-btn
       >
       <!-- View current week btn -->
@@ -79,7 +79,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(["AUTH_TRANSITION", "DASHBOARD_TRANSITION"])
+    ...mapActions(["AUTH_TRANSITION", "SESSION_TRANSITION"])
   }
 };
 </script>

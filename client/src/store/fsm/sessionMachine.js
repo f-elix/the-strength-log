@@ -7,7 +7,8 @@ export const sessionMachine = Machine({
 		idle: {
 			on: {
 				DISPLAY: "displaying",
-				EDIT: "editing"
+				EDIT: "editing",
+				CREATE: "creating"
 			}
 		},
 		displaying: {
@@ -17,17 +18,28 @@ export const sessionMachine = Machine({
 				DELETE: "deleting"
 			}
 		},
+		creating: {
+			entry: ["CREATE_SESSION"],
+			on: {
+				SUCCESS: "editing",
+				ERROR: {
+					target: "idle",
+					actions: ["SHOW_ERROR"]
+				}
+			}
+		},
 		editing: {
 			entry: ["EDIT_SESSION"],
 			on: {
-				SAVE: {
-					target: "saving",
-					actions: ["SAVE_SESSION"]
-				},
-				DISCARD: "idle"
+				SAVE: "saving",
+				DISCARD: {
+					target: "idle",
+					actions: ["DISCARD_SESSION"]
+				}
 			}
 		},
 		saving: {
+			entry: ["SAVE_SESSION"],
 			on: {
 				SUCCESS: "displaying",
 				ERROR: {
@@ -37,6 +49,7 @@ export const sessionMachine = Machine({
 			}
 		},
 		deleting: {
+			entry: ["DELETE_SESSION"],
 			on: {
 				SUCCESS: "idle",
 				ERROR: {

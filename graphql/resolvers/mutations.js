@@ -90,7 +90,8 @@ const mutations = {
 		const session = new Session({
 			title: "New session",
 			sessionDate,
-			creator: currentUser.userId
+			creator: currentUser.userId,
+			newSession: true
 		});
 		const newSession = await session.save();
 		user.log.push(newSession);
@@ -120,6 +121,7 @@ const mutations = {
 		session.sessionDate = sessionData.sessionDate;
 		session.exercises = sessionData.exercises;
 		session.notes = sessionData.notes;
+		session.newSession = false;
 		const updatedSession = await session.save();
 		// Return session
 		return {

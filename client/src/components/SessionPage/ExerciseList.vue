@@ -22,12 +22,12 @@
         class="list__row"
         v-for="exercise in exercises"
         :key="exercise.id"
-        v-if="state.matches('idle')"
+        v-if="state.matches('displaying')"
       >
         <div>{{ exercise.name }}</div>
         <div class="list__set" v-for="set in exercise.sets" :key="set.id">
           <div>{{ set.setQty }}</div>
-          <div>{{ set.setReps }}</div>
+          <div>{{ set.repQty }}</div>
           <div>{{ set.weight }}</div>
         </div>
       </div>

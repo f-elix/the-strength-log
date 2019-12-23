@@ -59,7 +59,34 @@
       >
         Edit Session</app-btn
       >
-      <app-btn color="red">Discard</app-btn>
+      <app-btn
+        color="red"
+        v-if="state.matches('editing')"
+        @click.native="
+          SESSION_TRANSITION({
+            type: 'DISCARD',
+            params: { sessionData }
+          })
+        "
+        @keypress.enter.native="
+          SESSION_TRANSITION({
+            type: 'DISCARD',
+            params: { sessionData }
+          })
+        "
+        >Discard</app-btn
+      >
+      <app-btn
+        color="red"
+        v-if="state.matches('displaying')"
+        @click.native="
+          SESSION_TRANSITION({ type: 'DELETE', params: { sessionData } })
+        "
+        @keypress.enter.native="
+          SESSION_TRANSITION({ type: 'DELETE', params: { sessionData } })
+        "
+        >Delete</app-btn
+      >
     </div>
   </div>
 </template>

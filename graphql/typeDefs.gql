@@ -13,6 +13,7 @@ type User {
 
 type Session {
 	_id: ID!
+	newSession: Boolean
 	createdAt: String
 	updatedAt: String
 	title: String!
@@ -42,6 +43,7 @@ type AuthData {
 # INPUT TYPES
 input SessionInput {
 	_id: ID!
+	newSession: Boolean
 	createdAt: String
 	updatedAt: String
 	title: String!
@@ -58,9 +60,9 @@ input ExerciseInput {
 
 input SetInput {
 	id: Int!
-	setQty: Int!
-	repQty: Int!
-	weight: String!
+	setQty: Int
+	repQty: Int
+	weight: String
 }
 
 # ROOT

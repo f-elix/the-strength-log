@@ -14,6 +14,9 @@ const mutations = {
 	updateSessionData(state, data) {
 		state.sessionData = data;
 	},
+	clearSessionData(state) {
+		state.sessionData = {};
+	},
 	addExercise(state, newExercise) {
 		state.sessionData.exercises.push(newExercise);
 	},
@@ -43,16 +46,60 @@ const actions = {
 	},
 	DISPLAY_SESSION: async ({ commit }, { params }) => {
 		commit("updateSessionData", params.session);
-		router.push("/session/" + params.session._id);
+		if (router.currentRoute.path !== "/session/" + params.session._id) {
+			router.push("/session/" + params.session._id);
+		}
+	},
+	CREATE_SESSION: async ({ dispatch }) => {
+		const token = localStorage.getItem("token");
+		const date = new Date();
+		const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+		const query = {
+			query: `
+        mutation createSession($date: Date!) {
+          createSession(sessionDate: $date) {
+            _id
+            createdAt
+            title
+			sessionDate
+			newSession
+          }
+        }
+      `,
+			variables: {
+				date: formattedDate
+			}
+		};
+		try {
+			const res = await fetch(process.env.VUE_APP_API, {
+				method: "POST",
+				headers: {
+					"content-type": "application/json",
+					authorization: token
+				},
+				body: JSON.stringify(query)
+			});
+			const data = await res.json();
+			if (data.errors) {
+				const error = {
+					message: data.errors[0].message,
+					statusCode: data.errors[0].extensions.exception.statusCode
+				};
+				throw error;
+			}
+			const newSession = data.data.createSession;
+			newSession.exercises = [];
+			dispatch("SESSION_TRANSITION", { type: "SUCCESS", params: { newSession } });
+		} catch (error) {
+			console.log(error);
+			dispatch("SESSION_TRANSITION", { type: "ERROR" });
+		}
 	},
 	EDIT_SESSION: async ({ commit }, { params }) => {
 		if (params.newSession) {
 			commit("updateSessionData", params.newSession);
 			router.push("/new-session");
-			return;
 		}
-		commit("updateSessionData", params.session);
-		router.push("/session/" + session._id);
 	},
 	SAVE_SESSION: async ({ dispatch }, { params }) => {
 		const token = localStorage.getItem("token");
@@ -76,9 +123,6 @@ const actions = {
 							}
 						}
 						notes
-						creator {
-							name
-						}
 					}
 				}
 			`,
@@ -109,6 +153,55 @@ const actions = {
 			console.log(err);
 			dispatch("SESSION_TRANSITION", { type: "ERROR", params: { error: err } });
 		}
+	},
+	DISCARD_SESSION: ({ dispatch }, { params }) => {
+		if (params.sessionData.newSession) {
+			dispatch("DELETE_SESSION", { params });
+		} else {
+			dispatch("CLEAR_SESSION_DATA");
+		}
+	},
+	DELETE_SESSION: async ({ dispatch }, { params }) => {
+		const token = localStorage.getItem("token");
+		const query = {
+			query: `
+				mutation deleteSession($id: ID!) {
+					deleteSession(sessionId: $id)
+				}
+			`,
+			variables: {
+				id: params.sessionData._id
+			}
+		};
+		try {
+			const res = await fetch(process.env.VUE_APP_API, {
+				method: "POST",
+				headers: {
+					"content-type": "application/json",
+					authorization: token
+				},
+				body: JSON.stringify(query)
+			});
+			const data = await res.json();
+			if (data.errors) {
+				const error = {
+					message: data.errors[0].message,
+					statusCode: data.errors[0].extensions.exception.statusCode
+				};
+				throw error;
+			}
+			if (data.data.deleteSession) {
+				dispatch("CLEAR_SESSION_DATA");
+				dispatch("SESSION_TRANSITION", { type: "SUCCESS" });
+			}
+		} catch (err) {
+			dispatch("SESSION_TRANSITION", { type: "ERROR", params: { error: err } });
+			console.log(err);
+		}
+	},
+	CLEAR_SESSION_DATA: ({ commit }) => {
+		commit("clearSessionData");
+		router.push("/dashboard");
 	},
 	ADD_EXERCISE: ({ state, commit }) => {
 		const id =
