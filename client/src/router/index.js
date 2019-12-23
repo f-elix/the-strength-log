@@ -50,6 +50,11 @@ const routes = [
 				next();
 			}
 		}
+	},
+	{
+		path: "/search-results",
+		name: "search results",
+		component: () => import(/* webpackChunkName: "search-results" */ "../views/SearchResults.vue")
 	}
 ];
 

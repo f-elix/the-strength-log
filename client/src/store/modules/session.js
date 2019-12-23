@@ -57,16 +57,16 @@ const actions = {
 		const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 		const query = {
 			query: `
-        mutation createSession($date: Date!) {
-          createSession(sessionDate: $date) {
-            _id
-            createdAt
-            title
-			sessionDate
-			newSession
-          }
-        }
-      `,
+					mutation createSession($date: Date!) {
+					createSession(sessionDate: $date) {
+						_id
+						createdAt
+						title
+						sessionDate
+						newSession
+					}
+				}
+			`,
 			variables: {
 				date: formattedDate
 			}

@@ -22,10 +22,7 @@ export const sessionMachine = Machine({
 			entry: ["CREATE_SESSION"],
 			on: {
 				SUCCESS: "editing",
-				ERROR: {
-					target: "idle",
-					actions: ["SHOW_ERROR"]
-				}
+				ERROR: "idle"
 			}
 		},
 		editing: {
@@ -42,20 +39,14 @@ export const sessionMachine = Machine({
 			entry: ["SAVE_SESSION"],
 			on: {
 				SUCCESS: "displaying",
-				ERROR: {
-					target: "editing",
-					action: ["SHOW_ERROR"]
-				}
+				ERROR: "editing"
 			}
 		},
 		deleting: {
 			entry: ["DELETE_SESSION"],
 			on: {
 				SUCCESS: "idle",
-				ERROR: {
-					target: "displaying",
-					action: ["SHOW_ERROR"]
-				}
+				ERROR: "displaying"
 			}
 		}
 	}

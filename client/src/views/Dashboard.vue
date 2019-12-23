@@ -15,7 +15,9 @@
         >Create Session</app-btn
       >
       <!-- View current week btn -->
-      <app-btn class="app-btn">View Current Week</app-btn>
+      <app-btn class="app-btn" @click.native="getCurrentWeek"
+        >View Current Week</app-btn
+      >
       <!-- Search by date form -->
       <form class="form" @submit.prevent="">
         <h2 class="form__title">Search sessions by dates</h2>
@@ -70,16 +72,64 @@ export default {
     return {
       fromDate: "",
       toDate: "",
-      sessionName: ""
+      sessionName: "",
+      fromToQuery: {
+        query: `
+          query getCurrentWeek($fromDate: Date!, $toDate: Date!) {
+            getSessionsFromTo(fromDate: $fromDate, toDate: $toDate) {
+              _id
+              title
+              newSession
+              sessionDate
+              notes
+              exercises {
+                id
+                name
+                sets {
+                  id
+                  setQty
+                  repQty
+                  weight
+                }
+              }
+            }
+          }
+        `
+      }
     };
   },
   computed: {
     ...mapState({
       user: state => state.auth.userData
-    })
+    }),
+    currentWeekDates() {
+      let date = new Date();
+      const monday = date.setDate(date.getDate() + (7 - 1 + date.getDay() - 7));
+      date = new Date();
+      const sunday = date.setDate(date.getDate() + (7 - date.getDay()));
+      return {
+        monday: new Date(monday).toISOString().split("T")[0],
+        sunday: new Date(sunday).toISOString().split("T")[0]
+      };
+    }
   },
   methods: {
-    ...mapActions(["AUTH_TRANSITION", "SESSION_TRANSITION"])
+    ...mapActions([
+      "AUTH_TRANSITION",
+      "SESSION_TRANSITION",
+      "SEARCH_TRANSITION"
+    ]),
+    getCurrentWeek() {
+      const query = this.fromToQuery;
+      query.variables = {
+        fromDate: this.currentWeekDates.monday,
+        toDate: this.currentWeekDates.sunday
+      };
+      this.SEARCH_TRANSITION({
+        type: "SEARCH",
+        params: { query, queryName: "getSessionsFromTo" }
+      });
+    }
   }
 };
 </script>
