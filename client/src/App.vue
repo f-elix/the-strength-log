@@ -2,7 +2,9 @@
   <div id="app">
     <!-- Loader -->
     <app-loader v-if="loading"></app-loader>
-    <router-view />
+    <transition name="page-transition">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -32,4 +34,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.page-transition-enter {
+  opacity: 0;
+  transform: translateX(1.5rem);
+}
+
+.page-transition-enter-active {
+  transition: transform 0.2s ease-out, opacity 0.2s linear;
+}
+</style>
