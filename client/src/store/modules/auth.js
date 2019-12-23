@@ -68,9 +68,9 @@ const actions = {
 				throw error;
 			}
 			dispatch("AUTH_TRANSITION", { type: data.data.isAuth ? "SUCCESS" : "ERROR", params: { token } });
-			return;
 		} catch (err) {
-			dispatch("AUTH_TRANSITION", { type: "ERROR" });
+			console.log(err);
+			dispatch("AUTH_TRANSITION", { type: "ERROR", params: { error: err } });
 		}
 	},
 	AUTH_USER: async ({ dispatch }, { params }) => {

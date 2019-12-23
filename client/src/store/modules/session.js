@@ -40,6 +40,7 @@ const mutations = {
 		});
 	}
 };
+
 const actions = {
 	SESSION_TRANSITION: (context, event) => {
 		transition(sessionMachine, context, event);
@@ -90,9 +91,9 @@ const actions = {
 			const newSession = data.data.createSession;
 			newSession.exercises = [];
 			dispatch("SESSION_TRANSITION", { type: "SUCCESS", params: { newSession } });
-		} catch (error) {
-			console.log(error);
-			dispatch("SESSION_TRANSITION", { type: "ERROR" });
+		} catch (err) {
+			console.log(err);
+			dispatch("SESSION_TRANSITION", { type: "ERROR", params: { error: err } });
 		}
 	},
 	EDIT_SESSION: async ({ commit }, { params }) => {
@@ -195,8 +196,8 @@ const actions = {
 				dispatch("SESSION_TRANSITION", { type: "SUCCESS" });
 			}
 		} catch (err) {
-			dispatch("SESSION_TRANSITION", { type: "ERROR", params: { error: err } });
 			console.log(err);
+			dispatch("SESSION_TRANSITION", { type: "ERROR", params: { error: err } });
 		}
 	},
 	CLEAR_SESSION_DATA: ({ commit }) => {

@@ -44,6 +44,7 @@
           v-model="exercise.name"
           :id="`name${exercise.id}`"
           :name="`name${exercise.id}`"
+          autofocus="true"
         ></app-input>
         <div
           class="list__set--editing"

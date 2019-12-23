@@ -8,6 +8,7 @@
     :readonly="readonly"
     :class="{ 'app-input-error': isInvalid }"
     v-model="inputValue"
+    ref="input"
   />
 </template>
 
@@ -33,12 +34,22 @@ export default {
       type: Boolean,
       default: false
     },
+    autofocus: {
+      type: String,
+      default: ""
+    },
     value: {
       default: null
     },
     isInvalid: {
       type: Boolean,
       default: false
+    }
+  },
+  mounted() {
+    if (this.autofocus) {
+      console.log("called");
+      this.$refs["input"].focus();
     }
   },
   computed: {

@@ -7,6 +7,8 @@
       :name="id"
       :type="type"
       :isInvalid="isInvalid"
+      :readonly="readonly"
+      :autofocus="autofocus"
       v-model="inputValue"
     ></app-input>
     <label class="app-label" :for="id">{{ labelText }}</label>
@@ -42,6 +44,10 @@ export default {
     },
     value: {
       default: null
+    },
+    autofocus: {
+      type: String,
+      default: ""
     },
     isInvalid: {
       type: Boolean
