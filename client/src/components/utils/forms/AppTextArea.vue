@@ -9,9 +9,8 @@
       :rows="rows"
       :placeholder="placeholder"
       :disabled="disabled"
-    >
-    {{ value }}
-    </textarea>
+      v-model="textValue"
+    ></textarea>
   </div>
 </template>
 
@@ -44,6 +43,16 @@ export default {
     },
     value: {
       type: String
+    }
+  },
+  computed: {
+    textValue: {
+      get() {
+        return this.value;
+      },
+      set(textValue) {
+        this.$emit("input", textValue);
+      }
     }
   }
 };

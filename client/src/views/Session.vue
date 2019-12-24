@@ -57,7 +57,8 @@
       cols="30"
       rows="4"
       labelText="Notes:"
-      :value="sessionData.notes"
+      :disabled="state.matches('displaying')"
+      v-model="sessionData.notes"
     ></app-text-area>
     <!-- Session btns -->
     <div class="btn-ctn">
@@ -224,6 +225,10 @@ export default {
 
 .session-notes {
   margin-top: auto;
+}
+
+.session-notes__display {
+  border: 2px solid var(--color-primary);
 }
 
 .btn-ctn {

@@ -48,7 +48,6 @@ export default {
   },
   mounted() {
     if (this.autofocus) {
-      console.log("called");
       this.$refs["input"].focus();
     }
   },
