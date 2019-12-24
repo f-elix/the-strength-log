@@ -2,9 +2,15 @@ import { Machine } from "xstate";
 
 const dashboardMachine = Machine({
 	id: "Dashboard",
-	initial: "idle",
+	initial: "init",
 	states: {
+		init: {
+			on: {
+				MOUNTED: "idle"
+			}
+		},
 		idle: {
+			entry: ["HIDE_LOADING"],
 			on: {
 				SESSION: "routing.session",
 				AUTH: "routing.auth",
