@@ -11,7 +11,7 @@ const authMachine = Machine({
 			}
 		},
 		checkingForAuth: {
-			entry: ["CHECK_FOR_AUTH"],
+			entry: ["SHOW_LOADING", "CHECK_FOR_AUTH"],
 			on: {
 				SUCCESS: "authenticated",
 				ERROR: "idle"

@@ -11,22 +11,11 @@
     <!-- Search results -->
     <div class="results">
       <ul>
-        <li>
-          <p>Monday 2019-12-23</p>
+        <li v-for="session in sessions" :key="session._id">
+          <p>{{ session.sessionDate }}</p>
           <div class="day-sessions">
             <div class="session-info">
-              <span>Squat day</span>
-            </div>
-          </div>
-        </li>
-        <li>
-          <p>Monday 2019-12-23</p>
-          <div class="day-sessions">
-            <div class="session-info">
-              <span>Squat day</span>
-            </div>
-            <div class="session-info">
-              <span>Squat day</span>
+              <span>{{ session.title }}</span>
             </div>
           </div>
         </li>
@@ -37,8 +26,15 @@
 
 <script>
 // Vuex
+import { mapState } from "vuex";
 
-export default {};
+export default {
+  computed: {
+    ...mapState({
+      sessions: state => state.search.sessions
+    })
+  }
+};
 </script>
 
 <style scoped>

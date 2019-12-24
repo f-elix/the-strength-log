@@ -159,6 +159,7 @@ const actions = {
 			dispatch("DELETE_SESSION", { params });
 		} else {
 			dispatch("CLEAR_SESSION_DATA");
+			router.push("/dashboard");
 		}
 	},
 	DELETE_SESSION: async ({ dispatch }, { params }) => {
@@ -193,6 +194,7 @@ const actions = {
 			if (data.data.deleteSession) {
 				dispatch("CLEAR_SESSION_DATA");
 				dispatch("SESSION_TRANSITION", { type: "SUCCESS" });
+				router.push("/dashboard");
 			}
 		} catch (err) {
 			console.log(err);
@@ -201,7 +203,6 @@ const actions = {
 	},
 	CLEAR_SESSION_DATA: ({ commit }) => {
 		commit("clearSessionData");
-		router.push("/dashboard");
 	},
 	ADD_EXERCISE: ({ state, commit }) => {
 		const id =

@@ -148,6 +148,7 @@ export default {
         type: "SEARCH",
         params: { query, queryName: "getSessionsFromTo" }
       });
+      this.DASHBOARD_TRANSITION({ type: "SEARCH" });
     }
   },
   mounted() {

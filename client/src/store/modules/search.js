@@ -1,8 +1,6 @@
 import searchMachine from "../fsm/searchMachine";
 import transition from "../transition";
 
-import router from "../../router";
-
 const state = {
 	currentState: searchMachine.initialState,
 	sessions: []
@@ -42,7 +40,6 @@ const actions = {
 			}
 			const sessions = data.data[params.queryName];
 			dispatch("SEARCH_TRANSITION", { type: "SUCCESS", params: { sessions } });
-			router.push("/search-results");
 		} catch (err) {
 			console.log(err);
 			dispatch("SEARCH_TRANSITION", { type: "ERROR", params: { error: err } });

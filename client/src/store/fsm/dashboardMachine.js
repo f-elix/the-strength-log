@@ -7,7 +7,8 @@ const dashboardMachine = Machine({
 		idle: {
 			on: {
 				SESSION: "routing.session",
-				AUTH: "routing.auth"
+				AUTH: "routing.auth",
+				SEARCH: "routing.search"
 			}
 		},
 		routing: {
@@ -18,7 +19,9 @@ const dashboardMachine = Machine({
 				auth: {
 					entry: ["ROUTE_AUTH"]
 				},
-				search: {}
+				search: {
+					entry: ["ROUTE_SEARCH"]
+				}
 			},
 			on: {
 				MOUNTED: "idle"

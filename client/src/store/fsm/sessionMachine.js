@@ -17,7 +17,11 @@ export const sessionMachine = Machine({
 			entry: ["DISPLAY_SESSION", "HIDE_LOADING"],
 			on: {
 				EDIT: "editing",
-				DELETE: "deleting"
+				DELETE: "deleting",
+				DISCARD: {
+					target: "idle",
+					actions: ["DISCARD_SESSION"]
+				}
 			}
 		},
 		creating: {

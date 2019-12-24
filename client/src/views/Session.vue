@@ -1,5 +1,22 @@
 <template>
   <div class="session-container">
+    <app-btn
+      class="menu-btn"
+      @click.native="
+        SESSION_TRANSITION({
+          type: 'DISCARD',
+          params: { sessionData }
+        })
+      "
+      @keypress.native.enter="
+        SESSION_TRANSITION({
+          type: 'DISCARD',
+          params: { sessionData }
+        })
+      "
+    >
+      <- Back to menu</app-btn
+    >
     <!-- Session header -->
     <div class="session-header">
       <form-group
@@ -136,6 +153,11 @@ export default {
   flex-direction: column;
   background-color: #f8f8f8;
   color: #111;
+}
+
+.menu-btn {
+  display: block;
+  border: 2px solid var(--color-primary);
 }
 
 .session-header {
