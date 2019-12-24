@@ -9,10 +9,10 @@
     </button>
     <!-- Search header -->
     <div class="search-header">
-      <div class="search-header__dates">
-        <span>Monday {{ currentWeekDates.monday }}</span>
+      <div class="search-header__dates" v-if="searchParams.dates">
+        <span>Monday {{ searchParams.dates.fromDate }}</span>
         <span>&mdash;</span>
-        <span>Sunday {{ currentWeekDates.sunday }}</span>
+        <span>Sunday {{ searchParams.dates.toDate }}</span>
       </div>
     </div>
     <!-- Search results -->
@@ -33,7 +33,8 @@ export default {
   },
   computed: {
     ...mapState({
-      sessions: state => state.search.sessions
+      sessions: state => state.search.sessions,
+      searchParams: state => state.search.searchParams
     }),
     ...mapGetters(["currentWeekDates"])
   },

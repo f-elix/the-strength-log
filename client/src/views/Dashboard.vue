@@ -46,7 +46,13 @@
             v-model="toDate"
           ></form-group>
         </div>
-        <app-btn class="app-btn" type="submit">Search</app-btn>
+        <app-btn
+          class="app-btn"
+          type="submit"
+          @click.native="searchByDate"
+          @keypress.native.enter="searchByDate"
+          >Search</app-btn
+        >
       </form>
       <!-- Search by session name form -->
       <form class="form" @submit.prevent="">
@@ -130,10 +136,15 @@ export default {
       this.DASHBOARD_TRANSITION({ type: "AUTH" });
     },
     getCurrentWeek() {
+      this.fromDate = this.currentWeekDates.monday;
+      this.toDate = this.currentWeekDates.sunday;
+      this.searchByDate();
+    },
+    searchByDate() {
       const query = this.fromToQuery;
       query.variables = {
-        fromDate: this.currentWeekDates.monday,
-        toDate: this.currentWeekDates.sunday
+        fromDate: this.fromDate,
+        toDate: this.toDate
       };
       this.SEARCH_TRANSITION({
         type: "SEARCH",

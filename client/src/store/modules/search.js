@@ -4,12 +4,19 @@ import router from "../../router";
 
 const state = {
 	currentState: searchMachine.initialState,
-	sessions: []
+	sessions: [],
+	searchParams: {
+		dates: null,
+		sessionName: null
+	}
 };
 
 const mutations = {
 	updateSearchState(state, nextState) {
 		state.currentState = nextState;
+	},
+	updateSearchParams(state, searchParams) {
+		state.searchParams = searchParams;
 	},
 	updateSessions(state, sessions) {
 		state.sessions = sessions;
@@ -56,7 +63,15 @@ const actions = {
 				throw error;
 			}
 			const sessions = data.data[params.queryName];
-			dispatch("SEARCH_TRANSITION", { type: "SUCCESS", params: { sessions } });
+			dispatch("SEARCH_TRANSITION", {
+				type: "SUCCESS",
+				params: {
+					sessions,
+					searchParams: {
+						dates: params.query.variables
+					}
+				}
+			});
 		} catch (err) {
 			console.log(err);
 			dispatch("SEARCH_TRANSITION", { type: "ERROR", params: { error: err } });
@@ -64,6 +79,10 @@ const actions = {
 	},
 	UPDATE_SESSIONS: ({ commit }, { params }) => {
 		commit("updateSessions", params.sessions);
+	},
+	UPDATE_SEARCH_PARAMS: ({ commit }, { params }) => {
+		console.log(params);
+		commit("updateSearchParams", params.searchParams);
 	},
 	DISCARD_SEARCH: ({ commit }) => {
 		commit("clearSessions");

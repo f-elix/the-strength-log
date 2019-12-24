@@ -17,7 +17,7 @@ const searchMachine = Machine({
 			}
 		},
 		success: {
-			entry: ["UPDATE_SESSIONS"],
+			entry: ["UPDATE_SESSIONS", "UPDATE_SEARCH_PARAMS"],
 			on: {
 				DISCARD: {
 					target: "idle",
