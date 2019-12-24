@@ -45,7 +45,7 @@ const actions = {
 	SESSION_TRANSITION: (context, event) => {
 		transition(sessionMachine, context, event);
 	},
-	DISPLAY_SESSION: async ({ commit }, { params }) => {
+	DISPLAY_SESSION: ({ commit }, { params }) => {
 		commit("updateSessionData", params.session);
 		if (router.currentRoute.path !== "/session/" + params.session._id) {
 			router.push("/session/" + params.session._id);
@@ -155,6 +155,9 @@ const actions = {
 		}
 	},
 	DISCARD_SESSION: ({ dispatch }, { params }) => {
+		if (!params) {
+			return;
+		}
 		if (params.sessionData.newSession) {
 			dispatch("DELETE_SESSION", { params });
 		} else {

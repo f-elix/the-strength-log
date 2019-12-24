@@ -22,9 +22,9 @@ const mutations = {
 const getters = {
 	currentWeekDates() {
 		let date = new Date();
-		const monday = date.setDate(date.getDate() + (7 - 1 + date.getDay() - 7));
+		const monday = date.setDate(date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1));
 		date = new Date();
-		const sunday = date.setDate(date.getDate() + (7 - date.getDay()));
+		const sunday = date.setDate(date.getDate() - date.getDay() + 7);
 		return {
 			monday: new Date(monday).toISOString().split("T")[0],
 			sunday: new Date(sunday).toISOString().split("T")[0]

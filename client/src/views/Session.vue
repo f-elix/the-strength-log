@@ -1,22 +1,33 @@
 <template>
   <div class="session-container">
-    <button
-      class="menu-btn"
-      @click="
-        SESSION_TRANSITION({
-          type: 'DISCARD',
-          params: { sessionData }
-        })
-      "
-      @keypress.enter="
-        SESSION_TRANSITION({
-          type: 'DISCARD',
-          params: { sessionData }
-        })
-      "
-    >
-      Back to menu
-    </button>
+    <!-- Button container -->
+    <div class="btn-ctn">
+      <button
+        class="menu-btn"
+        @click="
+          SESSION_TRANSITION({
+            type: 'DISCARD',
+            params: { sessionData }
+          })
+        "
+        @keypress.enter="
+          SESSION_TRANSITION({
+            type: 'DISCARD',
+            params: { sessionData }
+          })
+        "
+      >
+        Back to menu
+      </button>
+      <button
+        class="back-to-search-btn"
+        v-if="searchState.matches('success')"
+        @click="backToSearch"
+        @keypress.enter="backToSearch"
+      >
+        Back to results
+      </button>
+    </div>
     <!-- Session header -->
     <div class="session-header">
       <form-group
@@ -133,11 +144,16 @@ export default {
   computed: {
     ...mapState({
       state: state => state.session.currentState,
+      searchState: state => state.search.currentState,
       sessionData: state => state.session.sessionData
     })
   },
   methods: {
-    ...mapActions(["SESSION_TRANSITION"])
+    ...mapActions(["SESSION_TRANSITION"]),
+    backToSearch() {
+      this.$router.push("/search-results");
+      this.SESSION_TRANSITION({ type: "DISCARD" });
+    }
   }
 };
 </script>
@@ -155,15 +171,29 @@ export default {
   color: #111;
 }
 
-.menu-btn {
-  display: block;
-  max-width: 25%;
-  margin: 0 0 1.5rem;
+.btn-ctn {
+  display: flex;
+}
+
+.btn-ctn * + * {
+  margin-left: 1.5rem;
+}
+
+.menu-btn,
+.back-to-search-btn {
   border-radius: var(--default-radius);
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
   border: 2px solid var(--color-primary);
   font-weight: bold;
+}
+
+.menu-btn {
+  max-width: 25%;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+}
+
+.back-to-search-btn {
+  max-width: 40%;
 }
 
 .session-header {

@@ -20,6 +20,9 @@ const actions = {
 	},
 	ROUTE_SEARCH: () => {
 		router.push("/search-results");
+	},
+	ROUTE_AUTH: () => {
+		router.push("/");
 	}
 };
 
