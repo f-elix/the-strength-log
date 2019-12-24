@@ -1,11 +1,18 @@
 <template>
   <div class="search-ctn">
+    <button
+      class="menu-btn"
+      @click="SEARCH_TRANSITION({ type: 'DISCARD' })"
+      @keypress.enter="SEARCH_TRANSITION({ type: 'DISCARD' })"
+    >
+      Back to menu
+    </button>
     <!-- Search header -->
     <div class="search-header">
       <div class="search-header__dates">
-        <span>Monday 2019-12-23</span>
+        <span>Monday {{ currentWeekDates.monday }}</span>
         <span>&mdash;</span>
-        <span>Sunday 2019-12-29</span>
+        <span>Sunday {{ currentWeekDates.sunday }}</span>
       </div>
     </div>
     <!-- Search results -->
@@ -26,32 +33,47 @@
 
 <script>
 // Vuex
-import { mapState } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   computed: {
     ...mapState({
       sessions: state => state.search.sessions
-    })
+    }),
+    ...mapGetters(["currentWeekDates"])
+  },
+  methods: {
+    ...mapActions(["SEARCH_TRANSITION"])
   }
 };
 </script>
 
 <style scoped>
-.serach-ctn {
+.search-ctn {
   width: 100%;
   max-width: 32rem;
   margin: 0 auto;
   padding: 0 0.75rem;
 }
 
-.serach-header {
+.menu-btn {
+  display: block;
+  max-width: 25%;
+  margin: 1.5rem 0;
+  border-radius: var(--default-radius);
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  border: 2px solid var(--color-primary);
+  font-weight: bold;
+}
+
+.search-header {
   margin: 1.5rem auto;
   padding: 0 1.5rem;
   text-align: center;
 }
 
-.serach-header__dates {
+.search-header__dates {
   display: flex;
   justify-content: space-evenly;
   font-weight: bold;

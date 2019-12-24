@@ -17,7 +17,13 @@ const searchMachine = Machine({
 			}
 		},
 		success: {
-			entry: ["UPDATE_SESSIONS"]
+			entry: ["UPDATE_SESSIONS"],
+			on: {
+				DISCARD: {
+					target: "idle",
+					actions: ["DISCARD_SEARCH"]
+				}
+			}
 		}
 	}
 });

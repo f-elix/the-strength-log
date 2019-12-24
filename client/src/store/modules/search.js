@@ -1,5 +1,6 @@
 import searchMachine from "../fsm/searchMachine";
 import transition from "../transition";
+import router from "../../router";
 
 const state = {
 	currentState: searchMachine.initialState,
@@ -12,6 +13,22 @@ const mutations = {
 	},
 	updateSessions(state, sessions) {
 		state.sessions = sessions;
+	},
+	clearSessions(state) {
+		state.sessions = [];
+	}
+};
+
+const getters = {
+	currentWeekDates() {
+		let date = new Date();
+		const monday = date.setDate(date.getDate() + (7 - 1 + date.getDay() - 7));
+		date = new Date();
+		const sunday = date.setDate(date.getDate() + (7 - date.getDay()));
+		return {
+			monday: new Date(monday).toISOString().split("T")[0],
+			sunday: new Date(sunday).toISOString().split("T")[0]
+		};
 	}
 };
 
@@ -47,11 +64,16 @@ const actions = {
 	},
 	UPDATE_SESSIONS: ({ commit }, { params }) => {
 		commit("updateSessions", params.sessions);
+	},
+	DISCARD_SEARCH: ({ commit }) => {
+		commit("clearSessions");
+		router.push("/dashboard");
 	}
 };
 
 export default {
 	state,
+	getters,
 	mutations,
 	actions
 };

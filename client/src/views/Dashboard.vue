@@ -66,7 +66,7 @@
 
 <script>
 // Vuex
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 // Components
 import AppBtn from "../components/utils/AppBtn";
@@ -112,16 +112,7 @@ export default {
       user: state => state.auth.userData,
       sessionState: state => state.session.currentState
     }),
-    currentWeekDates() {
-      let date = new Date();
-      const monday = date.setDate(date.getDate() + (7 - 1 + date.getDay() - 7));
-      date = new Date();
-      const sunday = date.setDate(date.getDate() + (7 - date.getDay()));
-      return {
-        monday: new Date(monday).toISOString().split("T")[0],
-        sunday: new Date(sunday).toISOString().split("T")[0]
-      };
-    }
+    ...mapGetters(["currentWeekDates"])
   },
   methods: {
     ...mapActions([

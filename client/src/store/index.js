@@ -5,18 +5,19 @@ import Vuex from "vuex";
 import auth from "./modules/auth";
 import dashboard from "./modules/dashboard";
 import session from "./modules/session";
-import search from './modules/search'
+import search from "./modules/search";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {
-    auth,
-    dashboard,
-    session,
-    search
-  }
+	state: {},
+	getters: {},
+	mutations: {},
+	actions: {},
+	modules: {
+		auth,
+		dashboard,
+		session,
+		search
+	}
 });
