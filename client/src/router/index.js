@@ -27,20 +27,20 @@ const routes = [
 			}
 		}
 	},
+	// {
+	// 	path: "/new-session",
+	// 	name: "new session",
+	// 	component: () => import(/* webpackChunkName: "new-session" */ "../views/Session.vue"),
+	// 	beforeEnter: (to, from, next) => {
+	// 		if (!auth.state.currentState.matches("authenticated")) {
+	// 			next("/");
+	// 		} else {
+	// 			next();
+	// 		}
+	// 	}
+	// },
 	{
-		path: "/new-session",
-		name: "new session",
-		component: () => import(/* webpackChunkName: "new-session" */ "../views/Session.vue"),
-		beforeEnter: (to, from, next) => {
-			if (!auth.state.currentState.matches("authenticated")) {
-				next("/");
-			} else {
-				next();
-			}
-		}
-	},
-	{
-		path: "/session/:id",
+		path: "/session",
 		name: "session",
 		component: () => import(/* webpackChunkName: "session" */ "../views/Session.vue"),
 		beforeEnter: (to, from, next) => {

@@ -32,6 +32,12 @@ export default {
       state: state => state.auth.currentState,
       error: state => state.auth.error
     })
+  },
+  methods: {
+    ...mapActions(["AUTH_TRANSITION"])
+  },
+  mounted() {
+    this.AUTH_TRANSITION({ type: "LOGOUT" });
   }
 };
 </script>

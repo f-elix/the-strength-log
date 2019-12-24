@@ -5,14 +5,16 @@ export const sessionMachine = Machine({
 	initial: "idle",
 	states: {
 		idle: {
+			entry: ["HIDE_LOADING"],
 			on: {
 				DISPLAY: "displaying",
 				EDIT: "editing",
 				CREATE: "creating"
-			}
+			},
+			exit: ["SHOW_LOADING"]
 		},
 		displaying: {
-			entry: ["DISPLAY_SESSION"],
+			entry: ["DISPLAY_SESSION", "HIDE_LOADING"],
 			on: {
 				EDIT: "editing",
 				DELETE: "deleting"
@@ -21,12 +23,12 @@ export const sessionMachine = Machine({
 		creating: {
 			entry: ["CREATE_SESSION"],
 			on: {
-				SUCCESS: "editing",
+				CREATED: "editing",
 				ERROR: "idle"
 			}
 		},
 		editing: {
-			entry: ["EDIT_SESSION"],
+			entry: ["EDIT_SESSION", "HIDE_LOADING"],
 			on: {
 				SAVE: "saving",
 				DISCARD: {
@@ -36,14 +38,14 @@ export const sessionMachine = Machine({
 			}
 		},
 		saving: {
-			entry: ["SAVE_SESSION"],
+			entry: ["SHOW_LOADING", "SAVE_SESSION"],
 			on: {
 				SUCCESS: "displaying",
 				ERROR: "editing"
 			}
 		},
 		deleting: {
-			entry: ["DELETE_SESSION"],
+			entry: ["SHOW_LOADING", "DELETE_SESSION"],
 			on: {
 				SUCCESS: "idle",
 				ERROR: "displaying"

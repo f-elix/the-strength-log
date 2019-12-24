@@ -155,9 +155,6 @@ const actions = {
 	CLEAR_STORAGE: () => {
 		localStorage.removeItem("token");
 		localStorage.removeItem("userId");
-	},
-	LOGOUT: () => {
-		router.push("/");
 	}
 };
 

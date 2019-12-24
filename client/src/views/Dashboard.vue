@@ -2,7 +2,11 @@
   <div class="container">
     <div class="dashboard-ctn">
       <!-- Main menu -->
-      <button @click="AUTH_TRANSITION({ type: 'LOGOUT' })" class="logout-btn">
+      <button
+        @click="logout"
+        @keypress.enter.native="logout"
+        class="logout-btn"
+      >
         Logout
       </button>
       <h1 class="text-center log-title">{{ user.name }}'s Log</h1>
@@ -11,8 +15,13 @@
       <app-btn
         color="dark-blue"
         class="app-btn"
-        @click.native="SESSION_TRANSITION({ type: 'CREATE' })"
-        >Create Session</app-btn
+        @click.native="createSession"
+        @keypress.enter.native="createSession"
+        >{{
+          sessionState.matches("editing")
+            ? "Finish editing session..."
+            : "Create session"
+        }}</app-btn
       >
       <!-- View current week btn -->
       <app-btn class="app-btn" @click.native="getCurrentWeek"
@@ -100,7 +109,8 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.auth.userData
+      user: state => state.auth.userData,
+      sessionState: state => state.session.currentState
     }),
     currentWeekDates() {
       let date = new Date();
@@ -117,8 +127,17 @@ export default {
     ...mapActions([
       "AUTH_TRANSITION",
       "SESSION_TRANSITION",
-      "SEARCH_TRANSITION"
+      "SEARCH_TRANSITION",
+      "DASHBOARD_TRANSITION"
     ]),
+    createSession() {
+      this.DASHBOARD_TRANSITION({ type: "SESSION" });
+      this.SESSION_TRANSITION({ type: "CREATE" });
+    },
+    logout() {
+      this.AUTH_TRANSITION({ type: "LOGOUT" });
+      this.DASHBOARD_TRANSITION({ type: "AUTH" });
+    },
     getCurrentWeek() {
       const query = this.fromToQuery;
       query.variables = {
@@ -130,6 +149,9 @@ export default {
         params: { query, queryName: "getSessionsFromTo" }
       });
     }
+  },
+  mounted() {
+    this.DASHBOARD_TRANSITION({ type: "MOUNTED" });
   }
 };
 </script>

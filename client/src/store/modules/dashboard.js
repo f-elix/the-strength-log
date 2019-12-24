@@ -14,6 +14,12 @@ const mutations = {
 const actions = {
 	DASHBOARD_TRANSITION: (context, event) => {
 		transition(dashboardMachine, context, event);
+	},
+	ROUTE_SESSION: () => {
+		router.push("/session");
+	},
+	ROUTE_SEARCH: () => {
+		router.push("/search-results");
 	}
 };
 

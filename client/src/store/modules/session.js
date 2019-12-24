@@ -90,16 +90,15 @@ const actions = {
 			}
 			const newSession = data.data.createSession;
 			newSession.exercises = [];
-			dispatch("SESSION_TRANSITION", { type: "SUCCESS", params: { newSession } });
+			dispatch("SESSION_TRANSITION", { type: "CREATED", params: { newSession } });
 		} catch (err) {
 			console.log(err);
 			dispatch("SESSION_TRANSITION", { type: "ERROR", params: { error: err } });
 		}
 	},
-	EDIT_SESSION: async ({ commit }, { params }) => {
+	EDIT_SESSION: ({ commit }, { params }) => {
 		if (params.newSession) {
 			commit("updateSessionData", params.newSession);
-			router.push("/new-session");
 		}
 	},
 	SAVE_SESSION: async ({ dispatch }, { params }) => {
