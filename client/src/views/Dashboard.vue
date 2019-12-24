@@ -50,7 +50,7 @@
           class="app-btn"
           type="submit"
           @click.native="searchByDate"
-          @keypress.native.enter="searchByDate"
+          @keypress.enter.native="searchByDate"
           >Search</app-btn
         >
       </form>
@@ -64,7 +64,13 @@
           v-model="sessionName"
           labelText="Session Name"
         ></form-group>
-        <app-btn class="app-btn" type="Submit">Search</app-btn>
+        <app-btn
+          class="app-btn"
+          type="Submit"
+          @click.native="searchByName"
+          @keypress.enter.native="searchByName"
+          >Search</app-btn
+        >
       </form>
     </div>
   </div>
@@ -92,6 +98,29 @@ export default {
         query: `
           query getCurrentWeek($fromDate: Date!, $toDate: Date!) {
             getSessionsFromTo(fromDate: $fromDate, toDate: $toDate) {
+              _id
+              title
+              newSession
+              sessionDate
+              notes
+              exercises {
+                id
+                name
+                sets {
+                  id
+                  setQty
+                  repQty
+                  weight
+                }
+              }
+            }
+          }
+        `
+      },
+      titleQuery: {
+        query: `
+          query getByTitle($title: String!) {
+            getSessionsByTitle(title: $title) {
               _id
               title
               newSession
@@ -149,6 +178,17 @@ export default {
       this.SEARCH_TRANSITION({
         type: "SEARCH",
         params: { query, queryName: "getSessionsFromTo" }
+      });
+      this.DASHBOARD_TRANSITION({ type: "SEARCH" });
+    },
+    searchByName() {
+      const query = this.titleQuery;
+      query.variables = {
+        title: this.sessionName
+      };
+      this.SEARCH_TRANSITION({
+        type: "SEARCH",
+        params: { query, queryName: "getSessionsByTitle" }
       });
       this.DASHBOARD_TRANSITION({ type: "SEARCH" });
     }

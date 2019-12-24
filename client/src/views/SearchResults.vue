@@ -9,10 +9,26 @@
     </button>
     <!-- Search header -->
     <div class="search-header">
-      <div class="search-header__dates" v-if="searchParams.dates">
-        <span>Monday {{ searchParams.dates.fromDate }}</span>
-        <span>&mdash;</span>
-        <span>Sunday {{ searchParams.dates.toDate }}</span>
+      <div v-if="currentQuery === 'getSessionsFromTo'">
+        <p>All sessions</p>
+        <div class="search-header__dates">
+          <p>
+            From<br /><span class="search-header__param">{{
+              searchParams.dates.fromDate
+            }}</span>
+          </p>
+          <p>
+            To<br /><span class="search-header__param">{{
+              searchParams.dates.toDate
+            }}</span>
+          </p>
+        </div>
+      </div>
+      <div v-if="currentQuery === 'getSessionsByTitle'">
+        <p>
+          All sessions with title containing
+          <span>"{{ searchParams.sessionName }}"</span>
+        </p>
       </div>
     </div>
     <!-- Search results -->
@@ -34,7 +50,8 @@ export default {
   computed: {
     ...mapState({
       sessions: state => state.search.sessions,
-      searchParams: state => state.search.searchParams
+      searchParams: state => state.search.searchParams,
+      currentQuery: state => state.search.currentQuery
     }),
     ...mapGetters(["currentWeekDates"])
   },
@@ -67,12 +84,21 @@ export default {
   margin: 1.5rem auto;
   padding: 0 1.5rem;
   text-align: center;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.search-header * {
+  margin: 0;
 }
 
 .search-header__dates {
   display: flex;
   justify-content: space-evenly;
-  font-weight: bold;
-  font-size: 1.25rem;
+  color: var(--color-lightblue);
+}
+
+.search-header__param {
+  color: var(--color-primary);
 }
 </style>

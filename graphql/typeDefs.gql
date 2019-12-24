@@ -69,7 +69,7 @@ input SetInput {
 type Query {
 	getUserData: User
 	getSessionByID(sessionId: ID!): Session
-	getSessionByDate(sessionDate: Date!): Session
+	getSessionsByTitle(title: String!): [Session]
 	getSessionsFromTo(fromDate: Date!, toDate: Date!): [Session]
 	isAuth(token: String!): Boolean
 }

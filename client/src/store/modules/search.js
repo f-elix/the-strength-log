@@ -8,7 +8,8 @@ const state = {
 	searchParams: {
 		dates: null,
 		sessionName: null
-	}
+	},
+	currentQuery: ""
 };
 
 const mutations = {
@@ -20,6 +21,9 @@ const mutations = {
 	},
 	updateSessions(state, sessions) {
 		state.sessions = sessions;
+	},
+	updateCurrentQuery(state, queryName) {
+		state.currentQuery = queryName;
 	},
 	clearSessions(state) {
 		state.sessions = [];
@@ -62,13 +66,19 @@ const actions = {
 				};
 				throw error;
 			}
-			const sessions = data.data[params.queryName];
+			const queryName = params.queryName;
+			const sessions = data.data[queryName];
 			dispatch("SEARCH_TRANSITION", {
 				type: "SUCCESS",
 				params: {
 					sessions,
+					queryName,
 					searchParams: {
-						dates: params.query.variables
+						dates: {
+							fromDate: params.query.variables.fromDate,
+							toDate: params.query.variables.toDate
+						},
+						sessionName: params.query.variables.title
 					}
 				}
 			});
@@ -81,8 +91,10 @@ const actions = {
 		commit("updateSessions", params.sessions);
 	},
 	UPDATE_SEARCH_PARAMS: ({ commit }, { params }) => {
-		console.log(params);
 		commit("updateSearchParams", params.searchParams);
+	},
+	UPDATE_QUERY: ({ commit }, { params }) => {
+		commit("updateCurrentQuery", params.queryName);
 	},
 	DISCARD_SEARCH: ({ commit }) => {
 		commit("clearSessions");
