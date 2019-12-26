@@ -20,7 +20,7 @@ export const sessionMachine = Machine({
 				DELETE: "deleting",
 				DISCARD: {
 					target: "idle",
-					actions: ["DISCARD_SESSION"]
+					actions: ["DISCARD_SESSION", "ROUTE_DASHBOARD"]
 				}
 			}
 		},
@@ -40,7 +40,7 @@ export const sessionMachine = Machine({
 				SAVE: "saving",
 				DISCARD: {
 					target: "idle",
-					actions: ["DISCARD_SESSION"]
+					actions: ["ROUTE_DASHBOARD"]
 				}
 			}
 		},

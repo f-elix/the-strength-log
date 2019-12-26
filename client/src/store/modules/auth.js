@@ -149,9 +149,6 @@ const actions = {
 	STORE_TOKEN_IN_LOCALSTORAGE: (_, { params }) => {
 		localStorage.setItem("token", params.token);
 	},
-	LOGIN: () => {
-		router.push("/dashboard");
-	},
 	CLEAR_STORAGE: () => {
 		localStorage.removeItem("token");
 		localStorage.removeItem("userId");

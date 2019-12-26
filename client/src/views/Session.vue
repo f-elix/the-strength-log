@@ -11,16 +11,10 @@
           color="dark"
           class="menu-btn"
           @click.native="
-            SESSION_TRANSITION({
-              type: 'DISCARD',
-              params: { sessionData }
-            })
+            SESSION_TRANSITION({ type: 'DISCARD', params: { sessionData } })
           "
           @keypress.enter.native="
-            SESSION_TRANSITION({
-              type: 'DISCARD',
-              params: { sessionData }
-            })
+            SESSION_TRANSITION({ type: 'DISCARD', params: { sessionData } })
           "
         >
           Back to menu

@@ -53,7 +53,7 @@ const authMachine = Machine({
 			}
 		},
 		authenticated: {
-			entry: ["STORE_TOKEN_IN_LOCALSTORAGE", "STORE_USER_IN_STATE", "LOGIN"],
+			entry: ["STORE_TOKEN_IN_LOCALSTORAGE", "STORE_USER_IN_STATE", "ROUTE_DASHBOARD"],
 			on: {
 				LOGOUT: {
 					target: "idle",

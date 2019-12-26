@@ -15,6 +15,9 @@ const actions = {
 	DASHBOARD_TRANSITION: (context, event) => {
 		transition(dashboardMachine, context, event);
 	},
+	ROUTE_DASHBOARD: () => {
+		router.push("/dashboard");
+	},
 	ROUTE_SESSION: () => {
 		router.push("/session");
 	},

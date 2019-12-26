@@ -162,7 +162,6 @@ const actions = {
 			dispatch("DELETE_SESSION", { params });
 		} else {
 			dispatch("CLEAR_SESSION_DATA");
-			router.push("/dashboard");
 		}
 	},
 	DELETE_SESSION: async ({ dispatch }, { params }) => {

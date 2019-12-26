@@ -6,26 +6,21 @@ const searchMachine = Machine({
 	states: {
 		idle: {
 			on: {
-				SEARCH: "searching"
+				SEARCH: "searching",
+				DISCARD: {
+					target: "idle",
+					actions: ["DISCARD_SEARCH"]
+				}
 			}
 		},
 		searching: {
 			entry: ["GET_SESSIONS"],
 			on: {
 				SUCCESS: {
-					target: "success",
-					actions: ["ROUTE_SEARCH"]
+					target: "idle",
+					actions: ["UPDATE_SESSIONS", "UPDATE_SEARCH_PARAMS", "UPDATE_QUERY", "ROUTE_SEARCH"]
 				},
 				ERROR: "idle"
-			}
-		},
-		success: {
-			entry: ["UPDATE_SESSIONS", "UPDATE_SEARCH_PARAMS", "UPDATE_QUERY"],
-			on: {
-				DISCARD: {
-					target: "idle",
-					actions: ["DISCARD_SEARCH"]
-				}
 			}
 		}
 	}
