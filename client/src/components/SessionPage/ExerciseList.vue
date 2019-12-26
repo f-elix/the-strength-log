@@ -24,7 +24,7 @@
         :key="exercise.id"
         v-if="state.matches('displaying')"
       >
-        <div>{{ exercise.name }}</div>
+        <div class="list__exercise-name">{{ exercise.name }}</div>
         <div class="list__set" v-for="set in exercise.sets" :key="set.id">
           <div>{{ set.setQty }}</div>
           <div>{{ set.repQty }}</div>
@@ -201,6 +201,10 @@ export default {
 
 .list__row--editing {
   grid-gap: 0.25rem;
+}
+
+.list__exercise-name {
+  padding-right: 0.75rem;
 }
 
 .list__set,

@@ -119,9 +119,10 @@ export default {
 .form__inputs {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
+/* Vue transitions */
 .error-enter,
 .error-leave-to {
   opacity: 0;
