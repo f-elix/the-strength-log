@@ -32,6 +32,7 @@
       </div>
     </div>
     <!-- Search results -->
+    <h2 v-if="!sessions.length" class="no-results-text">No results found.</h2>
     <search-result></search-result>
   </div>
 </template>
@@ -100,5 +101,12 @@ export default {
 
 .search-header__param {
   color: var(--color-primary);
+}
+
+.no-results-text {
+  margin-top: 20rem;
+  text-align: center;
+  font-size: 2.25rem;
+  color: var(--color-darkgrey);
 }
 </style>

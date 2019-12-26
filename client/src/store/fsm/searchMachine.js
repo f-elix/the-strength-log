@@ -12,7 +12,10 @@ const searchMachine = Machine({
 		searching: {
 			entry: ["GET_SESSIONS"],
 			on: {
-				SUCCESS: "success",
+				SUCCESS: {
+					target: "success",
+					actions: ["ROUTE_SEARCH"]
+				},
 				ERROR: "idle"
 			}
 		},

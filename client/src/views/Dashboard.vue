@@ -91,9 +91,9 @@ export default {
   },
   data() {
     return {
-      fromDate: "",
-      toDate: "",
-      sessionName: "",
+      fromDate: null,
+      toDate: null,
+      sessionName: null,
       fromToQuery: {
         query: `
           query getCurrentWeek($fromDate: Date!, $toDate: Date!) {
@@ -179,7 +179,6 @@ export default {
         type: "SEARCH",
         params: { query, queryName: "getSessionsFromTo" }
       });
-      this.DASHBOARD_TRANSITION({ type: "SEARCH" });
     },
     searchByName() {
       const query = this.titleQuery;
@@ -190,7 +189,6 @@ export default {
         type: "SEARCH",
         params: { query, queryName: "getSessionsByTitle" }
       });
-      this.DASHBOARD_TRANSITION({ type: "SEARCH" });
     }
   },
   mounted() {

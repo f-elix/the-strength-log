@@ -25,8 +25,13 @@ const mutations = {
 	updateCurrentQuery(state, queryName) {
 		state.currentQuery = queryName;
 	},
-	clearSessions(state) {
+	clearSearch(state) {
 		state.sessions = [];
+		state.searchParams = {
+			dates: null,
+			sessionName: null
+		};
+		state.currentQuery = "";
 	}
 };
 
@@ -97,8 +102,9 @@ const actions = {
 		commit("updateCurrentQuery", params.queryName);
 	},
 	DISCARD_SEARCH: ({ commit }) => {
-		commit("clearSessions");
+		console.log("called");
 		router.push("/dashboard");
+		commit("clearSearch");
 	}
 };
 
