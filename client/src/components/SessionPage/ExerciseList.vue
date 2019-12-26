@@ -9,7 +9,7 @@
       v-if="state.matches('editing')"
       >Add Exercise</app-btn
     >
-    <div class="list__ctn">
+    <div class="list__ctn" v-if="exercises.length">
       <!-- List header -->
       <div class="list__header">
         <div class="list__header--exercise">Exercise</div>
@@ -140,7 +140,8 @@ export default {
 
 <style scoped>
 .add-exercise-btn {
-  margin-bottom: 1.5rem;
+  margin: 0 auto 1.5rem;
+  width: 90%;
 }
 
 .list__ctn,

@@ -180,8 +180,8 @@ export default {
   padding: 1.5rem 0;
   display: flex;
   flex-direction: column;
-  background-color: #f8f8f8;
-  color: #111;
+  /* background-color: var(--color-primary);
+  color: var(--color-secondary); */
 }
 
 .session-header {
