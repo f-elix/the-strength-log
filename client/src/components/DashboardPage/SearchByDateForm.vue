@@ -112,7 +112,8 @@ export default {
 }
 
 .form__title {
-  margin: 1.5rem 0 3rem;
+  margin-bottom: 4.5rem;
+  text-align: center;
 }
 
 .form__inputs {

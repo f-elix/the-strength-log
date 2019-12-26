@@ -1,43 +1,39 @@
 <template>
   <div class="session-container">
-    <!-- Button container -->
-    <div class="btn-ctn">
-      <button
-        class="menu-btn"
-        @click="
-          SESSION_TRANSITION({
-            type: 'DISCARD',
-            params: { sessionData }
-          })
-        "
-        @keypress.enter="
-          SESSION_TRANSITION({
-            type: 'DISCARD',
-            params: { sessionData }
-          })
-        "
-      >
-        Back to menu
-      </button>
-      <button
-        class="back-to-search-btn"
-        v-if="searchState.matches('success')"
-        @click="backToSearch"
-        @keypress.enter="backToSearch"
-      >
-        Back to results
-      </button>
-    </div>
     <!-- Session header -->
     <div class="session-header">
-      <form-group
-        class="title-input"
-        id="title"
-        name="title"
-        type="text"
-        labelText="Session Title"
-        v-model="sessionData.title"
-      ></form-group>
+      <!-- Button container -->
+      <div
+        class="btn-ctn btn-ctn--header"
+        :class="{ 'btn-ctn--margin': state.matches('editing') }"
+      >
+        <app-btn
+          color="dark"
+          class="menu-btn"
+          @click.native="
+            SESSION_TRANSITION({
+              type: 'DISCARD',
+              params: { sessionData }
+            })
+          "
+          @keypress.enter.native="
+            SESSION_TRANSITION({
+              type: 'DISCARD',
+              params: { sessionData }
+            })
+          "
+        >
+          Back to menu
+        </app-btn>
+        <app-btn
+          class="back-to-search-btn"
+          v-if="searchState.matches('success') && state.matches('displaying')"
+          @click.native="backToSearch"
+          @keypress.enter.native="backToSearch"
+        >
+          Back to results
+        </app-btn>
+      </div>
       <form-group
         class="date-input"
         id="date"
@@ -45,7 +41,23 @@
         type="date"
         labelText="Session Date"
         v-model="sessionData.sessionDate"
+        v-if="state.matches('editing')"
       ></form-group>
+      <form-group
+        class="title-input"
+        id="title"
+        name="title"
+        type="text"
+        labelText="Session Title"
+        v-model="sessionData.title"
+        v-if="state.matches('editing')"
+      ></form-group>
+      <div class="date" v-if="state.matches('displaying')">
+        {{ sessionData.sessionDate }}
+      </div>
+      <h1 class="title" v-if="state.matches('displaying')">
+        {{ sessionData.title }}
+      </h1>
     </div>
     <!-- Session exercise list -->
     <exercise-list></exercise-list>
@@ -61,7 +73,7 @@
       v-model="sessionData.notes"
     ></app-text-area>
     <!-- Session btns -->
-    <div class="btn-ctn">
+    <div class="btn-ctn btn-ctn--footer">
       <app-btn
         color="green"
         type="button"
@@ -172,6 +184,14 @@ export default {
   color: #111;
 }
 
+.session-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+}
+
 .btn-ctn {
   display: flex;
 }
@@ -180,43 +200,35 @@ export default {
   margin-left: 1.5rem;
 }
 
+.btn-ctn--header {
+  flex-basis: 60%;
+}
+
+.btn-ctn--margin {
+  margin-bottom: 4.5rem;
+}
+
 .menu-btn,
 .back-to-search-btn {
-  border-radius: var(--default-radius);
-  border: 2px solid var(--color-primary);
+  font-size: 1rem;
   font-weight: bold;
+  padding: 0.5rem 0;
+  max-width: 50%;
 }
 
-.menu-btn {
-  max-width: 25%;
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
-}
-
-.back-to-search-btn {
-  max-width: 40%;
-}
-
-.session-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 0.75rem;
-}
-
-.session-header .date {
-  padding: 0.75rem;
+.date {
   font-weight: bold;
-  border: 2px solid #111;
+  flex-basis: 40%;
+  text-align: center;
 }
 
-.session-header .title {
-  margin: 0;
+.title {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .title-input {
-  flex-basis: 60%;
+  flex-basis: 100%;
 }
 
 .date-input {
@@ -224,18 +236,10 @@ export default {
 }
 
 .session-notes {
-  margin-top: auto;
+  margin: auto 0.75rem 0.75rem;
 }
 
-.session-notes__display {
-  border: 2px solid var(--color-primary);
-}
-
-.btn-ctn {
-  padding: 0.75rem 0;
-}
-
-.btn-ctn button {
-  margin-bottom: 1.5rem;
+.btn-ctn--footer {
+  padding: 0.75rem;
 }
 </style>
