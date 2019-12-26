@@ -72,12 +72,10 @@ export default {
       "DASHBOARD_TRANSITION"
     ]),
     createSession() {
-      this.DASHBOARD_TRANSITION({ type: "SESSION" });
       this.SESSION_TRANSITION({ type: "CREATE" });
     },
     logout() {
       this.AUTH_TRANSITION({ type: "LOGOUT" });
-      this.DASHBOARD_TRANSITION({ type: "AUTH" });
     },
     getCurrentWeek() {
       const query = {

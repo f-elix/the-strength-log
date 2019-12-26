@@ -27,7 +27,10 @@ export const sessionMachine = Machine({
 		creating: {
 			entry: ["CREATE_SESSION"],
 			on: {
-				CREATED: "editing",
+				CREATED: {
+					target: "editing",
+					actions: ["ROUTE_SESSION"]
+				},
 				ERROR: "idle"
 			}
 		},

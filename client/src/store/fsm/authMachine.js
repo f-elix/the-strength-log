@@ -55,7 +55,10 @@ const authMachine = Machine({
 		authenticated: {
 			entry: ["STORE_TOKEN_IN_LOCALSTORAGE", "STORE_USER_IN_STATE", "LOGIN"],
 			on: {
-				LOGOUT: "idle"
+				LOGOUT: {
+					target: "idle",
+					actions: ["ROUTE_AUTH"]
+				}
 			},
 			exit: ["SHOW_LOADING", "CLEAR_STORAGE"]
 		}
