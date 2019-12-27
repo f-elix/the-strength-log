@@ -204,7 +204,7 @@ const actions = {
 				{
 					id: setId,
 					setQty: 1,
-					repQty: 1,
+					repsOrTime: 1,
 					weight: ""
 				}
 			]
