@@ -5,7 +5,7 @@
       <div class="list__header">
         <div class="list__header--exercise">Exercise</div>
         <div class="list__header--sets">Set(s)</div>
-        <div class="list__header--reps">Rep(s) / Time</div>
+        <div class="list__header--reps">Rep(s)/<br />Time</div>
         <div class="list__header--weigth">Weigth</div>
       </div>
       <!-- List exercises (display) -->
@@ -154,6 +154,7 @@ export default {
 .list__header {
   grid-column: 1 / 5;
   grid-row: 1 / 2;
+  align-items: center;
   padding: 0.25rem;
   background-color: #111;
   color: #f8f8f8;
