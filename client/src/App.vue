@@ -24,12 +24,6 @@ export default {
     ...mapState({
       loading: state => state.auth.loading
     })
-  },
-  methods: {
-    ...mapActions(["AUTH_TRANSITION"])
-  },
-  created() {
-    this.AUTH_TRANSITION({ type: "LOADED" });
   }
 };
 </script>

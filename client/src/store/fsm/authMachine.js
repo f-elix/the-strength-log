@@ -2,10 +2,9 @@ import { Machine } from "xstate";
 
 const authMachine = Machine({
 	id: "Auth",
-	initial: "loading",
+	initial: "init",
 	states: {
-		loading: {
-			entry: ["SHOW_LOADING"],
+		init: {
 			on: {
 				LOADED: "checkingForAuth"
 			}
@@ -13,7 +12,10 @@ const authMachine = Machine({
 		checkingForAuth: {
 			entry: ["SHOW_LOADING", "CHECK_FOR_AUTH"],
 			on: {
-				SUCCESS: "authenticated",
+				SUCCESS: {
+					target: "authenticated",
+					actions: ["ROUTE_DASHBOARD"]
+				},
 				ERROR: "idle"
 			}
 		},
@@ -45,7 +47,10 @@ const authMachine = Machine({
 			id: "fetching",
 			entry: ["SHOW_LOADING", "AUTH_USER"],
 			on: {
-				SUCCESS: "authenticated",
+				SUCCESS: {
+					target: "authenticated",
+					actions: ["ROUTE_DASHBOARD"]
+				},
 				ERROR: {
 					target: "idle.last",
 					actions: ["SHOW_ERROR"]
@@ -53,7 +58,7 @@ const authMachine = Machine({
 			}
 		},
 		authenticated: {
-			entry: ["STORE_TOKEN_IN_LOCALSTORAGE", "STORE_USER_IN_STATE", "ROUTE_DASHBOARD"],
+			entry: ["STORE_TOKEN_IN_LOCALSTORAGE", "STORE_USER_IN_STATE"],
 			on: {
 				LOGOUT: {
 					target: "idle",

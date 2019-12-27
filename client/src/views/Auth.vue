@@ -37,7 +37,7 @@ export default {
     ...mapActions(["AUTH_TRANSITION"])
   },
   mounted() {
-    this.AUTH_TRANSITION({ type: "LOGOUT" });
+    this.AUTH_TRANSITION({ type: "LOADED" });
   }
 };
 </script>
