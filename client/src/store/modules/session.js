@@ -204,7 +204,7 @@ const actions = {
 				{
 					id: setId,
 					setQty: 1,
-					repsOrTime: 1,
+					repsOrTime: "1",
 					weight: ""
 				}
 			]
@@ -219,7 +219,7 @@ const actions = {
 		const newSet = {
 			id,
 			setQty: 1,
-			repQty: 1,
+			repsOrTime: "1",
 			weight: ""
 		};
 		const exerciseId = exercise.id;

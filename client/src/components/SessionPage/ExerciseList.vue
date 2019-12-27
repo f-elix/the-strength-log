@@ -106,7 +106,6 @@
       type="button"
       class="add-exercise-btn"
       @click.native="ADD_EXERCISE"
-      @keypres.enter.native="ADD_EXERCISE"
       v-if="state.matches('editing')"
       >Add Exercise</app-btn
     >
