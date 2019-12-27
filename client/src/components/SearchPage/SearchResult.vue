@@ -2,13 +2,15 @@
   <div class="results">
     <ul>
       <li v-for="session in sessions" :key="session._id">
-        <p>{{ session.sessionDate }}</p>
         <div
-          class="day-sessions"
-          @click="displaySession(session)"
-          @keypress.enter="displaySession(session)"
+          class="session"
+          @click="SESSION_TRANSITION({ type: 'DISPLAY', params: { session } })"
+          @keypress.enter="
+            SESSION_TRANSITION({ type: 'DISPLAY', params: { session } })
+          "
         >
           <div class="session-info">
+            <span>{{ session.sessionDate }}</span>
             <span>{{ session.title }}</span>
           </div>
         </div>
@@ -28,10 +30,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(["SESSION_TRANSITION"]),
-    displaySession(session) {
-      this.SESSION_TRANSITION({ type: "DISPLAY", params: { session } });
-    }
+    ...mapActions(["SESSION_TRANSITION"])
   }
 };
 </script>
@@ -43,34 +42,26 @@ export default {
   list-style-type: none;
 }
 
-.results ul li {
-  padding: 0.75rem;
-  background-color: var(--color-lightgrey);
-  border-radius: var(--default-radius);
-  font-weight: bold;
-  cursor: pointer;
-}
-
 .results ul li + li {
   margin-top: 1.5rem;
 }
 
-.day-sessions {
+.session {
   display: flex;
   flex-direction: column;
-  height: 6rem;
+  cursor: pointer;
 }
 
 .session-info {
-  flex-basis: 50%;
-  flex-grow: 2;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  padding: 0 0.75rem;
+  padding: 1.5rem 0.75rem;
   background-color: var(--color-secondary);
   border-radius: var(--default-radius);
-  box-shadow: 0 1px 3px 1px var(--color-primary);
+  box-shadow: 0 2px 3px 1px var(--color-primary);
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
 .session-info:hover {

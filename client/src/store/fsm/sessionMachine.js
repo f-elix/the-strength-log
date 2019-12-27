@@ -21,6 +21,10 @@ export const sessionMachine = Machine({
 				DISCARD: {
 					target: "idle",
 					actions: ["DISCARD_SESSION", "ROUTE_DASHBOARD"]
+				},
+				BACK_TO_SEARCH: {
+					target: "idle",
+					actions: ["ROUTE_SEARCH"]
 				}
 			}
 		},

@@ -21,9 +21,11 @@
         </app-btn>
         <app-btn
           class="back-to-search-btn"
-          v-if="searchState.matches('success') && state.matches('displaying')"
-          @click.native="backToSearch"
-          @keypress.enter.native="backToSearch"
+          v-if="state.matches('displaying') && searchState.matches('success')"
+          @click.native="SESSION_TRANSITION({ type: 'BACK_TO_SEARCH' })"
+          @keypress.enter.native="
+            SESSION_TRANSITION({ type: 'BACK_TO_SEARCH' })
+          "
         >
           Back to results
         </app-btn>
@@ -156,11 +158,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(["SESSION_TRANSITION"]),
-    backToSearch() {
-      this.$router.push("/search-results");
-      this.SESSION_TRANSITION({ type: "DISCARD" });
-    }
+    ...mapActions(["SESSION_TRANSITION"])
   }
 };
 </script>

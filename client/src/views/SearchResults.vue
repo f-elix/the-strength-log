@@ -1,12 +1,13 @@
 <template>
   <div class="search-ctn">
-    <button
+    <app-btn
+      color="dark"
       class="menu-btn"
-      @click="SEARCH_TRANSITION({ type: 'DISCARD' })"
-      @keypress.enter="SEARCH_TRANSITION({ type: 'DISCARD' })"
+      @click.native="SEARCH_TRANSITION({ type: 'DISCARD' })"
+      @keypress.enter.native="SEARCH_TRANSITION({ type: 'DISCARD' })"
     >
       Back to menu
-    </button>
+    </app-btn>
     <!-- Search header -->
     <div class="search-header">
       <div v-if="currentQuery === 'getSessionsFromTo'">
@@ -43,10 +44,12 @@ import { mapState, mapActions, mapGetters } from "vuex";
 
 // Components
 import SearchResult from "../components/SearchPage/SearchResult";
+import AppBtn from "../components/utils/AppBtn";
 
 export default {
   components: {
-    SearchResult
+    SearchResult,
+    AppBtn
   },
   computed: {
     ...mapState({
@@ -67,18 +70,14 @@ export default {
   width: 100%;
   max-width: 32rem;
   margin: 0 auto;
-  padding: 0 0.75rem;
+  padding: 0.75rem;
 }
 
 .menu-btn {
-  display: block;
-  max-width: 25%;
-  margin: 1.5rem 0;
-  border-radius: var(--default-radius);
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
-  border: 2px solid var(--color-primary);
+  font-size: 1rem;
   font-weight: bold;
+  padding: 0.5rem 0;
+  max-width: 25%;
 }
 
 .search-header {
