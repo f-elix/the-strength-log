@@ -46,7 +46,7 @@ export default {
                 sets {
                   id
                   setQty
-                  repQty
+                  repsOrTime
                   weight
                 }
               }

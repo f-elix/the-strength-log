@@ -29,8 +29,8 @@ const SessionSchema = new mongoose.Schema(
 						setQty: {
 							type: Number
 						},
-						repQty: {
-							type: Number
+						repsOrTime: {
+							type: String
 						},
 						weight: {
 							type: String

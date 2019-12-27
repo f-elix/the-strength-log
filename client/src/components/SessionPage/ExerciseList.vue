@@ -1,20 +1,11 @@
 <template>
   <div class="exercise-list">
-    <!-- Add exercise btn -->
-    <app-btn
-      type="button"
-      class="add-exercise-btn"
-      @click.native="ADD_EXERCISE"
-      @keypres.enter.native="ADD_EXERCISE"
-      v-if="state.matches('editing')"
-      >Add Exercise</app-btn
-    >
     <div class="list__ctn" v-if="exercises.length">
       <!-- List header -->
       <div class="list__header">
         <div class="list__header--exercise">Exercise</div>
         <div class="list__header--sets">Set(s)</div>
-        <div class="list__header--reps">Rep(s)</div>
+        <div class="list__header--reps">Rep(s) / Time</div>
         <div class="list__header--weigth">Weigth</div>
       </div>
       <!-- List exercises (display) -->
@@ -27,7 +18,7 @@
         <div class="list__exercise-name">{{ exercise.name }}</div>
         <div class="list__set" v-for="set in exercise.sets" :key="set.id">
           <div>{{ set.setQty }}</div>
-          <div>{{ set.repQty }}</div>
+          <div>{{ set.repsOrTime }}</div>
           <div>{{ set.weight }}</div>
         </div>
       </div>
@@ -77,10 +68,10 @@
           ></app-input>
           <app-input
             class="list__input"
-            type="number"
-            v-model="set.repQty"
-            :id="`repQty${set.id}`"
-            :name="`repQty${set.id}`"
+            type="text"
+            v-model="set.repsOrTime"
+            :id="`repsOrTime${set.id}`"
+            :name="`repsOrTime${set.id}`"
           ></app-input>
           <app-input
             class="list__input"
@@ -110,6 +101,15 @@
         >
       </div>
     </div>
+    <!-- Add exercise btn -->
+    <app-btn
+      type="button"
+      class="add-exercise-btn"
+      @click.native="ADD_EXERCISE"
+      @keypres.enter.native="ADD_EXERCISE"
+      v-if="state.matches('editing')"
+      >Add Exercise</app-btn
+    >
   </div>
 </template>
 
@@ -139,11 +139,6 @@ export default {
 </script>
 
 <style scoped>
-.add-exercise-btn {
-  margin: 0 auto 1.5rem;
-  width: 90%;
-}
-
 .list__ctn,
 .list__header,
 .list__row,
@@ -272,5 +267,10 @@ export default {
 
 .delete-set-btn::after {
   transform: rotate(-45deg);
+}
+
+.add-exercise-btn {
+  margin: 1.5rem auto;
+  width: 90%;
 }
 </style>

@@ -112,7 +112,7 @@ const actions = {
 							sets {
 								id
 								setQty
-								repQty
+								repsOrTime
 								weight
 							}
 						}

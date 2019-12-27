@@ -32,7 +32,7 @@ type Exercise {
 type Set {
 	id: Int!
 	setQty: Int!
-	repQty: Int!
+	repsOrTime: String!
 	weight: String!
 }
 
@@ -61,7 +61,7 @@ input ExerciseInput {
 input SetInput {
 	id: Int!
 	setQty: Int
-	repQty: Int
+	repsOrTime: String
 	weight: String
 }
 
