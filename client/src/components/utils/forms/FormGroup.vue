@@ -1,7 +1,7 @@
 <template>
   <div class="form-group">
     <app-input
-      class="app-input"
+      class="form-group__input"
       :placeholder="inputPlaceholder"
       :id="id"
       :name="id"
@@ -11,7 +11,7 @@
       :autofocus="autofocus"
       v-model="inputValue"
     ></app-input>
-    <label class="app-label" :for="id">{{ labelText }}</label>
+    <label class="form-group__label" :for="id">{{ labelText }}</label>
   </div>
 </template>
 
@@ -67,25 +67,25 @@ export default {
 </script>
 
 <style scoped>
-.app-label,
-.app-input {
+.form-group__label,
+.form-group__input {
   display: block;
 }
 
-.app-label {
+.form-group__label {
   transform: translate(0, -5.5rem);
 }
 
 /* The following code is not supported in Edge */
 @supports (not (-ms-ime-align: auto)) {
-  .app-label {
+  .form-group__label {
     color: var(--color-darkgrey);
     transform: translate(0.25rem, -3.5rem);
     transition: all 0.2s ease-out;
   }
 
-  .app-input:focus + .app-label,
-  .app-input:not(:placeholder-shown) + .app-label {
+  .form-group__input:focus + .form-group__label,
+  .form-group__input:not(:placeholder-shown) + .form-group__label {
     color: var(--color-primary);
     font-weight: bold;
     transform: translate(0, -5.25rem);

@@ -1,6 +1,6 @@
 <template>
   <form class="form" @submit.prevent="searchByDate">
-    <h2 class="form__title">Search sessions by dates</h2>
+    <h2 class="form__title">Search log by dates</h2>
     <div class="form__inputs">
       <!-- From date -->
       <form-group
@@ -10,6 +10,7 @@
         id="fromDate"
         :isInvalid="!isDatesValid"
         v-model="fromDate"
+        class="form__input"
       ></form-group>
       <!-- To date -->
       <form-group
@@ -19,6 +20,7 @@
         id="toDate"
         :isInvalid="!isDatesValid"
         v-model="toDate"
+        class="form__input"
       ></form-group>
     </div>
     <transition name="error">
@@ -106,20 +108,38 @@ export default {
 <style scoped>
 .form {
   margin: 1.5rem auto;
-  padding: 1.5rem;
+  padding-bottom: 1.5rem;
   border-radius: 5px;
   box-shadow: 0 2px 3px 1px var(--color-primary);
+  background-color: var(--color-lightgrey);
 }
 
 .form__title {
-  margin-bottom: 4.5rem;
+  margin: 0;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem 0;
+  border-top-right-radius: var(--default-radius);
+  border-top-left-radius: var(--default-radius);
   text-align: center;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
 }
 
 .form__inputs {
   width: 100%;
+  margin: 4.5rem 0 0.75rem;
   display: flex;
   justify-content: space-evenly;
+}
+
+.form__input /deep/ input {
+  background-color: var(--color-lightgrey);
+}
+
+.app-btn {
+  width: 90%;
+  margin: 0 1.5rem;
+  background-color: var(--color-secondary);
 }
 
 /* Vue transitions */
