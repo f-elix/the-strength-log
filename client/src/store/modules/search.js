@@ -102,8 +102,6 @@ const actions = {
 		commit("updateCurrentQuery", params.queryName);
 	},
 	DISCARD_SEARCH: ({ commit }) => {
-		console.log("called");
-		router.push("/dashboard");
 		commit("clearSearch");
 	}
 };

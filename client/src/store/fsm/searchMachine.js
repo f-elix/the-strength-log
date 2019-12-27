@@ -21,7 +21,7 @@ const searchMachine = Machine({
 			on: {
 				DISCARD: {
 					target: "idle",
-					actions: ["DISCARD_SEARCH"]
+					actions: ["DISCARD_SEARCH", "ROUTE_DASHBOARD"]
 				},
 				SEARCH: "searching"
 			}
