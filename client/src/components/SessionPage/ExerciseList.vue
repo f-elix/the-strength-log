@@ -33,8 +33,8 @@
           class="list__input list__input--name"
           type="text"
           v-model="exercise.name"
-          :id="`name${exercise.id}`"
-          :name="`name${exercise.id}`"
+          :id="`exercise${exercise.id}`"
+          :name="`exercise${exercise.id}`"
           autofocus="true"
         ></app-input>
         <div
