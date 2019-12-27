@@ -141,8 +141,8 @@ const actions = {
 				};
 				throw error;
 			}
-			const session = data.data.saveSession;
-			dispatch("SESSION_TRANSITION", { type: "SUCCESS", params: { session } });
+			const sessionData = data.data.saveSession;
+			dispatch("SESSION_TRANSITION", { type: "SUCCESS", params: { sessionData } });
 		} catch (err) {
 			console.log(err);
 			dispatch("SESSION_TRANSITION", { type: "ERROR", params: { error: err } });
