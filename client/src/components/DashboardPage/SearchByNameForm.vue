@@ -59,6 +59,9 @@ export default {
   methods: {
     ...mapActions(["SEARCH_TRANSITION"]),
     searchByName() {
+      if (!this.sessionName) {
+        return;
+      }
       const query = this.titleQuery;
       query.variables = {
         title: this.sessionName
