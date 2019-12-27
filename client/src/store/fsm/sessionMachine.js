@@ -9,7 +9,7 @@ export const sessionMachine = Machine({
 			on: {
 				DISPLAY: {
 					target: "displaying",
-					actions: ["DISPLAY_SESSION"]
+					actions: ["UPDATE_SESSION_DATA", "ROUTE_SESSION"]
 				},
 				EDIT: "editing",
 				CREATE: "creating"
@@ -21,7 +21,7 @@ export const sessionMachine = Machine({
 			on: {
 				CREATED: {
 					target: "editing",
-					actions: ["ROUTE_SESSION"]
+					actions: ["ROUTE_NEW_SESSION"]
 				},
 				ERROR: "idle"
 			}
@@ -31,13 +31,13 @@ export const sessionMachine = Machine({
 			on: {
 				EDIT: "editing",
 				DELETE: "deleting",
-				DISCARD: {
+				BACK_TO_DASHBOARD: {
 					target: "idle",
 					actions: ["CLEAR_SESSION_DATA", "ROUTE_DASHBOARD"]
 				},
 				BACK_TO_SEARCH: {
 					target: "idle",
-					actions: ["ROUTE_SEARCH"]
+					actions: ["CLEAR_SESSION_DATA", "ROUTE_SEARCH"]
 				}
 			}
 		},
@@ -45,13 +45,12 @@ export const sessionMachine = Machine({
 			entry: ["EDIT_SESSION", "HIDE_LOADING"],
 			on: {
 				SAVE: "saving",
-				DISCARD: "displaying",
-				DISCARD_NEW: {
-					target: "idle",
-					actions: ["DELETE_SESSION", "CLEAR_SESSION_DATA", "ROUTE_DASHBOARD"]
+				DISPLAY: {
+					target: "displaying",
+					actions: ["UPDATE_SESSION_DATA", "ROUTE_SESSION"]
 				},
+				DISCARD: "deleting",
 				BACK_TO_DASHBOARD: {
-					target: "editing",
 					actions: ["ROUTE_DASHBOARD"]
 				}
 			}
@@ -59,14 +58,20 @@ export const sessionMachine = Machine({
 		saving: {
 			entry: ["SHOW_LOADING", "SAVE_SESSION"],
 			on: {
-				SUCCESS: "displaying",
+				SUCCESS: {
+					target: "displaying",
+					actions: ["UPDATE_SESSION_DATA", "ROUTE_SESSION"]
+				},
 				ERROR: "editing"
 			}
 		},
 		deleting: {
-			entry: ["SHOW_LOADING", "DELETE_SESSION"],
+			entry: ["SHOW_LOADING", "DELETE_SESSION", "CLEAR_SESSION_DATA"],
 			on: {
-				SUCCESS: "idle",
+				SUCCESS: {
+					target: "idle",
+					actions: ["ROUTE_DASHBOARD"]
+				},
 				ERROR: "displaying"
 			}
 		}

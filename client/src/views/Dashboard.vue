@@ -60,7 +60,8 @@ export default {
   computed: {
     ...mapState({
       user: state => state.auth.userData,
-      sessionState: state => state.session.currentState
+      sessionState: state => state.session.currentState,
+      sessionData: state => state.session.sessionData
     }),
     ...mapGetters(["currentWeekDates"])
   },
@@ -73,7 +74,10 @@ export default {
     ]),
     goToSession() {
       if (this.sessionState.matches("editing")) {
-        this.DASHBOARD_TRANSITION({ type: "SESSION" });
+        this.DASHBOARD_TRANSITION({
+          type: "SESSION",
+          params: { sessionData: this.sessionData }
+        });
       } else {
         this.SESSION_TRANSITION({ type: "CREATE" });
       }

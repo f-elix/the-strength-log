@@ -4,9 +4,17 @@
       <li v-for="session in sessions" :key="session._id">
         <div
           class="session"
-          @click="SESSION_TRANSITION({ type: 'DISPLAY', params: { session } })"
+          @click="
+            SESSION_TRANSITION({
+              type: 'DISPLAY',
+              params: { sessionData: session }
+            })
+          "
           @keypress.enter="
-            SESSION_TRANSITION({ type: 'DISPLAY', params: { session } })
+            SESSION_TRANSITION({
+              type: 'DISPLAY',
+              params: { sessionData: session }
+            })
           "
         >
           <div class="session-info">

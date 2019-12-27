@@ -18,7 +18,12 @@ const actions = {
 	ROUTE_DASHBOARD: () => {
 		router.push("/dashboard");
 	},
-	ROUTE_SESSION: () => {
+	ROUTE_SESSION: (_, { params }) => {
+		if (router.currentRoute.path !== "/session/" + params.sessionData._id) {
+			router.push("/session/" + params.sessionData._id);
+		}
+	},
+	ROUTE_NEW_SESSION: () => {
 		router.push("/session");
 	},
 	ROUTE_SEARCH: () => {

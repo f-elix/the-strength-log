@@ -13,17 +13,13 @@
           class="menu-btn"
           @click.native="
             SESSION_TRANSITION({
-              type: state.matches('displaying')
-                ? 'DISCARD'
-                : 'BACK_TO_DASHBOARD',
+              type: 'BACK_TO_DASHBOARD',
               params: { sessionData }
             })
           "
           @keypress.enter.native="
             SESSION_TRANSITION({
-              type: state.matches('displaying')
-                ? 'DISCARD'
-                : 'BACK_TO_DASHBOARD',
+              type: 'BACK_TO_DASHBOARD',
               params: { sessionData }
             })
           "
@@ -86,13 +82,13 @@
         v-if="state.matches('editing')"
         @click.native="
           SESSION_TRANSITION({
-            type: sessionData.newSession ? 'DISCARD_NEW' : 'DISCARD',
+            type: sessionData.newSession ? 'DISCARD' : 'DISPLAY',
             params: { sessionData }
           })
         "
         @keypress.enter.native="
           SESSION_TRANSITION({
-            type: sessionData.newSession ? 'DISCARD_NEW' : 'DISCARD',
+            type: sessionData.newSession ? 'DISCARD' : 'DISPLAY',
             params: { sessionData }
           })
         "

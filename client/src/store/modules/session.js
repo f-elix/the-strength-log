@@ -45,12 +45,6 @@ const actions = {
 	SESSION_TRANSITION: (context, event) => {
 		transition(sessionMachine, context, event);
 	},
-	DISPLAY_SESSION: ({ commit }, { params }) => {
-		commit("updateSessionData", params.session);
-		if (router.currentRoute.path !== "/session/" + params.session._id) {
-			router.push("/session/" + params.session._id);
-		}
-	},
 	CREATE_SESSION: async ({ dispatch }) => {
 		const token = localStorage.getItem("token");
 		const date = new Date();
@@ -190,6 +184,9 @@ const actions = {
 			console.log(err);
 			dispatch("SESSION_TRANSITION", { type: "ERROR", params: { error: err } });
 		}
+	},
+	UPDATE_SESSION_DATA: ({ commit }, { params }) => {
+		commit("updateSessionData", params.sessionData);
 	},
 	CLEAR_SESSION_DATA: ({ commit }) => {
 		commit("clearSessionData");
