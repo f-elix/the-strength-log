@@ -25,28 +25,24 @@ export default {
 
 <style scoped>
 .btn {
-  --shadow-color: var(--color-primary);
-  --box-shadow: 0 1px 3px 2px var(--shadow-color);
   display: block;
   width: 100%;
   padding: 0.75rem;
   border-radius: var(--default-radius);
-  box-shadow: var(--box-shadow);
+  border: 3px solid var(--color-primary);
   font-size: 1.5rem;
 }
 
 .btn:active {
   outline: none;
   transform: translateY(1px);
-  box-shadow: inset var(--box-shadow);
+  box-shadow: inset 1px 1px 4px var(--color-primary);
 }
 
 .btn-dark,
 .btn-dark-blue,
 .btn-red,
 .btn-green {
-  box-shadow: none;
-  border: 1px solid var(--color-primary);
   color: var(--color-secondary);
 }
 

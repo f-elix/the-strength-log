@@ -72,6 +72,7 @@ export default {
 .textarea {
   padding: 0.5rem;
   font-size: 1.5rem;
+  border-radius: var(--default-radius);
   border: 2px solid var(--color-primary);
   background-color: var(--color-secondary);
   transition: all 0.1s linear;

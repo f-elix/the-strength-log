@@ -71,33 +71,6 @@
     <!-- Session btns -->
     <div class="btn-ctn btn-ctn--footer">
       <app-btn
-        color="green"
-        type="button"
-        v-if="state.matches('editing')"
-        @click.native="
-          SESSION_TRANSITION({ type: 'SAVE', params: { sessionData } })
-        "
-        @keypress.enter.native="
-          SESSION_TRANSITION({ type: 'SAVE', params: { sessionData } })
-        "
-      >
-        Save Session</app-btn
-      >
-      <app-btn
-        color="dark-blue"
-        type="button"
-        v-if="state.matches('displaying')"
-        @click.native="
-          SESSION_TRANSITION({ type: 'EDIT', params: { sessionData } })
-        "
-        @keypress.enter.native="
-          SESSION_TRANSITION({ type: 'EDIT', params: { sessionData } })
-        "
-      >
-        Edit Session</app-btn
-      >
-      <app-btn
-        color="red"
         v-if="state.matches('editing')"
         @click.native="
           SESSION_TRANSITION({
@@ -123,6 +96,32 @@
           SESSION_TRANSITION({ type: 'DELETE', params: { sessionData } })
         "
         >Delete</app-btn
+      >
+      <app-btn
+        color="green"
+        type="button"
+        v-if="state.matches('editing')"
+        @click.native="
+          SESSION_TRANSITION({ type: 'SAVE', params: { sessionData } })
+        "
+        @keypress.enter.native="
+          SESSION_TRANSITION({ type: 'SAVE', params: { sessionData } })
+        "
+      >
+        Save Session</app-btn
+      >
+      <app-btn
+        color="dark-blue"
+        type="button"
+        v-if="state.matches('displaying')"
+        @click.native="
+          SESSION_TRANSITION({ type: 'EDIT', params: { sessionData } })
+        "
+        @keypress.enter.native="
+          SESSION_TRANSITION({ type: 'EDIT', params: { sessionData } })
+        "
+      >
+        Edit Session</app-btn
       >
     </div>
   </div>

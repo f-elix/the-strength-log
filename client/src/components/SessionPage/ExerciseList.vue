@@ -229,7 +229,6 @@ export default {
 }
 
 .list__input:focus {
-  color: var(--color-secondary);
   background-color: var(--color-lightblue);
 }
 
