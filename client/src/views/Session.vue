@@ -54,6 +54,7 @@
         type="text"
         labelText="Session Title"
         v-model="sessionData.title"
+        autofocus="true"
         v-if="state.matches('editing')"
       ></form-group>
       <div class="date" v-if="state.matches('displaying')">
