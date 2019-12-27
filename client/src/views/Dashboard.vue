@@ -5,8 +5,8 @@
       <div class="dashboard-header">
         <!-- Logout btn -->
         <app-btn
-          @click.native="logout"
-          @keypress.enter.native="logout"
+          @click.native="AUTH_TRANSITION({ type: 'LOGOUT' })"
+          @keypress.enter.native="AUTH_TRANSITION({ type: 'LOGOUT' })"
           color="dark"
           class="logout-btn"
         >
@@ -19,8 +19,8 @@
       <app-btn
         color="dark-blue"
         class="app-btn"
-        @click.native="createSession"
-        @keypress.enter.native="createSession"
+        @click.native="goToSession"
+        @keypress.enter.native="goToSession"
         >{{
           sessionState.matches("editing")
             ? "Finish editing session..."
@@ -71,11 +71,12 @@ export default {
       "SEARCH_TRANSITION",
       "DASHBOARD_TRANSITION"
     ]),
-    createSession() {
-      this.SESSION_TRANSITION({ type: "CREATE" });
-    },
-    logout() {
-      this.AUTH_TRANSITION({ type: "LOGOUT" });
+    goToSession() {
+      if (this.sessionState.matches("editing")) {
+        this.DASHBOARD_TRANSITION({ type: "SESSION" });
+      } else {
+        this.SESSION_TRANSITION({ type: "CREATE" });
+      }
     },
     getCurrentWeek() {
       const query = {

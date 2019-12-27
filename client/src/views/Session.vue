@@ -7,18 +7,30 @@
         class="btn-ctn btn-ctn--header"
         :class="{ 'btn-ctn--margin': state.matches('editing') }"
       >
+        <!-- back to menu btn -->
         <app-btn
           color="dark"
           class="menu-btn"
           @click.native="
-            SESSION_TRANSITION({ type: 'DISCARD', params: { sessionData } })
+            SESSION_TRANSITION({
+              type: state.matches('displaying')
+                ? 'DISCARD'
+                : 'BACK_TO_DASHBOARD',
+              params: { sessionData }
+            })
           "
           @keypress.enter.native="
-            SESSION_TRANSITION({ type: 'DISCARD', params: { sessionData } })
+            SESSION_TRANSITION({
+              type: state.matches('displaying')
+                ? 'DISCARD'
+                : 'BACK_TO_DASHBOARD',
+              params: { sessionData }
+            })
           "
         >
           Back to menu
         </app-btn>
+        <!-- back to search btn -->
         <app-btn
           class="back-to-search-btn"
           v-if="state.matches('displaying') && searchState.matches('success')"
@@ -74,13 +86,13 @@
         v-if="state.matches('editing')"
         @click.native="
           SESSION_TRANSITION({
-            type: 'DISCARD',
+            type: sessionData.newSession ? 'DISCARD_NEW' : 'DISCARD',
             params: { sessionData }
           })
         "
         @keypress.enter.native="
           SESSION_TRANSITION({
-            type: 'DISCARD',
+            type: sessionData.newSession ? 'DISCARD_NEW' : 'DISCARD',
             params: { sessionData }
           })
         "

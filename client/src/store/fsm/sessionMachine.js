@@ -7,26 +7,14 @@ export const sessionMachine = Machine({
 		idle: {
 			entry: ["HIDE_LOADING"],
 			on: {
-				DISPLAY: "displaying",
+				DISPLAY: {
+					target: "displaying",
+					actions: ["DISPLAY_SESSION"]
+				},
 				EDIT: "editing",
 				CREATE: "creating"
 			},
 			exit: ["SHOW_LOADING"]
-		},
-		displaying: {
-			entry: ["DISPLAY_SESSION", "HIDE_LOADING"],
-			on: {
-				EDIT: "editing",
-				DELETE: "deleting",
-				DISCARD: {
-					target: "idle",
-					actions: ["DISCARD_SESSION", "ROUTE_DASHBOARD"]
-				},
-				BACK_TO_SEARCH: {
-					target: "idle",
-					actions: ["ROUTE_SEARCH"]
-				}
-			}
 		},
 		creating: {
 			entry: ["CREATE_SESSION"],
@@ -38,12 +26,32 @@ export const sessionMachine = Machine({
 				ERROR: "idle"
 			}
 		},
+		displaying: {
+			entry: ["HIDE_LOADING"],
+			on: {
+				EDIT: "editing",
+				DELETE: "deleting",
+				DISCARD: {
+					target: "idle",
+					actions: ["CLEAR_SESSION_DATA", "ROUTE_DASHBOARD"]
+				},
+				BACK_TO_SEARCH: {
+					target: "idle",
+					actions: ["ROUTE_SEARCH"]
+				}
+			}
+		},
 		editing: {
 			entry: ["EDIT_SESSION", "HIDE_LOADING"],
 			on: {
 				SAVE: "saving",
-				DISCARD: {
+				DISCARD: "displaying",
+				DISCARD_NEW: {
 					target: "idle",
+					actions: ["DELETE_SESSION", "CLEAR_SESSION_DATA", "ROUTE_DASHBOARD"]
+				},
+				BACK_TO_DASHBOARD: {
+					target: "editing",
 					actions: ["ROUTE_DASHBOARD"]
 				}
 			}

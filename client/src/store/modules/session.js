@@ -154,16 +154,6 @@ const actions = {
 			dispatch("SESSION_TRANSITION", { type: "ERROR", params: { error: err } });
 		}
 	},
-	DISCARD_SESSION: ({ dispatch }, { params }) => {
-		if (!params) {
-			return;
-		}
-		if (params.sessionData.newSession) {
-			dispatch("DELETE_SESSION", { params });
-		} else {
-			dispatch("CLEAR_SESSION_DATA");
-		}
-	},
 	DELETE_SESSION: async ({ dispatch }, { params }) => {
 		const token = localStorage.getItem("token");
 		const query = {
@@ -194,9 +184,7 @@ const actions = {
 				throw error;
 			}
 			if (data.data.deleteSession) {
-				dispatch("CLEAR_SESSION_DATA");
 				dispatch("SESSION_TRANSITION", { type: "SUCCESS" });
-				router.push("/dashboard");
 			}
 		} catch (err) {
 			console.log(err);
