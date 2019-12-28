@@ -17,12 +17,6 @@
               params: { sessionData }
             })
           "
-          @keypress.enter.native="
-            SESSION_TRANSITION({
-              type: 'BACK_TO_DASHBOARD',
-              params: { sessionData }
-            })
-          "
         >
           Back to menu
         </app-btn>
@@ -31,9 +25,6 @@
           class="back-to-search-btn"
           v-if="state.matches('displaying') && searchState.matches('success')"
           @click.native="SESSION_TRANSITION({ type: 'BACK_TO_SEARCH' })"
-          @keypress.enter.native="
-            SESSION_TRANSITION({ type: 'BACK_TO_SEARCH' })
-          "
         >
           Back to results
         </app-btn>
@@ -87,21 +78,12 @@
             params: { sessionData }
           })
         "
-        @keypress.enter.native="
-          SESSION_TRANSITION({
-            type: sessionData.newSession ? 'DISCARD' : 'DISPLAY',
-            params: { sessionData }
-          })
-        "
         >Discard</app-btn
       >
       <app-btn
         color="red"
         v-if="state.matches('displaying')"
         @click.native="
-          SESSION_TRANSITION({ type: 'DELETE', params: { sessionData } })
-        "
-        @keypress.enter.native="
           SESSION_TRANSITION({ type: 'DELETE', params: { sessionData } })
         "
         >Delete</app-btn
@@ -113,9 +95,6 @@
         @click.native="
           SESSION_TRANSITION({ type: 'SAVE', params: { sessionData } })
         "
-        @keypress.enter.native="
-          SESSION_TRANSITION({ type: 'SAVE', params: { sessionData } })
-        "
       >
         Save Session</app-btn
       >
@@ -124,9 +103,6 @@
         type="button"
         v-if="state.matches('displaying')"
         @click.native="
-          SESSION_TRANSITION({ type: 'EDIT', params: { sessionData } })
-        "
-        @keypress.enter.native="
           SESSION_TRANSITION({ type: 'EDIT', params: { sessionData } })
         "
       >

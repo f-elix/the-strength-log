@@ -55,9 +55,6 @@
             @click.native="
               DELETE_SET({ exerciseId: exercise.id, setId: set.id })
             "
-            @keypress.enter.native="
-              DELETE_SET({ exerciseId: exercise.id, setId: set.id })
-            "
           ></app-btn>
           <app-input
             class="list__input"
@@ -87,7 +84,6 @@
           color="red"
           class="remove-exercise-btn"
           @click.native="REMOVE_EXERCISE(exercise.id)"
-          @keypress.enter.native="REMOVE_EXERCISE(exercise.id)"
           >Remove Exercise</app-btn
         >
         <!-- Add set btn -->

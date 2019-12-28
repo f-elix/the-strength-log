@@ -6,7 +6,6 @@
         <!-- Logout btn -->
         <app-btn
           @click.native="AUTH_TRANSITION({ type: 'LOGOUT' })"
-          @keypress.enter.native="AUTH_TRANSITION({ type: 'LOGOUT' })"
           color="dark"
           class="logout-btn"
         >
@@ -16,17 +15,11 @@
       </div>
       <h1 class="text-center log-title">{{ user.name }}'s Log</h1>
       <!-- New session btn -->
-      <app-btn
-        color="dark-blue"
-        class="app-btn"
-        @click.native="goToSession"
-        @keypress.enter.native="goToSession"
-        >{{
-          sessionState.matches("editing")
-            ? "Finish editing session..."
-            : "New session"
-        }}</app-btn
-      >
+      <app-btn color="dark-blue" class="app-btn" @click.native="goToSession">{{
+        sessionState.matches("editing")
+          ? "Finish editing session..."
+          : "New session"
+      }}</app-btn>
       <!-- View current week btn -->
       <app-btn class="app-btn" @click.native="getCurrentWeek"
         >View Current Week</app-btn

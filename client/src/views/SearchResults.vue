@@ -4,7 +4,6 @@
       color="dark"
       class="menu-btn"
       @click.native="SEARCH_TRANSITION({ type: 'DISCARD' })"
-      @keypress.enter.native="SEARCH_TRANSITION({ type: 'DISCARD' })"
     >
       Back to menu
     </app-btn>

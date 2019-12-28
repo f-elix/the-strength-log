@@ -4,6 +4,7 @@
       <li v-for="session in sessions" :key="session._id">
         <div
           class="session"
+          tabindex="0"
           @click="
             SESSION_TRANSITION({
               type: 'DISPLAY',
