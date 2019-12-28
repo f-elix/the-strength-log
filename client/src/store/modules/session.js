@@ -1,8 +1,6 @@
 import sessionMachine from "../fsm/sessionMachine";
 import transition from "../transition";
 
-import router from "../../router";
-
 const state = {
 	currentState: sessionMachine.initialState,
 	sessionData: {}
@@ -54,7 +52,6 @@ const actions = {
 					mutation createSession($date: Date!) {
 					createSession(sessionDate: $date) {
 						_id
-						createdAt
 						title
 						sessionDate
 						newSession
@@ -102,8 +99,6 @@ const actions = {
 				mutation saveSession($sessionData: SessionInput!) {
 					saveSession(sessionData: $sessionData) {
 						_id
-						createdAt
-						updatedAt
 						title
 						sessionDate
 						exercises {

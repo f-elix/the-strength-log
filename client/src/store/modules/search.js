@@ -1,6 +1,5 @@
 import searchMachine from "../fsm/searchMachine";
 import transition from "../transition";
-import router from "../../router";
 
 const state = {
 	currentState: searchMachine.initialState,

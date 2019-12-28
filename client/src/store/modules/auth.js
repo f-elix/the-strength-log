@@ -104,9 +104,6 @@ const actions = {
       {
         getUserData {
           name
-          email
-          _id
-          createdAt
         }
       }
     `
