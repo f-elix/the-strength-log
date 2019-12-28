@@ -20,6 +20,7 @@ type Session {
 	sessionDate: Date!
 	exercises: [Exercise]
 	notes: String
+	bodyweigth: String
 	creator: User
 }
 
@@ -49,6 +50,7 @@ input SessionInput {
 	title: String!
 	sessionDate: Date!
 	exercises: [ExerciseInput]
+	bodyweigth: String
 	notes: String
 }
 

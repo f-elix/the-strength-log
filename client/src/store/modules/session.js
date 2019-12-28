@@ -116,6 +116,7 @@ const actions = {
 								weight
 							}
 						}
+						bodyweigth
 						notes
 					}
 				}

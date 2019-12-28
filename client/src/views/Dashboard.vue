@@ -84,6 +84,7 @@ export default {
               title
               newSession
               sessionDate
+              bodyweigth
               notes
               exercises {
                 id

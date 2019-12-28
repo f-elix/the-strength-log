@@ -120,6 +120,7 @@ const mutations = {
 		session.title = sessionData.title;
 		session.sessionDate = sessionData.sessionDate;
 		session.exercises = sessionData.exercises;
+		session.bodyweigth = sessionData.bodyweigth;
 		session.notes = sessionData.notes;
 		session.newSession = false;
 		const updatedSession = await session.save();

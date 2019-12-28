@@ -29,6 +29,7 @@
           Back to results
         </app-btn>
       </div>
+      <!-- Date input -->
       <form-group
         class="date-input"
         id="date"
@@ -38,6 +39,7 @@
         v-model="sessionData.sessionDate"
         v-if="state.matches('editing')"
       ></form-group>
+      <!-- Title input -->
       <form-group
         class="title-input"
         id="title"
@@ -48,12 +50,30 @@
         autofocus="true"
         v-if="state.matches('editing')"
       ></form-group>
+      <!-- Bodyweigth input -->
+      <form-group
+        id="bodyweigth"
+        name="bodyweigth"
+        type="text"
+        labelText="Bodyweigth"
+        v-model="sessionData.bodyweigth"
+        v-if="state.matches('editing')"
+      ></form-group>
+      <!-- Date -->
       <div class="date" v-if="state.matches('displaying')">
         {{ sessionData.sessionDate }}
       </div>
+      <!-- Title -->
       <h1 class="title" v-if="state.matches('displaying')">
         {{ sessionData.title }}
       </h1>
+      <!-- Bodyweigth -->
+      <p
+        class="bodyweigth"
+        v-if="state.matches('displaying') && sessionData.bodyweigth"
+      >
+        Bodyweigth: {{ sessionData.bodyweigth }}
+      </p>
     </div>
     <!-- Session exercise list -->
     <exercise-list></exercise-list>
@@ -201,6 +221,13 @@ export default {
 .title {
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 0;
+}
+
+.bodyweigth {
+  flex-basis: 100%;
+  text-align: center;
+  margin: 0;
 }
 
 .title-input {

@@ -39,6 +39,9 @@ const SessionSchema = new mongoose.Schema(
 				]
 			}
 		],
+		bodyweigth: {
+			type: String
+		},
 		notes: {
 			type: String
 		},
