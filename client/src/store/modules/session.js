@@ -96,6 +96,61 @@ const actions = {
 			commit("updateSessionData", params.newSession);
 		}
 	},
+	GET_SESSION: async ({ dispatch }, { params }) => {
+		const token = localStorage.getItem("token");
+		const query = {
+			query: `
+				query getSessionById($id: ID!) {
+					getSessionById(sessionId: $id) {
+						_id
+						title
+						sessionDate
+						exercises {
+							id
+							movements {
+								id
+								name
+								sets {
+									id
+									setQty
+									repsOrTime
+									weight
+								}
+							}
+						}
+						bodyweigth
+						notes
+					}
+				}
+			`,
+			variables: {
+				id: params.sessionId
+			}
+		};
+		try {
+			const res = await fetch(process.env.VUE_APP_API, {
+				method: "POST",
+				headers: {
+					"content-type": "application/json",
+					authorization: token
+				},
+				body: JSON.stringify(query)
+			});
+			const data = await res.json();
+			if (data.errors) {
+				const error = {
+					message: data.errors[0].message,
+					statusCode: data.errors[0].extensions.exception.statusCode
+				};
+				throw error;
+			}
+			const sessionData = data.data.getSessionById;
+			dispatch("SESSION_TRANSITION", { type: "SUCCESS", params: { sessionData } });
+		} catch (err) {
+			console.log(err);
+			dispatch("SESSION_TRANSITION", { type: "ERROR", params: { error: err } });
+		}
+	},
 	SAVE_SESSION: async ({ dispatch }, { params }) => {
 		const token = localStorage.getItem("token");
 		const query = {
@@ -160,7 +215,7 @@ const actions = {
 				}
 			`,
 			variables: {
-				id: params.sessionData._id
+				id: params.sessionId
 			}
 		};
 		try {

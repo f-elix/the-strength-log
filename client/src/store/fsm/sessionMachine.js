@@ -7,16 +7,22 @@ export const sessionMachine = Machine({
 		idle: {
 			entry: ["HIDE_LOADING"],
 			on: {
-				DISPLAY: {
-					target: "displaying",
-					actions: ["UPDATE_SESSION_DATA", "ROUTE_SESSION"]
-				},
-				EDIT: "editing",
-				CREATE: "creating"
+				DISPLAY: "fetchingSession",
+				CREATE: "creatingSession"
 			},
 			exit: ["SHOW_LOADING"]
 		},
-		creating: {
+		fetchingSession: {
+			entry: ["GET_SESSION"],
+			on: {
+				SUCCESS: {
+					target: "displaying",
+					actions: ["UPDATE_SESSION_DATA", "ROUTE_SESSION"]
+				},
+				ERROR: "idle"
+			}
+		},
+		creatingSession: {
 			entry: ["CREATE_SESSION"],
 			on: {
 				CREATED: {
@@ -26,11 +32,31 @@ export const sessionMachine = Machine({
 				ERROR: "idle"
 			}
 		},
+		savingSession: {
+			entry: ["SHOW_LOADING", "SAVE_SESSION"],
+			on: {
+				SUCCESS: {
+					target: "displaying",
+					actions: ["UPDATE_SESSION_DATA", "ROUTE_SESSION"]
+				},
+				ERROR: "editing"
+			}
+		},
+		deletingSession: {
+			entry: ["SHOW_LOADING", "DELETE_SESSION", "CLEAR_SESSION_DATA"],
+			on: {
+				SUCCESS: {
+					target: "idle",
+					actions: ["ROUTE_DASHBOARD"]
+				},
+				ERROR: "displaying"
+			}
+		},
 		displaying: {
 			entry: ["HIDE_LOADING"],
 			on: {
 				EDIT: "editing",
-				DELETE: "deleting",
+				DELETE: "deletingSession",
 				BACK_TO_DASHBOARD: {
 					target: "idle",
 					actions: ["CLEAR_SESSION_DATA", "ROUTE_DASHBOARD"]
@@ -44,35 +70,12 @@ export const sessionMachine = Machine({
 		editing: {
 			entry: ["EDIT_SESSION", "HIDE_LOADING"],
 			on: {
-				SAVE: "saving",
-				DISPLAY: {
-					target: "displaying",
-					actions: ["UPDATE_SESSION_DATA", "ROUTE_SESSION"]
-				},
-				DISCARD: "deleting",
+				SAVE: "savingSession",
+				DISCARD: "fetchingSession",
+				DELETE: "deletingSession",
 				BACK_TO_DASHBOARD: {
 					actions: ["ROUTE_DASHBOARD"]
 				}
-			}
-		},
-		saving: {
-			entry: ["SHOW_LOADING", "SAVE_SESSION"],
-			on: {
-				SUCCESS: {
-					target: "displaying",
-					actions: ["UPDATE_SESSION_DATA", "ROUTE_SESSION"]
-				},
-				ERROR: "editing"
-			}
-		},
-		deleting: {
-			entry: ["SHOW_LOADING", "DELETE_SESSION", "CLEAR_SESSION_DATA"],
-			on: {
-				SUCCESS: {
-					target: "idle",
-					actions: ["ROUTE_DASHBOARD"]
-				},
-				ERROR: "displaying"
 			}
 		}
 	}

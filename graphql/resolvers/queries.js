@@ -29,7 +29,7 @@ const queries = {
 		}
 	},
 	// SESSION QUERIES
-	getSessionByID: async (_, { sessionId }, { currentUser }) => {
+	getSessionById: async (_, { sessionId }, { currentUser }) => {
 		// Find session
 		const session = await Session.findById(sessionId).populate("creator");
 		if (!session) {

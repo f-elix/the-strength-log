@@ -83,30 +83,14 @@ export default {
 		getCurrentWeek() {
 			const query = {
 				query: `
-          query getCurrentWeek($fromDate: Date!, $toDate: Date!) {
-            getSessionsFromTo(fromDate: $fromDate, toDate: $toDate) {
-              _id
-              title
-              newSession
-              sessionDate
-              bodyweigth
-              notes
-              exercises {
-                id
-                movements {
-				  id
-                  name
-                  sets {
-                    id
-                    setQty
-                    repsOrTime
-                    weight
-                  }
-                }
-              }
-            }
-          }
-        `,
+					query getCurrentWeek($fromDate: Date!, $toDate: Date!) {
+						getSessionsFromTo(fromDate: $fromDate, toDate: $toDate) {
+							_id
+							title
+							sessionDate
+						}
+					}
+				`,
 				variables: {
 					fromDate: this.currentWeekDates.monday,
 					toDate: this.currentWeekDates.sunday

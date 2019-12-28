@@ -80,7 +80,7 @@ input SetInput {
 # ROOT
 type Query {
 	getUserData: User
-	getSessionByID(sessionId: ID!): Session
+	getSessionById(sessionId: ID!): Session
 	getSessionsByTitle(title: String!): [Session]
 	getSessionsFromTo(fromDate: Date!, toDate: Date!): [Session]
 	isAuth(token: String!): Boolean
