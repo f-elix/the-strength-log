@@ -215,8 +215,9 @@ export default {
 }
 
 .list__input {
-  transition: all 0.1s linear;
   margin-bottom: 0;
+  padding: 0.75rem 0;
+  transition: all 0.1s linear;
 }
 
 .list__input:focus {
