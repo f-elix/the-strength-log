@@ -52,6 +52,7 @@
       ></form-group>
       <!-- Bodyweigth input -->
       <form-group
+        class="bodyweigth-input"
         id="bodyweigth"
         name="bodyweigth"
         type="text"
@@ -230,12 +231,16 @@ export default {
   margin: 0;
 }
 
-.title-input {
-  flex-basis: 100%;
-}
-
 .date-input {
   max-width: 35%;
+}
+
+.title-input {
+  flex-basis: 70%;
+}
+
+.bodyweigth-input {
+  flex-basis: 25%;
 }
 
 .session-notes {
