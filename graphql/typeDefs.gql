@@ -26,15 +26,20 @@ type Session {
 
 type Exercise {
 	id: Int!
-	name: String!
+	movements: [Movement]
+}
+
+type Movement {
+	id: Int!
+	name: String
 	sets: [Set]
 }
 
 type Set {
 	id: Int!
-	setQty: Int!
-	repsOrTime: String!
-	weight: String!
+	setQty: Int
+	repsOrTime: String
+	weight: String
 }
 
 type AuthData {
@@ -56,7 +61,12 @@ input SessionInput {
 
 input ExerciseInput {
 	id: Int!
-	name: String!
+	movements: [MovementInput]
+}
+
+input MovementInput {
+	id: Int!
+	name: String
 	sets: [SetInput]
 }
 

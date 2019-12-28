@@ -16,25 +16,32 @@ const SessionSchema = new mongoose.Schema(
 					type: Number,
 					required: true
 				},
-				name: {
-					type: String,
-					required: true
-				},
-				sets: [
+				movements: [
 					{
 						id: {
 							type: Number,
 							required: true
 						},
-						setQty: {
-							type: Number
-						},
-						repsOrTime: {
+						name: {
 							type: String
 						},
-						weight: {
-							type: String
-						}
+						sets: [
+							{
+								id: {
+									type: Number,
+									required: true
+								},
+								setQty: {
+									type: Number
+								},
+								repsOrTime: {
+									type: String
+								},
+								weight: {
+									type: String
+								}
+							}
+						]
 					}
 				]
 			}

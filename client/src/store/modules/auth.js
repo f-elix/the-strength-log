@@ -103,7 +103,8 @@ const actions = {
 			query: `
       {
         getUserData {
-          name
+		  name,
+		  createdAt
         }
       }
     `

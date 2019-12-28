@@ -6,6 +6,7 @@ const User = require("../../models/User");
 const Session = require("../../models/Session");
 
 const queries = {
+	// USER QUERIES
 	getUserData: async (_, args, { currentUser }) => {
 		if (!currentUser) {
 			const error = new Error("Not authenticated");
@@ -19,6 +20,15 @@ const queries = {
 			updatedAt: user.updatedAt.toISOString().split("T")[0]
 		};
 	},
+	isAuth: async (_, { token }, {}) => {
+		try {
+			await jwt.verify(token, process.env.SECRET);
+			return true;
+		} catch (err) {
+			return false;
+		}
+	},
+	// SESSION QUERIES
 	getSessionByID: async (_, { sessionId }, { currentUser }) => {
 		// Find session
 		const session = await Session.findById(sessionId).populate("creator");
@@ -96,14 +106,6 @@ const queries = {
 				}
 			};
 		});
-	},
-	isAuth: async (_, { token }, {}) => {
-		try {
-			await jwt.verify(token, process.env.SECRET);
-			return true;
-		} catch (err) {
-			return false;
-		}
 	}
 };
 

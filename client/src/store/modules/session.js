@@ -18,24 +18,28 @@ const mutations = {
 	addExercise(state, newExercise) {
 		state.sessionData.exercises.push(newExercise);
 	},
-	removeExercise(state, exerciseId) {
+	deleteExercise(state, exerciseId) {
 		state.sessionData.exercises = state.sessionData.exercises.filter(exercise => {
 			return exercise.id !== exerciseId;
 		});
 	},
-	addSet(state, { newSet, exerciseId }) {
-		const exercise = state.sessionData.exercises.find(exercise => {
-			return exercise.id === exerciseId;
-		});
-		exercise.sets.push(newSet);
+	addMovement(state, { exerciseIndex, newMovement }) {
+		state.sessionData.exercises[exerciseIndex].movements.push(newMovement);
 	},
-	deleteSet(state, { exerciseId, setId }) {
-		const exercise = state.sessionData.exercises.find(exercise => {
-			return exercise.id === exerciseId;
+	deleteMovement(state, { exerciseIndex, movementId }) {
+		const filteredMovements = state.sessionData.exercises[exerciseIndex].movements.filter(movement => {
+			return movement.id !== movementId;
 		});
-		exercise.sets = exercise.sets.filter(set => {
+		state.sessionData.exercises[exerciseIndex].movements = filteredMovements;
+	},
+	addSet(state, { newSet, exerciseIndex, movementIndex }) {
+		state.sessionData.exercises[exerciseIndex].movements[movementIndex].sets.push(newSet);
+	},
+	deleteSet(state, { exerciseIndex, movementIndex, setId }) {
+		const filteredSets = state.sessionData.exercises[exerciseIndex].movements[movementIndex].sets.filter(set => {
 			return set.id !== setId;
 		});
+		state.sessionData.exercises[exerciseIndex].movements[movementIndex].sets = filteredSets;
 	}
 };
 
@@ -103,12 +107,15 @@ const actions = {
 						sessionDate
 						exercises {
 							id
-							name
-							sets {
+							movements {
 								id
-								setQty
-								repsOrTime
-								weight
+								name
+								sets {
+									id
+									setQty
+									repsOrTime
+									weight
+								}
 							}
 						}
 						bodyweigth
@@ -188,13 +195,40 @@ const actions = {
 		commit("clearSessionData");
 	},
 	ADD_EXERCISE: ({ state, commit }) => {
-		const id =
+		const exerciseId =
 			state.sessionData.exercises.length > 0
 				? state.sessionData.exercises[state.sessionData.exercises.length - 1].id + 1
 				: 1;
-		const setId = Number(`${id}1`);
+		const movementId = Number(`${exerciseId}1`);
+		const setId = Number(`${movementId}1`);
 		const newExercise = {
-			id,
+			id: exerciseId,
+			movements: [
+				{
+					id: movementId,
+					name: "",
+					sets: [
+						{
+							id: setId,
+							setQty: 1,
+							repsOrTime: "1",
+							weight: ""
+						}
+					]
+				}
+			]
+		};
+		commit("addExercise", newExercise);
+	},
+	DELETE_EXERCISE: ({ commit }, exerciseId) => {
+		commit("deleteExercise", exerciseId);
+	},
+	ADD_MOVEMENT: ({ state, commit }, exercise) => {
+		const movementSubId = Number(exercise.movements[exercise.movements.length - 1].id.toString().split("")[1]) + 1;
+		const movementId = Number(`${exercise.id}${movementSubId}`);
+		const setId = Number(`${movementId}1`);
+		const newMovement = {
+			id: movementId,
 			name: "",
 			sets: [
 				{
@@ -205,24 +239,32 @@ const actions = {
 				}
 			]
 		};
-		commit("addExercise", newExercise);
+		const exerciseIndex = state.sessionData.exercises.indexOf(exercise);
+		commit("addMovement", { exerciseIndex, newMovement });
 	},
-	REMOVE_EXERCISE: ({ commit }, exerciseId) => {
-		commit("removeExercise", exerciseId);
+	DELETE_MOVEMENT: ({ state, commit }, { exercise, movement }) => {
+		const exerciseIndex = state.sessionData.exercises.indexOf(exercise);
+		const movementId = movement.id;
+		commit("deleteMovement", { exerciseIndex, movementId });
 	},
-	ADD_SET: ({ commit }, exercise) => {
-		const id = Number(`${exercise.id}${+exercise.sets[exercise.sets.length - 1].id.toString().split("")[1] + 1}`);
+	ADD_SET: ({ state, commit }, { exercise, movement }) => {
+		const setSubId = Number(movement.sets[movement.sets.length - 1].id.toString().split("")[2]) + 1;
+		console.log(setSubId);
+		const id = Number(`${movement.id}${setSubId}`);
 		const newSet = {
 			id,
 			setQty: 1,
 			repsOrTime: "1",
 			weight: ""
 		};
-		const exerciseId = exercise.id;
-		commit("addSet", { newSet, exerciseId });
+		const movementIndex = exercise.movements.indexOf(movement);
+		const exerciseIndex = state.sessionData.exercises.indexOf(exercise);
+		commit("addSet", { newSet, exerciseIndex, movementIndex });
 	},
-	DELETE_SET: ({ commit }, { exerciseId, setId }) => {
-		commit("deleteSet", { exerciseId, setId });
+	DELETE_SET: ({ state, commit }, { movement, exercise, setId }) => {
+		const movementIndex = exercise.movements.indexOf(movement);
+		const exerciseIndex = state.sessionData.exercises.indexOf(exercise);
+		commit("deleteSet", { exerciseIndex, movementIndex, setId });
 	}
 };
 
