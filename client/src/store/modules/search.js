@@ -39,7 +39,7 @@ const getters = {
 		let date = new Date();
 		const monday = date.setDate(date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1));
 		date = new Date();
-		const sunday = date.setDate(date.getDate() - date.getDay() + 7);
+		const sunday = date.setDate(date.getDate() - date.getDay() + (date.getDay() === 0 ? 0 : 7));
 		return {
 			monday: new Date(monday).toISOString().split("T")[0],
 			sunday: new Date(sunday).toISOString().split("T")[0]
