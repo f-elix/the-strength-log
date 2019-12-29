@@ -12,6 +12,9 @@
 
 	/* Border radius */
 	--default-radius: 5px;
+
+	/* Box shadow */
+	--default-box-shadow: 0px 2px 4px var(--color-primary), 0px 2px 8px var(--color-primary);
 }
 
 html {

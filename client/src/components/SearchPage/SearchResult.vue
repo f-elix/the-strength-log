@@ -72,7 +72,7 @@ export default {
 	padding: 1.5rem 0.75rem;
 	background-color: var(--color-secondary);
 	border-radius: var(--default-radius);
-	box-shadow: 0 2px 3px 1px var(--color-primary);
+	box-shadow: var(--default-box-shadow);
 	font-weight: bold;
 	font-size: 1.5rem;
 }

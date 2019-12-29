@@ -19,12 +19,18 @@
 				color="dark-blue"
 				class="app-btn"
 				@click.native="goToSession"
-				>{{
-					sessionState.matches("editing")
-						? "Finish editing session..."
-						: "New session"
-				}}</app-btn
+				v-if="sessionState.matches('editing')"
+				>Finish editing session...</app-btn
 			>
+			<app-btn
+				color="dark-blue"
+				class="new-session-btn"
+				aria-roledescription="Create new session"
+				@click.native="goToSession"
+				v-if="!sessionState.matches('editing')"
+			>
+				<span class="add-icon"></span>
+			</app-btn>
 			<!-- View current week btn -->
 			<app-btn class="app-btn" @click.native="getCurrentWeek"
 				>View Current Week</app-btn
@@ -42,9 +48,9 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 
 // Components
+import AppBtn from "../components/utils/AppBtn";
 import SearchByDateForm from "../components/DashboardPage/SearchByDateForm";
 import SearchByNameForm from "../components/DashboardPage/SearchByNameForm";
-import AppBtn from "../components/utils/AppBtn";
 
 export default {
 	components: {
@@ -138,6 +144,39 @@ export default {
 
 .log-title {
 	margin: 0;
+}
+
+.new-session-btn {
+	position: fixed;
+	bottom: 5%;
+	right: 5%;
+	width: 4.5rem;
+	height: 4.5rem;
+	border-radius: 50%;
+	border: none;
+	box-shadow: 2px 4px 8px var(--color-primary);
+}
+
+.add-icon {
+	position: relative;
+	display: block;
+	width: 100%;
+}
+
+.add-icon::before,
+.add-icon::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 70%;
+	height: 3px;
+	background-color: var(--color-secondary);
+}
+
+.add-icon::before {
+	transform: translate(-50%, -50%) rotate(90deg);
 }
 
 .app-btn {
