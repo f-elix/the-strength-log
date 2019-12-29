@@ -19,8 +19,12 @@
 					"
 				>
 					<div class="session-info">
-						<span>{{ session.sessionDate }}</span>
-						<span>{{ session.title }}</span>
+						<span class="session-info__date">{{
+							session.sessionDate
+						}}</span>
+						<span class="session-info__title">{{
+							session.title
+						}}</span>
 					</div>
 				</div>
 			</li>
@@ -63,7 +67,7 @@ export default {
 
 .session-info {
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-around;
 	align-items: center;
 	padding: 1.5rem 0.75rem;
 	background-color: var(--color-secondary);
@@ -79,5 +83,14 @@ export default {
 
 .session-info:active {
 	box-shadow: inset 0 1px 3px 1px var(--color-primary);
+}
+
+.session-info__date {
+	flex-basis: 30%;
+}
+
+.session-info__title {
+	flex-basis: 60%;
+	text-align: center;
 }
 </style>
