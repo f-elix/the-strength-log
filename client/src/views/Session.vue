@@ -112,7 +112,7 @@
 				@click.native="
 					SESSION_TRANSITION({
 						type: 'DELETE',
-						params: { sessionData }
+						params: { sessionId: sessionData._id }
 					})
 				"
 				>Delete</app-btn
