@@ -170,8 +170,9 @@ export default {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 70%;
-	height: 3px;
+	width: 60%;
+	height: 4px;
+	border-radius: var(--default-radius);
 	background-color: var(--color-secondary);
 }
 
