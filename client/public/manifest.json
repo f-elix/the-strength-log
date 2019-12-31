@@ -6,7 +6,7 @@
 	"orientation": "portrait-primary",
 	"start_url": "/",
 	"scope": ".",
-	"display": "fullscreen",
+	"display": "minimal-ui",
 	"dir": "ltr",
 	"description": "Log your training, get the results.",
 	"lang": "en-US",
