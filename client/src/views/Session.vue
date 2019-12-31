@@ -53,6 +53,7 @@
 				labelText="Session Title"
 				v-model="sessionData.title"
 				autofocus="true"
+				autoselect="true"
 				v-if="state.matches('editing')"
 			></form-group>
 			<!-- Bodyweigth input -->

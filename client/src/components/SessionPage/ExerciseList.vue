@@ -102,6 +102,7 @@
 							v-model="set.setQty"
 							:id="`setQty${set.id}`"
 							:name="`setQty${set.id}`"
+							autoselect="true"
 						></app-input>
 						<!-- Reps -->
 						<app-input
@@ -110,6 +111,7 @@
 							v-model="set.repsOrTime"
 							:id="`repsOrTime${set.id}`"
 							:name="`repsOrTime${set.id}`"
+							autoselect="true"
 						></app-input>
 						<!-- Weigth -->
 						<app-input
