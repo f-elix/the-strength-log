@@ -77,8 +77,10 @@ export default {
 	font-size: 1.5rem;
 }
 
-.session-info:hover {
-	background-color: var(--color-darkgrey);
+@media screen and (min-width: 1024px) {
+	.session-info:hover {
+		background-color: var(--color-darkgrey);
+	}
 }
 
 .session-info:active {

@@ -1,6 +1,10 @@
 <template>
 	<div class="exercise-list">
-		<div class="list__ctn" v-if="exercises.length">
+		<div
+			class="list__ctn"
+			v-if="exercises.length"
+			:class="{ 'border-bottom': state.matches('displaying') }"
+		>
 			<!-- List header -->
 			<div class="list__header">
 				<div class="list__header--exercise">Exercise</div>
@@ -45,83 +49,89 @@
 					v-for="movement in exercise.movements"
 					:key="movement.id"
 				>
-					<div class="list__name-input-ctn">
-						<!-- Delete movement btn -->
-						<app-btn
-							aria-roledescription="Delete set"
-							type="button"
-							class="delete-btn"
-							v-if="
-								Number(movement.id.toString().split('')[1]) > 1
-							"
-							@click.native="
-								DELETE_MOVEMENT({
-									exercise,
-									movement
-								})
-							"
-						></app-btn>
-						<!-- Name input -->
-						<app-input
-							class="list__input"
-							type="text"
-							v-model="movement.name"
-							:id="`movement${movement.id}`"
-							:name="`movement${movement.id}`"
-							autofocus="true"
-						></app-input>
-					</div>
-					<!-- Sets -->
-					<div
-						class="list__set--editing"
-						:class="{
-							'list__set--additional':
-								Number(set.id.toString().split('')[2]) > 1
-						}"
-						v-for="set in movement.sets"
-						:key="set.id"
-					>
-						<!-- Delete set btn -->
-						<app-btn
-							aria-roledescription="Delete set"
-							type="button"
-							class="delete-btn"
-							v-if="Number(set.id.toString().split('')[2]) > 1"
-							@click.native="
-								DELETE_SET({
-									exercise,
-									movement,
-									setId: set.id
-								})
-							"
-						></app-btn>
-						<!-- Set qty -->
-						<app-input
-							class="list__input"
-							type="number"
-							v-model="set.setQty"
-							:id="`setQty${set.id}`"
-							:name="`setQty${set.id}`"
-							autoselect="true"
-						></app-input>
-						<!-- Reps -->
-						<app-input
-							class="list__input"
-							type="text"
-							v-model="set.repsOrTime"
-							:id="`repsOrTime${set.id}`"
-							:name="`repsOrTime${set.id}`"
-							autoselect="true"
-						></app-input>
-						<!-- Weigth -->
-						<app-input
-							class="list__input"
-							type="text"
-							v-model="set.weight"
-							:id="`weight${set.id}`"
-							:name="`weight${set.id}`"
-						></app-input>
-					</div>
+					<form class="list__form">
+						<div class="list__name-input-ctn">
+							<!-- Delete movement btn -->
+							<app-btn
+								aria-roledescription="Delete set"
+								type="button"
+								class="delete-btn"
+								v-if="
+									Number(
+										movement.id.toString().split('')[1]
+									) > 1
+								"
+								@click.native="
+									DELETE_MOVEMENT({
+										exercise,
+										movement
+									})
+								"
+							></app-btn>
+							<!-- Name input -->
+							<app-input
+								class="list__input"
+								type="text"
+								v-model="movement.name"
+								:id="`movement${movement.id}`"
+								:name="`movement${movement.id}`"
+								autofocus="true"
+							></app-input>
+						</div>
+						<!-- Sets -->
+						<div
+							class="list__set--editing"
+							:class="{
+								'list__set--additional':
+									Number(set.id.toString().split('')[2]) > 1
+							}"
+							v-for="set in movement.sets"
+							:key="set.id"
+						>
+							<!-- Delete set btn -->
+							<app-btn
+								aria-roledescription="Delete set"
+								type="button"
+								class="delete-btn"
+								v-if="
+									Number(set.id.toString().split('')[2]) > 1
+								"
+								@click.native="
+									DELETE_SET({
+										exercise,
+										movement,
+										setId: set.id
+									})
+								"
+							></app-btn>
+							<!-- Set qty -->
+							<app-input
+								class="list__input"
+								type="number"
+								v-model="set.setQty"
+								:id="`setQty${set.id}`"
+								:name="`setQty${set.id}`"
+								autoselect="true"
+							></app-input>
+							<!-- Reps -->
+							<app-input
+								class="list__input"
+								type="text"
+								v-model="set.repsOrTime"
+								:id="`repsOrTime${set.id}`"
+								:name="`repsOrTime${set.id}`"
+								autoselect="true"
+							></app-input>
+							<!-- Weigth -->
+							<app-input
+								class="list__input"
+								type="text"
+								v-model="set.weight"
+								:id="`weight${set.id}`"
+								:name="`weight${set.id}`"
+							></app-input>
+						</div>
+					</form>
 					<!-- Add set btn -->
 					<app-btn
 						type="button"
@@ -198,13 +208,18 @@ export default {
 .list__ctn,
 .list__header,
 .list__row,
-.list__movement {
+.list__movement,
+.list__form {
 	display: grid;
 	grid-template-columns: 1fr repeat(3, 20%);
 }
 
 .list__ctn {
 	grid-template-rows: 2.25rem repeat(autofit, 1.5rem);
+}
+
+.border-bottom {
+	border-bottom: 1px solid var(--color-primary);
 }
 
 .list__header {
@@ -235,7 +250,8 @@ export default {
 
 .list__row,
 .list__row--editing,
-.list__movement {
+.list__movement,
+.list__form {
 	grid-column: 1 / 5;
 }
 
@@ -252,7 +268,8 @@ export default {
 	grid-column: 1 / 2;
 }
 
-.list__movement {
+.list__movement,
+.list__form {
 	grid-gap: 0.25rem;
 }
 
