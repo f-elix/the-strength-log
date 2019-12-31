@@ -1,8 +1,8 @@
 {
 	"name": "The Strength Log",
 	"short_name": "TSL",
-	"theme_color": "#f8f8f8",
-	"background_color": "#111111",
+	"theme_color": "#111111",
+	"background_color": "#f8f8f8",
 	"orientation": "portrait-primary",
 	"start_url": "/",
 	"scope": ".",
