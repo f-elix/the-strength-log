@@ -55,6 +55,7 @@ export const sessionMachine = Machine({
 		displaying: {
 			entry: ["HIDE_LOADING"],
 			on: {
+				DISPLAY: "fetchingSession",
 				EDIT: "editing",
 				DELETE: "deletingSession",
 				BACK_TO_DASHBOARD: {
