@@ -5,7 +5,7 @@
 			<!-- Button container -->
 			<div
 				class="btn-ctn btn-ctn--header"
-				:class="{ 'btn-ctn--margin': state.matches('editing') }"
+				v-if="state.matches('displaying')"
 			>
 				<!-- back to menu btn -->
 				<app-btn
@@ -23,10 +23,7 @@
 				<!-- back to search btn -->
 				<app-btn
 					class="back-to-search-btn"
-					v-if="
-						state.matches('displaying') &&
-							searchState.matches('success')
-					"
+					v-if="searchState.matches('success')"
 					@click.native="
 						SESSION_TRANSITION({ type: 'BACK_TO_SEARCH' })
 					"
@@ -34,16 +31,6 @@
 					Back to results
 				</app-btn>
 			</div>
-			<!-- Date input -->
-			<form-group
-				class="date-input"
-				id="date"
-				name="date"
-				type="date"
-				labelText="Session Date"
-				v-model="sessionData.sessionDate"
-				v-if="state.matches('editing')"
-			></form-group>
 			<!-- Title input -->
 			<form-group
 				class="title-input"
@@ -54,6 +41,16 @@
 				v-model="sessionData.title"
 				autofocus="true"
 				autoselect="true"
+				v-if="state.matches('editing')"
+			></form-group>
+			<!-- Date input -->
+			<form-group
+				class="date-input"
+				id="date"
+				name="date"
+				type="date"
+				labelText="Session Date"
+				v-model="sessionData.sessionDate"
 				v-if="state.matches('editing')"
 			></form-group>
 			<!-- Bodyweigth input -->
@@ -192,8 +189,6 @@ export default {
 	padding: 1.5rem 0;
 	display: flex;
 	flex-direction: column;
-	/* background-color: var(--color-primary);
-  color: var(--color-secondary); */
 }
 
 .session-header {
@@ -214,10 +209,6 @@ export default {
 
 .btn-ctn--header {
 	flex-basis: 60%;
-}
-
-.btn-ctn--margin {
-	margin-bottom: 4.5rem;
 }
 
 .menu-btn,
@@ -246,16 +237,13 @@ export default {
 	margin: 0;
 }
 
+.bodyweigth-input,
 .date-input {
-	max-width: 35%;
+	flex-basis: 48%;
 }
 
 .title-input {
-	flex-basis: 70%;
-}
-
-.bodyweigth-input {
-	flex-basis: 25%;
+	flex-basis: 100%;
 }
 
 .session-notes {

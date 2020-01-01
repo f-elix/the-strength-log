@@ -17,13 +17,6 @@
 			<!-- New session btn -->
 			<app-btn
 				color="dark-blue"
-				class="app-btn"
-				@click.native="goToSession"
-				v-if="sessionState.matches('editing')"
-				>Finish editing session...</app-btn
-			>
-			<app-btn
-				color="dark-blue"
 				class="new-session-btn"
 				aria-roledescription="Create new session"
 				@click.native="goToSession"
