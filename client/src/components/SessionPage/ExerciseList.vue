@@ -2,7 +2,7 @@
 	<div class="exercise-list">
 		<div
 			class="list__ctn"
-			v-if="exercises.length"
+			v-if="exercises && exercises.length"
 			:class="{ 'border-bottom': state.matches('displaying') }"
 		>
 			<!-- List header -->
