@@ -28,6 +28,10 @@
 			<app-btn class="app-btn" @click.native="getCurrentWeek"
 				>View Current Week</app-btn
 			>
+			<!-- View last week btn -->
+			<app-btn class="app-btn" @click.native="getLastWeek"
+				>View Last Week</app-btn
+			>
 			<!-- Search by date form -->
 			<search-by-date-form />
 			<!-- Search by session name form -->
@@ -60,7 +64,7 @@ export default {
 			sessionState: state => state.session.currentState,
 			sessionData: state => state.session.sessionData
 		}),
-		...mapGetters(["currentWeekDates"])
+		...mapGetters(["currentWeekDates", "lastWeekDates"])
 	},
 	methods: {
 		...mapActions([
@@ -93,6 +97,27 @@ export default {
 				variables: {
 					fromDate: this.currentWeekDates.monday,
 					toDate: this.currentWeekDates.sunday
+				}
+			};
+			this.SEARCH_TRANSITION({
+				type: "SEARCH",
+				params: { query, queryName: "getSessionsFromTo" }
+			});
+		},
+		getLastWeek() {
+			const query = {
+				query: `
+					query getLastWeek($fromDate: Date!, $toDate: Date!) {
+						getSessionsFromTo(fromDate: $fromDate, toDate: $toDate) {
+							_id
+							title
+							sessionDate
+						}
+					}
+				`,
+				variables: {
+					fromDate: this.lastWeekDates.monday,
+					toDate: this.lastWeekDates.sunday
 				}
 			};
 			this.SEARCH_TRANSITION({
