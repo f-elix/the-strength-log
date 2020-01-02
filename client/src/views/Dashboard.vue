@@ -32,10 +32,8 @@
 			<app-btn class="app-btn" @click.native="getLastWeek"
 				>View Last Week</app-btn
 			>
-			<!-- Search by date form -->
-			<search-by-date-form />
-			<!-- Search by session name form -->
-			<search-by-name-form />
+			<!-- Search form -->
+			<search-form />
 		</div>
 	</div>
 </template>
@@ -46,14 +44,12 @@ import { mapState, mapActions, mapGetters } from "vuex";
 
 // Components
 import AppBtn from "../components/utils/AppBtn";
-import SearchByDateForm from "../components/DashboardPage/SearchByDateForm";
-import SearchByNameForm from "../components/DashboardPage/SearchByNameForm";
+import SearchForm from "../components/DashboardPage/SearchForm";
 
 export default {
 	components: {
 		AppBtn,
-		SearchByDateForm,
-		SearchByNameForm
+		SearchForm
 	},
 	data() {
 		return {};

@@ -31,14 +31,14 @@ const queries = {
 	// SESSION QUERIES
 	getSessionById: async (_, { sessionId }, { currentUser }) => {
 		// Find session
-		const session = await Session.findById(sessionId).populate("creator");
+		const session = await Session.findById(sessionId);
 		if (!session) {
 			const error = new Error("Session not found.");
 			error.statusCode = 404;
 			throw error;
 		}
 		// Validate user
-		if (session.creator._id.toString() !== currentUser.userId) {
+		if (session.creator.toString() !== currentUser.userId) {
 			const error = new Error("Not authorized.");
 			error.statusCode = 403;
 			throw error;
@@ -51,6 +51,28 @@ const queries = {
 			updatedAt: session.updatedAt.toISOString().split("T")[0]
 		};
 	},
+	getSessionsByDate: async (_, { sessionDate }, { currentUser }) => {
+		// Find user
+		const user = await User.findById(currentUser.userId).populate("log");
+		if (!user) {
+			const error = new Error("Not authenticated");
+			error.statusCode = 401;
+			throw error;
+		}
+		// Find sessions in user log
+		const sessions = user.log.filter(session => {
+			return session.sessionDate.getTime() === sessionDate.getTime();
+		});
+		// Return session
+		return sessions.map(session => {
+			return {
+				...session._doc,
+				_id: session._id.toString(),
+				createdAt: session.createdAt.toISOString().split("T")[0],
+				updatedAt: session.updatedAt.toISOString().split("T")[0]
+			};
+		});
+	},
 	getSessionsByTitle: async (_, { title }, { currentUser }) => {
 		// Find user by ID and populate user's log
 		const user = await User.findById(currentUser.userId).populate("log");
@@ -61,7 +83,7 @@ const queries = {
 		}
 		// Filter log by title
 		const filteredSessions = user.log.filter(session => {
-			return session.title.includes(title);
+			return session.title.toLowerCase().includes(title.toLowerCase());
 		});
 		// Return filtered array of sessions
 		return filteredSessions.map(session => {
@@ -69,13 +91,7 @@ const queries = {
 				...session._doc,
 				_id: session._id.toString(),
 				createdAt: session.createdAt.toISOString().split("T")[0],
-				updatedAt: session.updatedAt.toISOString().split("T")[0],
-				creator: {
-					...user._doc,
-					_id: session._id.toString(),
-					createdAt: session.createdAt.toISOString().split("T")[0],
-					updatedAt: session.updatedAt.toISOString().split("T")[0]
-				}
+				updatedAt: session.updatedAt.toISOString().split("T")[0]
 			};
 		});
 	},
@@ -97,13 +113,7 @@ const queries = {
 				...session._doc,
 				_id: session._id.toString(),
 				createdAt: session.createdAt.toISOString().split("T")[0],
-				updatedAt: session.updatedAt.toISOString().split("T")[0],
-				creator: {
-					...user._doc,
-					_id: session._id.toString(),
-					createdAt: session.createdAt.toISOString().split("T")[0],
-					updatedAt: session.updatedAt.toISOString().split("T")[0]
-				}
+				updatedAt: session.updatedAt.toISOString().split("T")[0]
 			};
 		});
 	}

@@ -1,29 +1,14 @@
 <template>
-	<search-form @submit="searchByDate" formTitle="Search log by dates">
-		<!-- From date -->
-		<form-group
-			type="date"
-			labelText="From"
-			name="fromDate"
-			id="fromDate"
-			:isInvalid="!isDatesValid"
-			v-model="fromDate"
-		></form-group>
-		<!-- To date -->
+	<form @submit.prevent="searchByDate">
 		<form-group
 			type="date"
 			labelText="To"
-			name="toDate"
-			id="toDate"
-			:isInvalid="!isDatesValid"
-			v-model="toDate"
+			name="date"
+			id="date"
+			v-model="date"
 		></form-group>
-		<transition name="error">
-			<error-message v-if="!isDatesValid" class="text-center"
-				>The second date must be later than the first</error-message
-			>
-		</transition>
-	</search-form>
+		<app-btn class="app-btn" type="submit">Search</app-btn>
+	</form>
 </template>
 
 <script>
@@ -31,58 +16,41 @@
 import { mapActions } from "vuex";
 
 // Components
-import SearchForm from "./SearchForm";
 import FormGroup from "../utils/forms/FormGroup";
 import AppBtn from "../utils/AppBtn";
-import ErrorMessage from "../utils/forms/ErrorMessage";
 
 export default {
 	components: {
-		SearchForm,
 		FormGroup,
-		AppBtn,
-		ErrorMessage
+		AppBtn
 	},
 	data() {
 		return {
-			fromDate: null,
-			toDate: null,
-			fromToQuery: {
+			date: null,
+			dateQuery: {
 				query: `
-          query getCurrentWeek($fromDate: Date!, $toDate: Date!) {
-            getSessionsFromTo(fromDate: $fromDate, toDate: $toDate) {
-              _id
-              title
-              sessionDate
-            }
-          }
-        `
+                    query searchByDate($date: Date!) {
+                        getSessionsByDate(sessionDate: $date) {
+                        _id
+                        title
+                        sessionDate
+                        }
+                    }
+                `
 			}
 		};
-	},
-	computed: {
-		isDatesValid() {
-			if (this.fromDate && this.toDate) {
-				return this.fromDate < this.toDate;
-			} else {
-				return true;
-			}
-		}
 	},
 	methods: {
 		...mapActions(["SEARCH_TRANSITION"]),
 		searchByDate() {
-			if (!this.isDatesValid) {
-				return;
-			}
-			const query = this.fromToQuery;
+			console.log(this.date);
+			const query = this.dateQuery;
 			query.variables = {
-				fromDate: this.fromDate,
-				toDate: this.toDate
+				date: this.date
 			};
 			this.SEARCH_TRANSITION({
 				type: "SEARCH",
-				params: { query, queryName: "getSessionsFromTo" }
+				params: { query, queryName: "getSessionsByDate" }
 			});
 		}
 	}
@@ -90,15 +58,9 @@ export default {
 </script>
 
 <style scoped>
-/* Vue transitions */
-.error-enter,
-.error-leave-to {
-	opacity: 0;
-	transform: translateY(10px);
-}
-
-.error-enter-active,
-.error-leave-active {
-	transition: all 0.2s;
+.app-btn {
+	width: 90%;
+	margin: 0 1.5rem;
+	background-color: var(--color-secondary);
 }
 </style>

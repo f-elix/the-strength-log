@@ -1,13 +1,14 @@
 <template>
-	<search-form @submit="searchByName" formTitle="Search log by session name"
-		><form-group
+	<form @submit.prevent="searchByName">
+		<form-group
 			type="search"
 			name="sessionName"
 			id="sessionName"
 			v-model="sessionName"
 			labelText="Session Name"
-		></form-group
-	></search-form>
+		></form-group>
+		<app-btn class="app-btn" type="submit">Search</app-btn>
+	</form>
 </template>
 
 <script>
@@ -15,13 +16,11 @@
 import { mapActions } from "vuex";
 
 // Components
-import SearchForm from "./SearchForm";
 import FormGroup from "../utils/forms/FormGroup";
 import AppBtn from "../utils/AppBtn";
 
 export default {
 	components: {
-		SearchForm,
 		FormGroup,
 		AppBtn
 	},
@@ -30,7 +29,7 @@ export default {
 			sessionName: null,
 			titleQuery: {
 				query: `
-          query getByTitle($title: String!) {
+          query searchByTitle($title: String!) {
             getSessionsByTitle(title: $title) {
               _id
               title
@@ -61,4 +60,9 @@ export default {
 </script>
 
 <style scoped>
+.app-btn {
+	width: 90%;
+	margin: 0 1.5rem;
+	background-color: var(--color-secondary);
+}
 </style>
