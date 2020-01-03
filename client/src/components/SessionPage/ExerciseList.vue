@@ -1,166 +1,184 @@
 <template>
 	<div class="exercise-list">
-		<div
-			class="list__ctn"
-			v-if="exercises && exercises.length"
-			:class="{ 'border-bottom': state.matches('displaying') }"
-		>
-			<!-- List header -->
-			<div class="list__header">
-				<div class="list__header--exercise">Exercise</div>
-				<div class="list__header--sets">Set(s)</div>
-				<div class="list__header--reps">Rep(s)/<br />Time</div>
-				<div class="list__header--weigth">Weigth</div>
-			</div>
-			<!-- List exercises (display) -->
+		<transition name="exercise">
 			<div
-				class="list__row"
-				v-for="exercise in exercises"
-				:key="exercise.id"
-				v-if="state.matches('displaying')"
+				class="list__ctn"
+				v-if="exercises && exercises.length"
+				:class="{ 'border-bottom': state.matches('displaying') }"
 			>
-				<div
-					class="list__movement"
-					v-for="movement in exercise.movements"
-					:key="movement.id"
-				>
-					<div class="list__movement-name">{{ movement.name }}</div>
-					<div
-						class="list__set"
-						v-for="set in movement.sets"
-						:key="set.id"
-					>
-						<div>{{ set.setQty }}</div>
-						<div>{{ set.repsOrTime }}</div>
-						<div>{{ set.weight }}</div>
-					</div>
+				<!-- List header -->
+				<div class="list__header">
+					<div class="list__header--exercise">Exercise</div>
+					<div class="list__header--sets">Set(s)</div>
+					<div class="list__header--reps">Rep(s)/<br />Time</div>
+					<div class="list__header--weigth">Weigth</div>
 				</div>
-			</div>
-			<!-- List exercises (editing) -->
-			<div
-				class="list__row--editing"
-				v-for="exercise in exercises"
-				:key="exercise.id"
-				v-if="state.matches('editing')"
-			>
-				<!-- Movements -->
+				<!-- List exercises (display) -->
 				<div
-					class="list__movement"
-					v-for="movement in exercise.movements"
-					:key="movement.id"
+					class="list__row"
+					v-for="exercise in exercises"
+					:key="exercise.id"
+					v-if="state.matches('displaying')"
 				>
-					<form class="list__form">
-						<div class="list__name-input-ctn">
-							<!-- Delete movement btn -->
-							<app-btn
-								aria-roledescription="Delete set"
-								type="button"
-								class="delete-btn"
-								v-if="
-									Number(
-										movement.id.toString().split('')[1]
-									) > 1
-								"
-								@click.native="
-									DELETE_MOVEMENT({
-										exercise,
-										movement
-									})
-								"
-							></app-btn>
-							<!-- Name input -->
-							<app-input
-								class="list__input"
-								type="text"
-								v-model="movement.name"
-								:id="`movement${movement.id}`"
-								:name="`movement${movement.id}`"
-								autofocus="true"
-							></app-input>
+					<div
+						class="list__movement"
+						v-for="movement in exercise.movements"
+						:key="movement.id"
+					>
+						<div class="list__movement-name">
+							{{ movement.name }}
 						</div>
-						<!-- Sets -->
 						<div
-							class="list__set--editing"
-							:class="{
-								'list__set--additional':
-									Number(set.id.toString().split('')[2]) > 1
-							}"
+							class="list__set"
 							v-for="set in movement.sets"
 							:key="set.id"
 						>
-							<!-- Delete set btn -->
-							<app-btn
-								aria-roledescription="Delete set"
-								type="button"
-								class="delete-btn"
-								v-if="
-									Number(set.id.toString().split('')[2]) > 1
-								"
-								@click.native="
-									DELETE_SET({
-										exercise,
-										movement,
-										setId: set.id
-									})
-								"
-							></app-btn>
-							<!-- Set qty -->
-							<app-input
-								class="list__input"
-								type="number"
-								v-model="set.setQty"
-								:id="`setQty${set.id}`"
-								:name="`setQty${set.id}`"
-								autoselect="true"
-							></app-input>
-							<!-- Reps -->
-							<app-input
-								class="list__input"
-								type="text"
-								v-model="set.repsOrTime"
-								:id="`repsOrTime${set.id}`"
-								:name="`repsOrTime${set.id}`"
-								autoselect="true"
-							></app-input>
-							<!-- Weigth -->
-							<app-input
-								class="list__input"
-								type="text"
-								v-model="set.weight"
-								:id="`weight${set.id}`"
-								:name="`weight${set.id}`"
-							></app-input>
+							<div>{{ set.setQty }}</div>
+							<div>{{ set.repsOrTime }}</div>
+							<div>{{ set.weight }}</div>
 						</div>
-					</form>
-					<!-- Add set btn -->
-					<app-btn
-						type="button"
-						class="add-set-btn"
-						color="dark-blue"
-						@click.native="ADD_SET({ exercise, movement })"
-						>Add Set</app-btn
-					>
+					</div>
 				</div>
-				<div class="exercise-btn-ctn">
-					<!-- Remove exercise btn -->
-					<app-btn
-						type="button"
-						color="red"
-						class="remove-exercise-btn"
-						@click.native="DELETE_EXERCISE(exercise.id)"
-						>Remove</app-btn
+				<!-- List exercises (editing) -->
+				<transition-group
+					name="exercise"
+					mode="out-in"
+					tag="div"
+					class="list__row--editing"
+				>
+					<div
+						class="list__row--editing"
+						v-for="exercise in exercises"
+						:key="exercise.id"
+						v-if="state.matches('editing')"
 					>
-					<!-- Add movement btn -->
-					<app-btn
-						type="button"
-						class="add-movement-btn"
-						color="dark-blue"
-						@click.native="ADD_MOVEMENT(exercise)"
-						>Add Movement</app-btn
-					>
-				</div>
+						<!-- Movements -->
+						<div
+							class="list__movement"
+							v-for="movement in exercise.movements"
+							:key="movement.id"
+						>
+							<form class="list__form">
+								<div class="list__name-input-ctn">
+									<!-- Delete movement btn -->
+									<app-btn
+										aria-roledescription="Delete set"
+										type="button"
+										class="delete-btn"
+										v-if="
+											Number(
+												movement.id
+													.toString()
+													.split('')[1]
+											) > 1
+										"
+										@click.native="
+											DELETE_MOVEMENT({
+												exercise,
+												movement
+											})
+										"
+									></app-btn>
+									<!-- Name input -->
+									<app-input
+										class="list__input"
+										type="text"
+										v-model="movement.name"
+										:id="`movement${movement.id}`"
+										:name="`movement${movement.id}`"
+										autofocus="true"
+									></app-input>
+								</div>
+								<!-- Sets -->
+								<div
+									class="list__set--editing"
+									:class="{
+										'list__set--additional':
+											Number(
+												set.id.toString().split('')[2]
+											) > 1
+									}"
+									v-for="set in movement.sets"
+									:key="set.id"
+								>
+									<!-- Delete set btn -->
+									<app-btn
+										aria-roledescription="Delete set"
+										type="button"
+										class="delete-btn"
+										v-if="
+											Number(
+												set.id.toString().split('')[2]
+											) > 1
+										"
+										@click.native="
+											DELETE_SET({
+												exercise,
+												movement,
+												setId: set.id
+											})
+										"
+									></app-btn>
+									<!-- Set qty -->
+									<app-input
+										class="list__input"
+										type="number"
+										v-model="set.setQty"
+										:id="`setQty${set.id}`"
+										:name="`setQty${set.id}`"
+										autoselect="true"
+									></app-input>
+									<!-- Reps -->
+									<app-input
+										class="list__input"
+										type="text"
+										v-model="set.repsOrTime"
+										:id="`repsOrTime${set.id}`"
+										:name="`repsOrTime${set.id}`"
+										autoselect="true"
+									></app-input>
+									<!-- Weigth -->
+									<app-input
+										class="list__input"
+										type="text"
+										v-model="set.weight"
+										:id="`weight${set.id}`"
+										:name="`weight${set.id}`"
+									></app-input>
+								</div>
+							</form>
+							<!-- Add set btn -->
+							<app-btn
+								type="button"
+								class="add-set-btn"
+								color="dark-blue"
+								@click.native="ADD_SET({ exercise, movement })"
+								>Add Set</app-btn
+							>
+						</div>
+						<div class="exercise-btn-ctn">
+							<!-- Remove exercise btn -->
+							<app-btn
+								type="button"
+								color="red"
+								class="remove-exercise-btn"
+								@click.native="DELETE_EXERCISE(exercise.id)"
+								>Remove</app-btn
+							>
+							<!-- Add movement btn -->
+							<app-btn
+								type="button"
+								class="add-movement-btn"
+								color="dark-blue"
+								@click.native="ADD_MOVEMENT(exercise)"
+								>Add Movement</app-btn
+							>
+						</div>
+					</div>
+				</transition-group>
 			</div>
-		</div>
+		</transition>
+
 		<!-- Add exercise btn -->
 		<app-btn
 			type="button"
@@ -363,5 +381,21 @@ export default {
 .add-exercise-btn {
 	margin: 1.5rem auto;
 	width: 90%;
+}
+
+/* Vue transitions */
+.exercise-enter {
+	opacity: 0;
+	transform: translateY(3rem);
+}
+
+.exercise-leave-to {
+	opacity: 0;
+	transform: translateY(3rem);
+}
+
+.exercise-enter-active,
+.exercise-leave-active {
+	transition: opacity 0.15s, transform 0.2s ease;
 }
 </style>

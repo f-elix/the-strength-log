@@ -14,9 +14,11 @@
 			</select>
 		</div>
 		<div class="form__inputs">
-			<search-by-date-form v-if="searchType === 'date'" />
-			<search-by-period-form v-if="searchType === 'time period'" />
-			<search-by-name-form v-if="searchType === 'session name'" />
+			<transition name="search-form" mode="out-in">
+				<search-by-date-form v-if="searchType === 'date'" />
+				<search-by-period-form v-if="searchType === 'time period'" />
+				<search-by-name-form v-if="searchType === 'session name'" />
+			</transition>
 		</div>
 	</div>
 </template>
@@ -48,11 +50,13 @@ export default {
 
 <style scoped>
 .form {
+	min-height: 400px;
 	margin: 1.5rem auto;
 	padding-bottom: 1.5rem;
 	border-radius: 5px;
 	box-shadow: var(--default-box-shadow);
 	background-color: var(--color-lightgrey);
+	overflow: hidden;
 }
 
 .form__title {
@@ -88,5 +92,21 @@ export default {
 
 .form__inputs /deep/ input {
 	background-color: var(--color-lightgrey);
+}
+
+/* Vue transitions */
+.search-form-enter {
+	opacity: 0;
+	transform: translateX(-6rem);
+}
+
+.search-form-leave-to {
+	opacity: 0;
+	transform: translateX(6rem);
+}
+
+.search-form-enter-active,
+.search-form-leave-active {
+	transition: opacity 0.15s, transform 0.2s ease;
 }
 </style>

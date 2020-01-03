@@ -25,11 +25,17 @@
 				<span class="add-icon"></span>
 			</app-btn>
 			<!-- View current week btn -->
-			<app-btn class="app-btn" @click.native="getCurrentWeek"
+			<app-btn
+				color="dark-blue"
+				class="app-btn"
+				@click.native="getCurrentWeek"
 				>View Current Week</app-btn
 			>
 			<!-- View last week btn -->
-			<app-btn class="app-btn" @click.native="getLastWeek"
+			<app-btn
+				color="dark-blue"
+				class="app-btn"
+				@click.native="getLastWeek"
 				>View Last Week</app-btn
 			>
 			<!-- Search form -->
