@@ -1,10 +1,10 @@
 <template>
-	<div class="exercise-list">
+	<div class="exercise-list" @dragover.prevent @drop.prevent>
 		<transition name="exercise">
 			<div
 				class="list__ctn"
 				v-if="exercises && exercises.length"
-				:class="{ 'border-bottom': state.matches('displaying') }"
+				:class="{ 'border-bottom': sessionState.matches('displaying') }"
 			>
 				<!-- List header -->
 				<div class="list__header">
@@ -18,7 +18,7 @@
 					class="list__row"
 					v-for="exercise in exercises"
 					:key="exercise.id"
-					v-if="state.matches('displaying')"
+					v-if="sessionState.matches('displaying')"
 				>
 					<div
 						class="list__movement"
@@ -50,7 +50,11 @@
 						class="list__row--editing"
 						v-for="exercise in exercises"
 						:key="exercise.id"
-						v-if="state.matches('editing')"
+						:ref="exercise.id"
+						v-if="sessionState.matches('editing')"
+						draggable="true"
+						@dragover.stop
+						@dragstart="drag(exercise.id)"
 					>
 						<!-- Movements -->
 						<div
@@ -73,9 +77,12 @@
 											) > 1
 										"
 										@click.native="
-											DELETE_MOVEMENT({
-												exercise,
-												movement
+											EDIT_TRANSITION({
+												type: 'DELETE_MOVEMENT',
+												params: {
+													exercise,
+													movement
+												}
 											})
 										"
 									></app-btn>
@@ -112,10 +119,13 @@
 											) > 1
 										"
 										@click.native="
-											DELETE_SET({
-												exercise,
-												movement,
-												setId: set.id
+											EDIT_TRANSITION({
+												type: 'DELETE_SET',
+												params: {
+													exercise,
+													movement,
+													setId: set.id
+												}
 											})
 										"
 									></app-btn>
@@ -152,7 +162,15 @@
 								type="button"
 								class="add-set-btn"
 								color="dark-blue"
-								@click.native="ADD_SET({ exercise, movement })"
+								@click.native="
+									EDIT_TRANSITION({
+										type: 'ADD_SET',
+										params: {
+											exercise,
+											movement
+										}
+									})
+								"
 								>Add Set</app-btn
 							>
 						</div>
@@ -162,7 +180,12 @@
 								type="button"
 								color="red"
 								class="remove-exercise-btn"
-								@click.native="DELETE_EXERCISE(exercise.id)"
+								@click.native="
+									EDIT_TRANSITION({
+										type: 'DELETE_EXERCISE',
+										params: { exerciseId: exercise.id }
+									})
+								"
 								>Remove</app-btn
 							>
 							<!-- Add movement btn -->
@@ -170,10 +193,16 @@
 								type="button"
 								class="add-movement-btn"
 								color="dark-blue"
-								@click.native="ADD_MOVEMENT(exercise)"
+								@click.native="
+									EDIT_TRANSITION({
+										type: 'ADD_MOVEMENT',
+										params: { exercise }
+									})
+								"
 								>Add Movement</app-btn
 							>
 						</div>
+						<div class="list__handle"></div>
 					</div>
 				</transition-group>
 			</div>
@@ -183,8 +212,8 @@
 		<app-btn
 			type="button"
 			class="add-exercise-btn"
-			@click.native="ADD_EXERCISE"
-			v-if="state.matches('editing')"
+			@click.native="EDIT_TRANSITION({ type: 'ADD_EXERCISE' })"
+			v-if="sessionState.matches('editing')"
 			>Add Exercise</app-btn
 		>
 	</div>
@@ -205,19 +234,24 @@ export default {
 	},
 	computed: {
 		...mapState({
-			state: state => state.session.currentState,
+			sessionState: state => state.session.currentState,
+			exerciseState: state => state.editExercise.currentState,
 			exercises: state => state.session.sessionData.exercises
 		})
 	},
 	methods: {
-		...mapActions([
-			"ADD_EXERCISE",
-			"DELETE_EXERCISE",
-			"ADD_MOVEMENT",
-			"DELETE_MOVEMENT",
-			"ADD_SET",
-			"DELETE_SET"
-		])
+		...mapActions(["EDIT_TRANSITION"]),
+		drag(exerciseId) {
+			const target = this.$refs[exerciseId][0];
+
+			setTimeout(() => {
+				target.style.display = "none";
+			}, 0);
+		},
+		drop(e) {
+			const target = this.$refs[exercise.id];
+			target.style.display = "block";
+		}
 	}
 };
 </script>
@@ -376,6 +410,19 @@ export default {
 
 .delete-btn::after {
 	transform: rotate(-45deg);
+}
+
+.list__handle {
+	width: 6rem;
+	height: 8px;
+	margin: 1.5rem auto 0.75rem;
+	background-color: var(--color-darkgrey);
+	border-radius: var(--default-radius);
+	cursor: grab;
+}
+
+.list__handle:active {
+	cursor: grabbing;
 }
 
 .add-exercise-btn {
