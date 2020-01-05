@@ -14,31 +14,33 @@
 					<div class="list__header--weigth">Weigth</div>
 				</div>
 				<!-- List exercises (display) -->
-				<div
-					class="list__row"
-					v-for="exercise in exercises"
-					:key="exercise.id"
-					v-if="state.matches('displaying')"
-				>
+				<draggable v-model="exercises">
 					<div
-						class="list__movement"
-						v-for="movement in exercise.movements"
-						:key="movement.id"
+						class="list__row"
+						v-for="exercise in exercises"
+						:key="exercise.id"
+						v-if="state.matches('displaying')"
 					>
-						<div class="list__movement-name">
-							{{ movement.name }}
-						</div>
 						<div
-							class="list__set"
-							v-for="set in movement.sets"
-							:key="set.id"
+							class="list__movement"
+							v-for="movement in exercise.movements"
+							:key="movement.id"
 						>
-							<div>{{ set.setQty }}</div>
-							<div>{{ set.repsOrTime }}</div>
-							<div>{{ set.weight }}</div>
+							<div class="list__movement-name">
+								{{ movement.name }}
+							</div>
+							<div
+								class="list__set"
+								v-for="set in movement.sets"
+								:key="set.id"
+							>
+								<div>{{ set.setQty }}</div>
+								<div>{{ set.repsOrTime }}</div>
+								<div>{{ set.weight }}</div>
+							</div>
 						</div>
 					</div>
-				</div>
+				</draggable>
 				<!-- List exercises (editing) -->
 				<transition-group
 					name="exercise"
@@ -193,15 +195,22 @@ import { mapState, mapActions } from "vuex";
 import AppInput from "../utils/forms/AppInput";
 import AppBtn from "../utils/AppBtn";
 
+import draggable from "vuedraggable";
+
 export default {
 	components: {
 		AppBtn,
-		AppInput
+		AppInput,
+		draggable
 	},
 	computed: {
 		...mapState({
 			state: state => state.session.currentState,
-			exercises: state => state.session.sessionData.exercises
+			exercises: {
+				get() {
+					return this.$store.state.session.sessionData.exercises;
+				}
+			}
 		})
 	},
 	methods: {
