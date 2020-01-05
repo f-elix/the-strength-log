@@ -41,9 +41,9 @@ export default () => {
 			let outcome = await deferredPrompt.userChoice;
 
 			if (outcome === "accepted") {
-				console.log("Postwoman was installed successfully.");
+				console.log("The Strength Log was installed successfully.");
 			} else {
-				console.log("Postwoman could not be installed. (Installation rejected by user.)");
+				console.log("The Strength Log could not be installed. (Installation rejected by user.)");
 			}
 			deferredPrompt = null;
 		}
