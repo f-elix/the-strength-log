@@ -15,6 +15,9 @@ const mutations = {
 	clearSessionData(state) {
 		state.sessionData = {};
 	},
+	updateExercises(state, exercises) {
+		state.sessionData.exercises = exercises;
+	},
 	addExercise(state, newExercise) {
 		state.sessionData.exercises.push(newExercise);
 	},
@@ -248,78 +251,6 @@ const actions = {
 	},
 	CLEAR_SESSION_DATA: ({ commit }) => {
 		commit("clearSessionData");
-	},
-	ADD_EXERCISE: ({ state, commit }) => {
-		const exerciseId =
-			state.sessionData.exercises.length > 0
-				? state.sessionData.exercises[state.sessionData.exercises.length - 1].id + 1
-				: 1;
-		const movementId = Number(`${exerciseId}1`);
-		const setId = Number(`${movementId}1`);
-		const newExercise = {
-			id: exerciseId,
-			movements: [
-				{
-					id: movementId,
-					name: "",
-					sets: [
-						{
-							id: setId,
-							setQty: 1,
-							repsOrTime: "1",
-							weight: ""
-						}
-					]
-				}
-			]
-		};
-		commit("addExercise", newExercise);
-	},
-	DELETE_EXERCISE: ({ commit }, exerciseId) => {
-		commit("deleteExercise", exerciseId);
-	},
-	ADD_MOVEMENT: ({ state, commit }, exercise) => {
-		const movementSubId = Number(exercise.movements[exercise.movements.length - 1].id.toString().split("")[1]) + 1;
-		const movementId = Number(`${exercise.id}${movementSubId}`);
-		const setId = Number(`${movementId}1`);
-		const newMovement = {
-			id: movementId,
-			name: "",
-			sets: [
-				{
-					id: setId,
-					setQty: 1,
-					repsOrTime: "1",
-					weight: ""
-				}
-			]
-		};
-		const exerciseIndex = state.sessionData.exercises.indexOf(exercise);
-		commit("addMovement", { exerciseIndex, newMovement });
-	},
-	DELETE_MOVEMENT: ({ state, commit }, { exercise, movement }) => {
-		const exerciseIndex = state.sessionData.exercises.indexOf(exercise);
-		const movementId = movement.id;
-		commit("deleteMovement", { exerciseIndex, movementId });
-	},
-	ADD_SET: ({ state, commit }, { exercise, movement }) => {
-		const setSubId = Number(movement.sets[movement.sets.length - 1].id.toString().split("")[2]) + 1;
-		console.log(setSubId);
-		const id = Number(`${movement.id}${setSubId}`);
-		const newSet = {
-			id,
-			setQty: 1,
-			repsOrTime: "1",
-			weight: ""
-		};
-		const movementIndex = exercise.movements.indexOf(movement);
-		const exerciseIndex = state.sessionData.exercises.indexOf(exercise);
-		commit("addSet", { newSet, exerciseIndex, movementIndex });
-	},
-	DELETE_SET: ({ state, commit }, { movement, exercise, setId }) => {
-		const movementIndex = exercise.movements.indexOf(movement);
-		const exerciseIndex = state.sessionData.exercises.indexOf(exercise);
-		commit("deleteSet", { exerciseIndex, movementIndex, setId });
 	}
 };
 

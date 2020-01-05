@@ -5,6 +5,7 @@ const state = {
 	currentState: searchMachine.initialState,
 	sessions: [],
 	searchParams: {
+		date: null,
 		dates: null,
 		sessionName: null
 	},
@@ -88,6 +89,7 @@ const actions = {
 					sessions,
 					queryName,
 					searchParams: {
+						date: params.query.variables.date,
 						dates: {
 							fromDate: params.query.variables.fromDate,
 							toDate: params.query.variables.toDate

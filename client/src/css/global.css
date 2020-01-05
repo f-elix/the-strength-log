@@ -1,17 +1,15 @@
 :root {
 	/* Colors */
 	--color-primary: #f8f8f8;
-	--color-greyedout: #a8a8a8;
 	--color-secondary: #121212;
 	--color-secondary-light: hsla(0, 0%, 7%, 0.8);
 	--color-action: #44a05b;
 	--color-info: #1c509c;
+	--color-error: #ff5252;
 	--color-darkgrey: #272727;
 	--color-lightgrey: #606060;
+	--color-greyedout: #a8a8a8;
 	--color-lightblue: #90afdf;
-	--color-red: #ff5252;
-	--color-green: #009432;
-	--color-yellow: #dddd54;
 	--color-dimmer: rgba(255, 255, 255, 0.9);
 
 	/* Border */
@@ -98,9 +96,9 @@ button {
 }
 
 .error {
-	background-color: var(--color-red) !important;
+	background-color: var(--color-error) !important;
 }
 
 .error-light {
-	border-color: var(--color-red);
+	border-color: var(--color-error);
 }

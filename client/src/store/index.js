@@ -6,6 +6,7 @@ import auth from "./modules/auth";
 import dashboard from "./modules/dashboard";
 import session from "./modules/session";
 import search from "./modules/search";
+import editExercise from "./modules/editExercise";
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
 		auth,
 		dashboard,
 		session,
-		search
+		search,
+		editExercise
 	}
 });

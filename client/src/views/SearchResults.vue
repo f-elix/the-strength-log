@@ -7,7 +7,13 @@
 			Back to menu
 		</md-button>
 		<!-- Search header -->
+
 		<div class="search-header">
+			<div v-if="currentQuery === 'getSessionsByDate'">
+				<p>
+					All sessions on <span>{{ searchParams.date }}</span>
+				</p>
+			</div>
 			<div v-if="currentQuery === 'getSessionsFromTo'">
 				<p>All sessions</p>
 				<div class="search-header__dates">
@@ -95,7 +101,7 @@ export default {
 .search-header__dates {
 	display: flex;
 	justify-content: space-evenly;
-	color: var(--color-lightblue);
+	color: var(--color-greyedout);
 }
 
 .search-header__param {
@@ -106,6 +112,6 @@ export default {
 	margin-top: 20rem;
 	text-align: center;
 	font-size: 2.25rem;
-	color: var(--color-darkgrey);
+	color: var(--color-greyedout);
 }
 </style>
