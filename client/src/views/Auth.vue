@@ -13,6 +13,15 @@
 			Log your training, <br />
 			Get the Results.
 		</h2>
+		<!-- Install btn -->
+		<md-button
+			class="app__btn--small plain"
+			id="installPWA"
+			@click.prevent="showInstallPrompt()"
+		>
+			<md-icon>cloud_download</md-icon>
+			Install
+		</md-button>
 		<!-- Forms -->
 		<error-message v-if="error" from="server">{{
 			error.message
@@ -29,10 +38,18 @@ import { mapState, mapActions } from "vuex";
 import LoginBox from "../components/AuthPage/LoginBox";
 import ErrorMessage from "../components/utils/forms/ErrorMessage";
 
+// js
+import initializePwa from "../assets/pwa";
+
 export default {
 	components: {
 		LoginBox,
 		ErrorMessage
+	},
+	data() {
+		return {
+			showInstallPrompt: null
+		};
 	},
 	computed: {
 		...mapState({
@@ -45,6 +62,11 @@ export default {
 	},
 	mounted() {
 		this.AUTH_TRANSITION({ type: "LOADED" });
+		// Initializes the PWA code - checks if the app is installed,
+		// etc.
+		(async () => {
+			this.showInstallPrompt = await initializePwa();
+		})();
 	}
 };
 </script>
