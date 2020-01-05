@@ -8,9 +8,8 @@
 				v-if="state.matches('displaying')"
 			>
 				<!-- back to menu btn -->
-				<app-btn
-					color="dark"
-					class="menu-btn"
+				<md-button
+					class="app__btn--small plain menu-btn"
 					@click.native="
 						SESSION_TRANSITION({
 							type: 'BACK_TO_DASHBOARD',
@@ -19,17 +18,17 @@
 					"
 				>
 					Back to menu
-				</app-btn>
+				</md-button>
 				<!-- back to search btn -->
-				<app-btn
-					class="back-to-search-btn"
+				<md-button
+					class="app__btn--small plain-light back-to-search-btn"
 					v-if="searchState.matches('success')"
 					@click.native="
 						SESSION_TRANSITION({ type: 'BACK_TO_SEARCH' })
 					"
 				>
 					Back to results
-				</app-btn>
+				</md-button>
 			</div>
 			<!-- Date -->
 			<div class="date" v-if="state.matches('displaying')">
@@ -81,20 +80,28 @@
 		</div>
 		<!-- Session exercise list -->
 		<exercise-list></exercise-list>
-		<!-- Session notes -->
+		<!-- Session notes editing-->
 		<app-text-area
-			class="session-notes"
+			class="session__notes--editing"
 			name="notes"
 			id="notes"
 			cols="30"
 			rows="4"
-			labelText="Notes:"
-			:disabled="state.matches('displaying')"
+			labelText="Notes"
+			v-if="state.matches('editing')"
 			v-model="sessionData.notes"
 		></app-text-area>
+		<!-- Session notes displaying -->
+		<div v-if="state.matches('displaying') && sessionData.notes">
+			<h2>Notes:</h2>
+			<p class="session__notes--displaying">
+				{{ sessionData.notes }}
+			</p>
+		</div>
 		<!-- Session btns -->
 		<div class="btn-ctn btn-ctn--footer">
-			<app-btn
+			<md-button
+				class="app__btn error-light"
 				v-if="state.matches('editing')"
 				@click.native="
 					SESSION_TRANSITION({
@@ -102,10 +109,10 @@
 						params: { sessionId: sessionData._id }
 					})
 				"
-				>Discard</app-btn
+				>Discard</md-button
 			>
-			<app-btn
-				color="red"
+			<md-button
+				class="app__btn error"
 				v-if="state.matches('displaying')"
 				@click.native="
 					SESSION_TRANSITION({
@@ -113,11 +120,10 @@
 						params: { sessionId: sessionData._id }
 					})
 				"
-				>Delete</app-btn
+				>Delete</md-button
 			>
-			<app-btn
-				color="green"
-				type="button"
+			<md-button
+				class="app__btn action-light"
 				v-if="state.matches('editing')"
 				@click.native="
 					SESSION_TRANSITION({
@@ -126,11 +132,10 @@
 					})
 				"
 			>
-				Save Session</app-btn
+				Save Session</md-button
 			>
-			<app-btn
-				color="dark-blue"
-				type="button"
+			<md-button
+				class="app__btn action"
 				v-if="state.matches('displaying')"
 				@click.native="
 					SESSION_TRANSITION({
@@ -139,7 +144,7 @@
 					})
 				"
 			>
-				Edit Session</app-btn
+				Edit Session</md-button
 			>
 		</div>
 	</div>
@@ -204,24 +209,22 @@ export default {
 }
 
 .btn-ctn * + * {
-	margin-left: 1.5rem;
+	margin-left: 0.75rem;
 }
 
-.btn-ctn--header {
-	flex-basis: 60%;
-}
-
-.menu-btn,
 .back-to-search-btn {
-	font-size: 1rem;
-	font-weight: bold;
-	padding: 0.5rem 0;
-	max-width: 50%;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-right: 0;
+}
+
+.menu-btn {
+	margin: 0;
 }
 
 .date {
+	flex-basis: 30%;
 	font-weight: bold;
-	flex-basis: 40%;
 	text-align: center;
 }
 
@@ -246,8 +249,12 @@ export default {
 	flex-basis: 100%;
 }
 
-.session-notes {
+.session__notes--editing {
 	margin: auto 0.75rem 0.75rem;
+}
+
+.session__notes--displaying {
+	margin: 0;
 }
 
 .btn-ctn--footer {

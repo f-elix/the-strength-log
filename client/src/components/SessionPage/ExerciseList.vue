@@ -61,10 +61,8 @@
 							<form class="list__form">
 								<div class="list__name-input-ctn">
 									<!-- Delete movement btn -->
-									<app-btn
-										aria-roledescription="Delete set"
-										type="button"
-										class="delete-btn"
+									<md-button
+										class="md-icon-button delete-btn"
 										v-if="
 											Number(
 												movement.id
@@ -78,7 +76,11 @@
 												movement
 											})
 										"
-									></app-btn>
+									>
+										<md-icon class="md-accent"
+											>delete_forever</md-icon
+										>
+									</md-button>
 									<!-- Name input -->
 									<app-input
 										class="list__input"
@@ -102,10 +104,8 @@
 									:key="set.id"
 								>
 									<!-- Delete set btn -->
-									<app-btn
-										aria-roledescription="Delete set"
-										type="button"
-										class="delete-btn"
+									<md-button
+										class="md-icon-button delete-btn"
 										v-if="
 											Number(
 												set.id.toString().split('')[2]
@@ -118,7 +118,11 @@
 												setId: set.id
 											})
 										"
-									></app-btn>
+									>
+										<md-icon class="md-accent"
+											>delete_forever</md-icon
+										>
+									</md-button>
 									<!-- Set qty -->
 									<app-input
 										class="list__input"
@@ -147,45 +151,36 @@
 									></app-input>
 								</div>
 							</form>
-							<!-- Add set btn -->
-							<app-btn
-								type="button"
-								class="add-set-btn"
-								color="dark-blue"
-								@click.native="ADD_SET({ exercise, movement })"
-								>Add Set</app-btn
-							>
-						</div>
-						<div class="exercise-btn-ctn">
-							<!-- Remove exercise btn -->
-							<app-btn
-								type="button"
-								color="red"
-								class="remove-exercise-btn"
-								@click.native="DELETE_EXERCISE(exercise.id)"
-								>Remove</app-btn
-							>
 							<!-- Add movement btn -->
-							<app-btn
-								type="button"
-								class="add-movement-btn"
-								color="dark-blue"
+							<md-button
+								class="app__btn info add-movement-btn"
 								@click.native="ADD_MOVEMENT(exercise)"
-								>Add Movement</app-btn
+								>Add Movement</md-button
+							>
+							<!-- Add set btn -->
+							<md-button
+								class="app__btn info add-set-btn"
+								@click.native="ADD_SET({ exercise, movement })"
+								>Add Set</md-button
 							>
 						</div>
+						<!-- Remove exercise btn -->
+						<md-button
+							class="app__btn error-light remove-exercise-btn"
+							@click.native="DELETE_EXERCISE(exercise.id)"
+							>Remove Exercise</md-button
+						>
 					</div>
 				</transition-group>
 			</div>
 		</transition>
 
 		<!-- Add exercise btn -->
-		<app-btn
-			type="button"
-			class="add-exercise-btn"
+		<md-button
+			class="app__btn action"
 			@click.native="ADD_EXERCISE"
 			v-if="state.matches('editing')"
-			>Add Exercise</app-btn
+			>Add Exercise</md-button
 		>
 	</div>
 </template>
@@ -245,8 +240,8 @@ export default {
 	grid-row: 1 / 2;
 	align-items: center;
 	padding: 0.25rem;
-	background-color: #111;
-	color: #f8f8f8;
+	color: var(--color-primary);
+	background-color: var(--color-darkgrey);
 	font-weight: bold;
 }
 
@@ -323,64 +318,28 @@ export default {
 }
 
 .list__input:focus {
-	background-color: var(--color-lightblue);
+	background-color: var(--color-lightgrey);
 }
 
 .add-set-btn {
-	grid-column: 1 / 5;
+	grid-column: 2 / 5;
 }
 
-.exercise-btn-ctn {
+.remove-exercise-btn {
 	grid-column: 1 / 5;
-	display: flex;
-	justify-content: space-between;
-	margin-top: 0.25rem;
 }
 
 .add-set-btn,
 .remove-exercise-btn,
 .add-movement-btn {
-	padding: 0.25rem;
-	font-size: 1rem;
-	font-weight: bold;
-}
-
-.remove-exercise-btn,
-.add-movement-btn {
-	flex-basis: 49%;
+	margin: 0.25rem auto;
+	height: 3rem;
+	font-size: 1.25rem;
 }
 
 .delete-btn {
-	position: relative;
 	grid-column: 1 / 2;
-	max-width: 1.5rem;
 	margin-left: auto;
-	padding: 0 1.5rem;
-	border: none;
-}
-
-.delete-btn::before,
-.delete-btn::after {
-	content: "";
-	position: absolute;
-	height: 3px;
-	width: 60%;
-	top: 47.5%;
-	left: 20%;
-	background-color: var(--color-red);
-}
-
-.delete-btn::before {
-	transform: rotate(45deg);
-}
-
-.delete-btn::after {
-	transform: rotate(-45deg);
-}
-
-.add-exercise-btn {
-	margin: 1.5rem auto;
-	width: 90%;
 }
 
 /* Vue transitions */
@@ -391,11 +350,19 @@ export default {
 
 .exercise-leave-to {
 	opacity: 0;
-	transform: translateY(3rem);
+	transform: translateX(10rem);
 }
 
-.exercise-enter-active,
+.exercise-enter-active {
+	transition: opacity 0.3s, transform 0.3s;
+}
+
 .exercise-leave-active {
-	transition: opacity 0.15s, transform 0.2s ease;
+	position: absolute;
+	transition: opacity 0.2s, transform 0.2s;
+}
+
+.exercise-move {
+	transition: transform 0.4s;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="searchByPeriod">
+	<form @submit.prevent="searchByPeriod" class="input-ctn">
 		<!-- From date -->
 		<form-group
 			type="date"
@@ -23,7 +23,9 @@
 				>The second date must be later than the first</error-message
 			>
 		</transition>
-		<app-btn class="app-btn" type="submit">Search</app-btn>
+		<md-button class="app__btn action-light width-90" type="submit"
+			>Search</md-button
+		>
 	</form>
 </template>
 
@@ -91,10 +93,14 @@ export default {
 </script>
 
 <style scoped>
-.app-btn {
+.input-ctn {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.width-90 {
 	width: 90%;
-	margin: 0 1.5rem;
-	background-color: var(--color-secondary);
 }
 
 /* Vue transitions */

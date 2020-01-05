@@ -2,30 +2,20 @@
 	<div class="results">
 		<ul>
 			<li v-for="session in sessions" :key="session._id">
-				<div
-					class="session"
-					tabindex="0"
-					@click="
-						SESSION_TRANSITION({
-							type: 'DISPLAY',
-							params: { sessionId: session._id }
-						})
-					"
-					@keypress.enter="
-						SESSION_TRANSITION({
-							type: 'DISPLAY',
-							params: { sessionId: session._id }
-						})
-					"
-				>
-					<div class="session-info">
-						<span class="session-info__date">{{
-							session.sessionDate
-						}}</span>
-						<span class="session-info__title">{{
-							session.title
-						}}</span>
-					</div>
+				<div class="session-info">
+					<p class="session-info__date">{{ session.sessionDate }}</p>
+					<p class="session-info__title">{{ session.title }}</p>
+					<md-button
+						class="app__btn info width-90"
+						@click="
+							SESSION_TRANSITION({
+								type: 'DISPLAY',
+								params: { sessionId: session._id }
+							})
+						"
+					>
+						View Session
+					</md-button>
 				</div>
 			</li>
 		</ul>
@@ -59,40 +49,23 @@ export default {
 	margin-top: 1.5rem;
 }
 
-.session {
+.session-info {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
-	cursor: pointer;
-}
-
-.session-info {
-	display: flex;
-	justify-content: space-around;
 	align-items: center;
-	padding: 1.5rem 0.75rem;
-	background-color: var(--color-secondary);
-	border-radius: var(--default-radius);
-	box-shadow: var(--default-box-shadow);
 	font-weight: bold;
 	font-size: 1.5rem;
-}
-
-@media screen and (min-width: 1024px) {
-	.session-info:hover {
-		background-color: var(--color-darkgrey);
-	}
-}
-
-.session-info:active {
-	box-shadow: inset 0 1px 3px 1px var(--color-primary);
-}
-
-.session-info__date {
-	flex-basis: 30%;
+	background-color: var(--color-darkgrey);
+	box-shadow: var(--default-box-shadow);
+	border-radius: var(--default-radius);
 }
 
 .session-info__title {
-	flex-basis: 60%;
-	text-align: center;
+	margin: 0;
+}
+
+.width-90 {
+	width: 90%;
 }
 </style>

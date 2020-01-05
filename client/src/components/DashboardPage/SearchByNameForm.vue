@@ -7,7 +7,9 @@
 			v-model="sessionName"
 			labelText="Session Name"
 		></form-group>
-		<app-btn class="app-btn" type="submit">Search</app-btn>
+		<md-button class="app__btn action-light width-90" type="submit"
+			>Search</md-button
+		>
 	</form>
 </template>
 
@@ -60,9 +62,7 @@ export default {
 </script>
 
 <style scoped>
-.app-btn {
+.width-90 {
 	width: 90%;
-	margin: 0 1.5rem;
-	background-color: var(--color-secondary);
 }
 </style>

@@ -87,6 +87,7 @@ export default {
 	padding: 0.25rem;
 	border: none;
 	border-bottom: 2px solid var(--color-primary);
+	color: var(--color-primary);
 	background-color: var(--color-secondary);
 	transition: border-color 0.2s;
 }

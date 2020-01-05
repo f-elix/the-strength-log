@@ -84,7 +84,7 @@ export default {
 /* The following code is not supported in Edge */
 @supports (not (-ms-ime-align: auto)) {
 	.form-group__label {
-		color: var(--color-darkgrey);
+		color: var(--color-greyedout);
 		transform: translate(0.25rem, -3.5rem);
 		transition: all 0.2s ease-out;
 	}

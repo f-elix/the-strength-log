@@ -1,27 +1,30 @@
 :root {
 	/* Colors */
-	--color-primary: #111111;
-	--color-secondary: #f8f8f8;
-	--color-darkblue: #23395b;
+	--color-primary: #f8f8f8;
+	--color-greyedout: #a8a8a8;
+	--color-secondary: #121212;
+	--color-secondary-light: hsla(0, 0%, 7%, 0.8);
+	--color-action: #44a05b;
+	--color-info: #1c509c;
+	--color-darkgrey: #272727;
+	--color-lightgrey: #606060;
 	--color-lightblue: #90afdf;
-	--color-red: #7a2129;
+	--color-red: #ff5252;
 	--color-green: #009432;
-	--color-lightgrey: #b8bac5;
-	--color-darkgrey: #676767;
 	--color-yellow: #dddd54;
 	--color-dimmer: rgba(255, 255, 255, 0.9);
 
-	/* Border radius */
+	/* Border */
+	--default-border: 3px solid;
 	--default-radius: 5px;
 
 	/* Box shadow */
-	--default-box-shadow: 0px 2px 4px var(--color-primary), 0px 2px 8px var(--color-primary);
+	--default-box-shadow: 0px 2px 2px var(--color-secondary-light), 0px 2px 4px var(--color-secondary-light);
 }
 
 html {
 	font-size: 14px;
-	letter-spacing: -0.5px;
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-family: "Roboto", sans-serif;
 }
 
 body {
@@ -34,4 +37,70 @@ button {
 	border: none;
 	background: none;
 	cursor: pointer;
+	outline: none;
+}
+
+.app__btn,
+.app__btn--small {
+	display: block;
+	border-radius: var(--default-radius);
+	color: var(--color-primary) !important;
+}
+
+.app__btn {
+	width: 100%;
+	height: 3.75rem;
+	margin: 1.5rem auto;
+	font-size: 1.5rem;
+	text-transform: none;
+}
+
+.app__btn--small {
+	height: 2.25rem;
+	font-size: 1rem;
+}
+
+.app__btn--small-dark {
+	background-color: #121212 !important;
+}
+
+.plain-light,
+.info-light,
+.action-light,
+.error-light {
+	background-color: var(--color-secondary) !important;
+	border: var(--default-border);
+}
+
+.plain {
+	color: var(--color-primary) !important;
+	background-color: var(--color-lightgrey) !important;
+}
+
+.plain-light {
+	border-color: var(--color-primary);
+}
+
+.info {
+	background-color: var(--color-info) !important;
+}
+
+.info-light {
+	border-color: var(--color-info);
+}
+
+.action {
+	background-color: var(--color-action) !important;
+}
+
+.action-light {
+	border-color: var(--color-action);
+}
+
+.error {
+	background-color: var(--color-red) !important;
+}
+
+.error-light {
+	border-color: var(--color-red);
 }

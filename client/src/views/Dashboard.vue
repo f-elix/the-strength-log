@@ -4,39 +4,31 @@
 			<!-- Main menu -->
 			<div class="dashboard-header">
 				<!-- Logout btn -->
-				<app-btn
+				<md-button
 					@click.native="AUTH_TRANSITION({ type: 'LOGOUT' })"
-					color="dark"
-					class="logout-btn"
+					class="app__btn--small plain"
 				>
 					Logout
-				</app-btn>
+				</md-button>
 				<p class="text-center">Started {{ user.createdAt }}</p>
 			</div>
 			<h1 class="text-center log-title">{{ user.name }}'s Log</h1>
 			<!-- New session btn -->
-			<app-btn
-				color="dark-blue"
-				class="new-session-btn"
+			<md-button
+				class="md-fab md-fab-bottom-right new-session-btn"
 				aria-roledescription="Create new session"
 				@click.native="goToSession"
 				v-if="!sessionState.matches('editing')"
 			>
-				<span class="add-icon"></span>
-			</app-btn>
+				<md-icon>add</md-icon>
+			</md-button>
 			<!-- View current week btn -->
-			<app-btn
-				color="dark-blue"
-				class="app-btn"
-				@click.native="getCurrentWeek"
-				>View Current Week</app-btn
+			<md-button class="app__btn info" @click.native="getCurrentWeek"
+				>View Current Week</md-button
 			>
 			<!-- View last week btn -->
-			<app-btn
-				color="dark-blue"
-				class="app-btn"
-				@click.native="getLastWeek"
-				>View Last Week</app-btn
+			<md-button class="app__btn info" @click.native="getLastWeek"
+				>View Last Week</md-button
 			>
 			<!-- Search form -->
 			<search-form />
@@ -157,47 +149,12 @@ export default {
 	font-weight: bold;
 }
 
-.logout-btn {
-	max-width: 20%;
-	font-size: 1rem;
-}
-
 .log-title {
 	margin: 0;
 }
 
 .new-session-btn {
-	position: fixed;
-	bottom: 5%;
-	right: 5%;
-	width: 4.5rem;
-	height: 4.5rem;
-	border-radius: 50%;
-	border: none;
-	box-shadow: 2px 4px 8px var(--color-primary);
-}
-
-.add-icon {
-	position: relative;
-	display: block;
-	width: 100%;
-}
-
-.add-icon::before,
-.add-icon::after {
-	content: "";
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 60%;
-	height: 4px;
-	border-radius: var(--default-radius);
-	background-color: var(--color-secondary);
-}
-
-.add-icon::before {
-	transform: translate(-50%, -50%) rotate(90deg);
+	background-color: var(--color-action) !important;
 }
 
 .app-btn {

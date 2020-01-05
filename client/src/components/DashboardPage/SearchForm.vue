@@ -50,12 +50,11 @@ export default {
 
 <style scoped>
 .form {
-	min-height: 400px;
 	margin: 1.5rem auto;
 	padding-bottom: 1.5rem;
-	border-radius: 5px;
+	border-radius: var(--default-radius);
+	background-color: var(--color-darkgrey);
 	box-shadow: var(--default-box-shadow);
-	background-color: var(--color-lightgrey);
 	overflow: hidden;
 }
 
@@ -67,23 +66,25 @@ export default {
 	border-top-right-radius: var(--default-radius);
 	border-top-left-radius: var(--default-radius);
 	text-align: center;
-	background-color: var(--color-primary);
-	color: var(--color-secondary);
+	background-color: var(--color-secondary-light);
+	color: var(--color-primary);
 }
 
 .form__title--title {
 	margin-right: 0.75rem;
-	color: var(--color-yellow);
+	color: var(--color-primary);
 }
 
 .form__title--select {
 	align-self: center;
 	padding: 0.25rem 0.75rem;
-	border: 3px solid var(--color-secondary);
+	border: 3px solid var(--color-primary);
+	border-radius: var(--default-radius);
 	font-size: 1.25rem;
 	background-color: inherit;
 	color: inherit;
 	outline: none;
+	cursor: pointer;
 }
 
 .form__inputs {
@@ -91,7 +92,7 @@ export default {
 }
 
 .form__inputs /deep/ input {
-	background-color: var(--color-lightgrey);
+	background-color: inherit;
 }
 
 /* Vue transitions */
