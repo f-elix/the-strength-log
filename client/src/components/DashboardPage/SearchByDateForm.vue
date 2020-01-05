@@ -7,7 +7,7 @@
 			id="date"
 			v-model="date"
 		></form-group>
-		<md-button class="app__btn action-light width-90" type="submit"
+		<md-button class="app__btn info-light width-90" type="submit"
 			>Search</md-button
 		>
 	</form>

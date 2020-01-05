@@ -23,7 +23,7 @@
 				>The second date must be later than the first</error-message
 			>
 		</transition>
-		<md-button class="app__btn action-light width-90" type="submit"
+		<md-button class="app__btn info-light width-90" type="submit"
 			>Search</md-button
 		>
 	</form>
