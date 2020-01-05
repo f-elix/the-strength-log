@@ -4,8 +4,8 @@ module.exports = {
 			exclude: ["_redirects"]
 		},
 		name: "The Strength Log",
-		themeColor: "#111111",
-		msTileColor: "#f8f8f8",
+		themeColor: "#121212",
+		msTileColor: "#121212",
 		appleMobileWebAppCapable: "yes",
 		appleMobileWebAppStatusBarStyle: "black"
 	}

@@ -1,7 +1,7 @@
 {
 	"name": "The Strength Log",
 	"short_name": "The Strength Log",
-	"theme_color": "#f8f8f8",
+	"theme_color": "#121212",
 	"background_color": "#121212",
 	"orientation": "portrait-primary",
 	"start_url": "/",
