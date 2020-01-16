@@ -1,12 +1,14 @@
 :root {
 	/* Colors */
 	--color-primary: #f8f8f8;
-	--color-secondary: #121212;
+	/* --color-secondary: #121212; */
+	--color-secondary: #272727;
 	--color-secondary-light: hsla(0, 0%, 7%, 0.8);
 	--color-action: #44a05b;
-	--color-info: #1c509c;
+	--color-info: #3c65a3;
 	--color-error: #ff5252;
-	--color-darkgrey: #272727;
+	--color-black: #121212;
+	--color-darkgrey: #3b3b3b;
 	--color-lightgrey: #606060;
 	--color-greyedout: #a8a8a8;
 	--color-lightblue: #90afdf;
