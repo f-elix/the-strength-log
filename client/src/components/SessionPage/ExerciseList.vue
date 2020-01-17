@@ -32,20 +32,15 @@ import { mapState, mapActions } from "vuex";
 // Components
 import ListDisplaying from "./ListDisplaying";
 import ListEditing from "./ListEditing";
-import AppInput from "../utils/forms/AppInput";
-import AppBtn from "../utils/AppBtn";
 
 export default {
 	components: {
 		ListDisplaying,
-		ListEditing,
-		AppBtn,
-		AppInput
+		ListEditing
 	},
 	computed: {
 		...mapState({
 			sessionState: state => state.session.currentState,
-			exerciseState: state => state.editExercise.currentState,
 			exercises: state => state.session.sessionData.exercises
 		})
 	},
