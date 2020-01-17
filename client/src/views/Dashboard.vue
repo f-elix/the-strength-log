@@ -64,7 +64,7 @@ export default {
 			"AUTH_TRANSITION",
 			"SESSION_TRANSITION",
 			"SEARCH_TRANSITION",
-			"DASHBOARD_TRANSITION"
+			"APP_TRANSITION"
 		]),
 		getCurrentWeek() {
 			const query = {
@@ -108,9 +108,6 @@ export default {
 				params: { query, queryName: "getSessionsFromTo" }
 			});
 		}
-	},
-	mounted() {
-		this.DASHBOARD_TRANSITION({ type: "MOUNTED" });
 	}
 };
 </script>

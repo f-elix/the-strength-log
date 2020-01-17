@@ -9,11 +9,10 @@ export const sessionMachine = Machine({
 			on: {
 				DISPLAY: "fetchingSession",
 				CREATE: "creatingSession"
-			},
-			exit: ["SHOW_LOADING"]
+			}
 		},
 		fetchingSession: {
-			entry: ["GET_SESSION"],
+			entry: ["SHOW_LOADING", "GET_SESSION"],
 			on: {
 				SUCCESS: {
 					target: "displaying",
@@ -23,7 +22,7 @@ export const sessionMachine = Machine({
 			}
 		},
 		creatingSession: {
-			entry: ["CREATE_SESSION"],
+			entry: ["SHOW_LOADING", "CREATE_SESSION"],
 			on: {
 				CREATED: {
 					target: "editing",
@@ -72,7 +71,7 @@ export const sessionMachine = Machine({
 			entry: ["EDIT_SESSION", "HIDE_LOADING"],
 			on: {
 				SAVE: "savingSession",
-				DISCARD: "fetchingSession",
+				DISPLAY: "fetchingSession",
 				DELETE: "deletingSession",
 				BACK_TO_DASHBOARD: {
 					actions: ["ROUTE_DASHBOARD"]

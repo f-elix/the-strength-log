@@ -3,7 +3,7 @@ import Vuex from "vuex";
 
 // Modules
 import auth from "./modules/auth";
-import dashboard from "./modules/dashboard";
+import app from "./modules/app";
 import session from "./modules/session";
 import search from "./modules/search";
 import editExercise from "./modules/editExercise";
@@ -17,7 +17,7 @@ export default new Vuex.Store({
 	actions: {},
 	modules: {
 		auth,
-		dashboard,
+		app,
 		session,
 		search,
 		editExercise

@@ -5,7 +5,7 @@
 			v-if="sessionState.matches('editing')"
 			@click.native="
 				SESSION_TRANSITION({
-					type: sessionData.newSession ? 'DELETE' : 'DISCARD',
+					type: sessionData.newSession ? 'DELETE' : 'DISPLAY',
 					params: { sessionId: sessionData._id }
 				})
 			"

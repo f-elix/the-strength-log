@@ -62,7 +62,7 @@ const authMachine = Machine({
 			on: {
 				LOGOUT: {
 					target: "idle",
-					actions: ["ROUTE_AUTH", "CLEAR_STORAGE"]
+					actions: ["SHOW_LOADING", "ROUTE_AUTH", "CLEAR_STORAGE"]
 				},
 				LOADED: {
 					target: "checkingForAuth"

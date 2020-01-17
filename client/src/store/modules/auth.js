@@ -6,8 +6,7 @@ import router from "../../router";
 const state = {
 	currentState: authMachine.initialState,
 	userData: {},
-	error: "",
-	loading: false
+	error: ""
 };
 
 const mutations = {
@@ -22,12 +21,6 @@ const mutations = {
 	},
 	clearError(state) {
 		state.error = null;
-	},
-	showLoading(state) {
-		state.loading = true;
-	},
-	hideLoading(state) {
-		state.loading = false;
 	}
 };
 
@@ -138,12 +131,7 @@ const actions = {
 	HIDE_ERROR: ({ commit }) => {
 		commit("clearError");
 	},
-	SHOW_LOADING: ({ commit }) => {
-		commit("showLoading");
-	},
-	HIDE_LOADING: ({ commit }) => {
-		commit("hideLoading");
-	},
+
 	STORE_TOKEN_IN_LOCALSTORAGE: (_, { params }) => {
 		localStorage.setItem("token", params.token);
 	},

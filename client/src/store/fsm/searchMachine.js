@@ -10,14 +10,17 @@ const searchMachine = Machine({
 			}
 		},
 		searching: {
-			entry: ["GET_SESSIONS"],
+			entry: ["SHOW_LOADING", "GET_SESSIONS"],
 			on: {
 				SUCCESS: "success",
-				ERROR: "idle"
+				ERROR: {
+					target: "idle",
+					actions: ["HIDE_LOADING"]
+				}
 			}
 		},
 		success: {
-			entry: ["UPDATE_SESSIONS", "UPDATE_SEARCH_PARAMS", "UPDATE_QUERY", "ROUTE_SEARCH"],
+			entry: ["UPDATE_SESSIONS", "UPDATE_SEARCH_PARAMS", "UPDATE_QUERY", "ROUTE_SEARCH", "HIDE_LOADING"],
 			on: {
 				DISCARD: {
 					target: "idle",
