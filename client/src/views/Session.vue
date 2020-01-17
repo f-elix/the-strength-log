@@ -40,7 +40,7 @@ import { mapActions, mapState } from "vuex";
 
 // Components
 import SessionHeader from "../components/SessionPage/SessionHeader";
-import ExerciseList from "../components/SessionPage/ExerciseList";
+import ExerciseList from "../components/SessionPage/SessionExercises/ExerciseList";
 import SessionNotes from "../components/SessionPage/SessionNotes";
 import SessionBtns from "../components/SessionPage/SessionBtns";
 

@@ -134,8 +134,8 @@
 import { mapState, mapActions } from "vuex";
 
 // Components
-import AppInput from "../utils/forms/AppInput";
-import AppBtn from "../utils/AppBtn";
+import AppInput from "../../utils/forms/AppInput";
+import AppBtn from "../../utils/AppBtn";
 
 export default {
 	components: {
