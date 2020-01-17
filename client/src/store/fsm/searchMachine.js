@@ -22,9 +22,8 @@ const searchMachine = Machine({
 		success: {
 			entry: ["UPDATE_SESSIONS", "UPDATE_SEARCH_PARAMS", "UPDATE_QUERY", "ROUTE_SEARCH", "HIDE_LOADING"],
 			on: {
-				DISCARD: {
-					target: "idle",
-					actions: ["DISCARD_SEARCH", "ROUTE_DASHBOARD"]
+				BACK: {
+					actions: ["ROUTE_DASHBOARD"]
 				},
 				SEARCH: "searching"
 			}

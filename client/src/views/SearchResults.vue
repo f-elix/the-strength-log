@@ -2,7 +2,7 @@
 	<div class="search-ctn">
 		<md-button
 			class="app__btn--small plain"
-			@click.native="SEARCH_TRANSITION({ type: 'DISCARD' })"
+			@click.native="SEARCH_TRANSITION({ type: 'BACK' })"
 		>
 			Back to menu
 		</md-button>
