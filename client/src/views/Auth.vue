@@ -1,12 +1,7 @@
 <template>
 	<div class="container">
 		<!-- Logo -->
-		<img
-			src="/img/icons/app-icon-256x256.png"
-			alt=""
-			width="144"
-			height="144"
-		/>
+		<img src="/img/icons/icon.svg" alt="" width="144" height="144" />
 		<!-- Title -->
 		<h1 class="text-center">The Strength Log</h1>
 		<h2 class="text-center">
