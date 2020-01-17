@@ -12,10 +12,7 @@ const authMachine = Machine({
 		checkingForAuth: {
 			entry: ["SHOW_LOADING", "CHECK_FOR_AUTH"],
 			on: {
-				SUCCESS: {
-					target: "authenticated",
-					actions: ["ROUTE_DASHBOARD"]
-				},
+				SUCCESS: "authenticated",
 				ERROR: "idle"
 			}
 		},
@@ -47,10 +44,7 @@ const authMachine = Machine({
 			id: "fetching",
 			entry: ["SHOW_LOADING", "AUTH_USER"],
 			on: {
-				SUCCESS: {
-					target: "authenticated",
-					actions: ["ROUTE_DASHBOARD"]
-				},
+				SUCCESS: "authenticated",
 				ERROR: {
 					target: "idle.last",
 					actions: ["SHOW_ERROR"]
@@ -58,7 +52,7 @@ const authMachine = Machine({
 			}
 		},
 		authenticated: {
-			entry: ["STORE_TOKEN_IN_LOCALSTORAGE", "STORE_USER_IN_STATE"],
+			entry: ["STORE_TOKEN_IN_LOCALSTORAGE", "STORE_USER_IN_STATE", "ROUTE_DASHBOARD", "HIDE_LOADING"],
 			on: {
 				LOGOUT: {
 					target: "idle",

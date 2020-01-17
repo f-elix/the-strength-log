@@ -22,7 +22,7 @@ export default {
 	},
 	computed: {
 		...mapState({
-			loading: state => state.app.loading
+			loading: state => state.loading
 		})
 	}
 };
