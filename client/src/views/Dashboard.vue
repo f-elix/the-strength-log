@@ -15,10 +15,9 @@
 			<h1 class="text-center log-title">{{ user.name }}'s Log</h1>
 			<!-- New session btn -->
 			<md-button
-				class="md-fab md-fab-bottom-right new-session-btn"
+				class="md-fab md-fab-bottom-center new-session-btn"
 				aria-roledescription="Create new session"
-				@click.native="goToSession"
-				v-if="!sessionState.matches('editing')"
+				@click.native="SESSION_TRANSITION({ type: 'CREATE' })"
 			>
 				<md-icon>add</md-icon>
 			</md-button>
@@ -67,16 +66,6 @@ export default {
 			"SEARCH_TRANSITION",
 			"DASHBOARD_TRANSITION"
 		]),
-		goToSession() {
-			if (this.sessionState.matches("editing")) {
-				this.DASHBOARD_TRANSITION({
-					type: "SESSION",
-					params: { sessionData: this.sessionData }
-				});
-			} else {
-				this.SESSION_TRANSITION({ type: "CREATE" });
-			}
-		},
 		getCurrentWeek() {
 			const query = {
 				query: `
