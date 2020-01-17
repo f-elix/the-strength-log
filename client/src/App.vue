@@ -29,6 +29,10 @@ export default {
 </script>
 
 <style scoped>
+#app {
+	overflow: hidden;
+}
+
 .page-transition-enter {
 	opacity: 0;
 	transform: translateX(1.5rem);
