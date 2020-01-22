@@ -22,6 +22,21 @@
 			>
 				Back to results
 			</md-button>
+			<!-- Current session btn -->
+			<md-button
+				class="app__btn--small info-light"
+				v-if="
+					dashboardState.matches('hasCurrentSession') &&
+						sessionData._id !== currentSession._id
+				"
+				@click="
+					SESSION_TRANSITION({
+						type: 'DISPLAY',
+						params: { sessionId: currentSession._id }
+					})
+				"
+				>View Current Session</md-button
+			>
 		</div>
 		<!-- Session Header -->
 		<session-header />
@@ -55,7 +70,10 @@ export default {
 	computed: {
 		...mapState({
 			sessionState: state => state.session.currentState,
-			searchState: state => state.search.currentState
+			sessionData: state => state.session.sessionData,
+			searchState: state => state.search.currentState,
+			dashboardState: state => state.dashboard.currentState,
+			currentSession: state => state.dashboard.currentSession
 		})
 	},
 	methods: {
@@ -77,20 +95,7 @@ export default {
 
 .btn-ctn {
 	display: flex;
-	padding: 0 0.75rem;
-}
-
-.btn-ctn * + * {
-	margin-left: 0.75rem;
-}
-
-.back-to-search-btn {
-	margin-top: 0;
-	margin-bottom: 0;
-	margin-right: 0;
-}
-
-.menu-btn {
-	margin: 0;
+	justify-content: space-between;
+	align-items: center;
 }
 </style>

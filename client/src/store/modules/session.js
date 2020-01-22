@@ -202,6 +202,9 @@ const actions = {
 				};
 				throw error;
 			}
+			if (params.sessionData.newSession) {
+				dispatch("DASHBOARD_TRANSITION", { type: "UPDATE_CURRENT_SESSION" }, { root: true });
+			}
 			const sessionData = data.data.saveSession;
 			dispatch("SESSION_TRANSITION", { type: "SUCCESS", params: { sessionData } });
 		} catch (err) {
@@ -239,6 +242,7 @@ const actions = {
 				throw error;
 			}
 			if (data.data.deleteSession) {
+				dispatch("DASHBOARD_TRANSITION", { type: "UPDATE_CURRENT_SESSION" }, { root: true });
 				dispatch("SESSION_TRANSITION", { type: "SUCCESS" });
 			}
 		} catch (err) {

@@ -13,6 +13,18 @@
 				<p class="text-center">Started {{ user.createdAt }}</p>
 			</div>
 			<h1 class="text-center log-title">{{ user.name }}'s Log</h1>
+			<!-- Current session btn -->
+			<md-button
+				class="app__btn info-light"
+				v-if="dashboardState.matches('hasCurrentSession')"
+				@click="
+					SESSION_TRANSITION({
+						type: 'DISPLAY',
+						params: { sessionId: currentSession._id }
+					})
+				"
+				>View Current Session</md-button
+			>
 			<!-- New session btn -->
 			<md-button
 				class="md-fab md-fab-bottom-center new-session-btn"
@@ -55,7 +67,9 @@ export default {
 		...mapState({
 			user: state => state.auth.userData,
 			sessionState: state => state.session.currentState,
-			sessionData: state => state.session.sessionData
+			sessionData: state => state.session.sessionData,
+			dashboardState: state => state.dashboard.currentState,
+			currentSession: state => state.dashboard.currentSession
 		}),
 		...mapGetters(["currentWeekDates", "lastWeekDates"])
 	},
@@ -64,7 +78,7 @@ export default {
 			"AUTH_TRANSITION",
 			"SESSION_TRANSITION",
 			"SEARCH_TRANSITION",
-			"APP_TRANSITION"
+			"DASHBOARD_TRANSITION"
 		]),
 		getCurrentWeek() {
 			const query = {
@@ -107,6 +121,11 @@ export default {
 				type: "SEARCH",
 				params: { query, queryName: "getSessionsFromTo" }
 			});
+		}
+	},
+	mounted() {
+		if (this.dashboardState.matches("idle")) {
+			this.DASHBOARD_TRANSITION({ type: "UPDATE_CURRENT_SESSION" });
 		}
 	}
 };

@@ -1,8 +1,6 @@
 import authMachine from "../fsm/authMachine";
 import transition from "../transition";
 
-import router from "../../router";
-
 const state = {
 	currentState: authMachine.initialState,
 	userData: {},

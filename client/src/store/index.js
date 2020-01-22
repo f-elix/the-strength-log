@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import router from "../router";
 
 // Modules
+import dashboard from "./modules/dashboard";
 import auth from "./modules/auth";
 import session from "./modules/session";
 import search from "./modules/search";
@@ -49,6 +50,7 @@ export default new Vuex.Store({
 		}
 	},
 	modules: {
+		dashboard,
 		auth,
 		session,
 		search,
