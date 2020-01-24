@@ -34,16 +34,12 @@
 import { mapActions } from "vuex";
 
 // Components
-import SearchForm from "./SearchForm";
 import FormGroup from "../utils/forms/FormGroup";
-import AppBtn from "../utils/AppBtn";
 import ErrorMessage from "../utils/forms/ErrorMessage";
 
 export default {
 	components: {
-		SearchForm,
 		FormGroup,
-		AppBtn,
 		ErrorMessage
 	},
 	data() {

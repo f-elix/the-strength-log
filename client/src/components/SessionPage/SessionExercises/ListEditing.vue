@@ -1,6 +1,6 @@
 <template>
 	<draggable
-		class="list__row--editing"
+		class="list--editing"
 		tag="ul"
 		v-model="exercises"
 		v-bind="dragOptions"
@@ -8,10 +8,10 @@
 		@end="drag = EDIT_TRANSITION({ type: 'DROP' })"
 	>
 		<transition-group
+			class="list--editing"
+			tag="div"
 			:name="!exerciseState.matches('dragging') ? 'exercise' : null"
 			mode="out-in"
-			tag="div"
-			class="list__row--editing"
 		>
 			<exercise-editing
 				v-for="exercise in exercises"
@@ -63,8 +63,7 @@ export default {
 </script>
 
 <style scoped>
-.list__row--editing {
-	grid-column: 1 / 5;
+.list--editing {
 	margin: 0;
 }
 

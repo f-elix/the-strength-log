@@ -1,26 +1,18 @@
 <template>
-	<div class="exercise-list">
+	<div>
 		<transition name="exercise">
-			<div class="list__ctn" v-if="exercises && exercises.length">
-				<!-- List header -->
-				<div class="list__header">
-					<div class="list__header--exercise">Exercise</div>
-					<div class="list__header--sets">Set(s)</div>
-					<div class="list__header--reps">Rep(s)/<br />Time</div>
-					<div class="list__header--weigth">Weigth</div>
-				</div>
-				<!-- Exercises list (displaying) -->
-				<list-displaying v-if="sessionState.matches('displaying')" />
-				<!-- Exercises list (editing) -->
-				<list-editing v-if="sessionState.matches('editing')" />
-			</div>
+			<list-displaying
+				v-if="sessionState.matches('displaying')"
+			></list-displaying>
+			<list-editing v-if="sessionState.matches('editing')"></list-editing>
 		</transition>
 		<!-- Add exercise btn -->
 		<md-button
-			class="app__btn action"
+			class="app__btn action-light"
 			@click.native="EDIT_TRANSITION({ type: 'ADD_EXERCISE' })"
 			v-if="sessionState.matches('editing')"
-			>Add Exercise</md-button
+		>
+			<md-icon>add</md-icon>Add Exercise</md-button
 		>
 	</div>
 </template>
@@ -51,44 +43,6 @@ export default {
 </script>
 
 <style scoped>
-.list__ctn,
-.list__header {
-	display: grid;
-	grid-template-columns: 1fr repeat(3, 20%);
-}
-
-.list__ctn {
-	grid-template-rows: 2.25rem repeat(autofit, 1.5rem);
-	background-color: var(--color-darkgrey);
-}
-
-.list__header {
-	grid-column: 1 / 5;
-	grid-row: 1 / 2;
-	align-items: center;
-	padding: 0.25rem;
-	color: var(--color-primary);
-	background-color: var(--color-black);
-	font-weight: bold;
-	font-size: 1.25rem;
-}
-
-.list__header--exercise {
-	grid-column: 1 / 2;
-}
-
-.list__header--sets {
-	grid-column: 2 / 3;
-}
-
-.list__header--reps {
-	grid-column: 3 / 4;
-}
-
-.list__header--weigth {
-	grid-column: 4 / 5;
-}
-
 /* Vue transitions */
 .exercise-enter {
 	opacity: 0;

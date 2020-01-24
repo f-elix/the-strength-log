@@ -1,16 +1,16 @@
 :root {
 	/* Colors */
 	--color-primary: #f8f8f8;
-	--color-secondary: #272727;
-	--color-secondary-light: hsla(0, 0%, 7%, 0.8);
-	--color-action: #44a05b;
-	--color-info: #3c65a3;
-	--color-error: #ff5252;
-	--color-black: #121212;
-	--color-darkgrey: #3b3b3b;
-	--color-lightgrey: #606060;
+	--color-bg: #141d26;
+	--color-bg-light: #151f2a;
+	--color-fg-dark: #15222f;
+	--color-fg: #1c2937;
+	--color-fg-light: #243447;
+	--color-border: #121213;
+	--color-action: #2b8528;
+	--color-info: #1989ac;
+	--color-error: #ef5350;
 	--color-greyedout: #a8a8a8;
-	--color-lightblue: #90afdf;
 	--color-dimmer: rgba(255, 255, 255, 0.9);
 
 	/* Border */
@@ -18,7 +18,8 @@
 	--default-radius: 5px;
 
 	/* Box shadow */
-	--default-box-shadow: 0px 2px 2px var(--color-secondary-light), 0px 2px 4px var(--color-secondary-light);
+	/* --default-box-shadow: 0px 2px 2px var(--color-secondary-light), 0px 2px 4px var(--color-secondary-light); */
+	--default-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.3);
 }
 
 html {
@@ -27,7 +28,7 @@ html {
 }
 
 body {
-	background-color: var(--color-secondary);
+	background-color: var(--color-bg);
 	color: var(--color-primary);
 }
 
@@ -37,6 +38,11 @@ button {
 	background: none;
 	cursor: pointer;
 	outline: none;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
 }
 
 .app__btn,
@@ -67,13 +73,13 @@ button {
 .info-light,
 .action-light,
 .error-light {
-	background-color: var(--color-secondary) !important;
+	background-color: var(--color-bg) !important;
 	border: var(--default-border);
 }
 
 .plain {
 	color: var(--color-primary) !important;
-	background-color: var(--color-lightgrey) !important;
+	background-color: var(--color-fg-light) !important;
 }
 
 .plain-light {

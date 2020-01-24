@@ -14,7 +14,7 @@
 			id="installPWA"
 			@click.prevent="showInstallPrompt()"
 		>
-			<md-icon>cloud_download</md-icon>
+			<md-icon>save_alt</md-icon>
 			Install
 		</md-button>
 		<!-- Forms -->

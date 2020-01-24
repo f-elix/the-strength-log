@@ -94,13 +94,13 @@ export default {
 	border-radius: var(--default-radius);
 	border: 2px solid var(--color-primary);
 	color: var(--color-primary);
-	background-color: var(--color-secondary);
+	background-color: transparent;
 	transition: all 0.1s linear;
 }
 
 .textarea:focus {
 	outline: none;
-	background-color: var(--color-darkgrey);
+	background-color: var(--color-fg);
 }
 
 .focused-label {

@@ -50,12 +50,10 @@ import { mapState, mapActions, mapGetters } from "vuex";
 
 // Components
 import SearchResult from "../components/SearchPage/SearchResult";
-import AppBtn from "../components/utils/AppBtn";
 
 export default {
 	components: {
-		SearchResult,
-		AppBtn
+		SearchResult
 	},
 	computed: {
 		...mapState({

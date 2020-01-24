@@ -19,12 +19,10 @@ import { mapActions } from "vuex";
 
 // Components
 import FormGroup from "../utils/forms/FormGroup";
-import AppBtn from "../utils/AppBtn";
 
 export default {
 	components: {
-		FormGroup,
-		AppBtn
+		FormGroup
 	},
 	data() {
 		return {

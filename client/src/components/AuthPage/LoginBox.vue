@@ -69,13 +69,11 @@
 import { mapState, mapActions } from "vuex";
 
 // Components
-import AppBtn from "../utils/AppBtn";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 
 export default {
 	components: {
-		AppBtn,
 		LoginForm,
 		SignUpForm
 	},

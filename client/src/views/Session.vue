@@ -35,7 +35,7 @@
 						params: { sessionId: currentSession._id }
 					})
 				"
-				>View Current Session</md-button
+				>Current Session</md-button
 			>
 		</div>
 		<!-- Session Header -->

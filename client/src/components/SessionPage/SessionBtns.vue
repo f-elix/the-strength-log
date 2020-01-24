@@ -1,7 +1,7 @@
 <template>
 	<div class="session__btns">
 		<md-button
-			class="app__btn error-light"
+			class="app__btn error"
 			v-if="sessionState.matches('editing')"
 			@click.native="
 				SESSION_TRANSITION({
@@ -9,8 +9,8 @@
 					params: { sessionId: sessionData._id }
 				})
 			"
-			>Discard</md-button
-		>
+			><md-icon>cancel</md-icon> Discard
+		</md-button>
 		<md-button
 			class="app__btn error"
 			v-if="sessionState.matches('displaying')"
@@ -20,10 +20,11 @@
 					params: { sessionId: sessionData._id }
 				})
 			"
-			>Delete</md-button
+		>
+			<md-icon>delete_forever</md-icon> Delete</md-button
 		>
 		<md-button
-			class="app__btn action-light"
+			class="app__btn action"
 			v-if="sessionState.matches('editing')"
 			@click.native="
 				SESSION_TRANSITION({
@@ -32,8 +33,8 @@
 				})
 			"
 		>
-			Save Session</md-button
-		>
+			<md-icon>check_circle</md-icon> Save
+		</md-button>
 		<md-button
 			class="app__btn action"
 			v-if="sessionState.matches('displaying')"
@@ -44,7 +45,7 @@
 				})
 			"
 		>
-			Edit Session</md-button
+			<md-icon>edit</md-icon> Edit Session</md-button
 		>
 	</div>
 </template>

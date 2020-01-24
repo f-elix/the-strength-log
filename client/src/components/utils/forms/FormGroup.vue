@@ -75,17 +75,18 @@ export default {
 .form-group__label,
 .form-group__input {
 	display: block;
+	margin: 0;
 }
 
 .form-group__label {
-	transform: translate(0, -5.5rem);
+	transform: translate(0, -3.5rem);
 }
 
 /* The following code is not supported in Edge */
 @supports (not (-ms-ime-align: auto)) {
 	.form-group__label {
 		color: var(--color-greyedout);
-		transform: translate(0.25rem, -3.5rem);
+		transform: translate(0.25rem, -2.25rem);
 		transition: all 0.2s ease-out;
 	}
 
@@ -93,7 +94,7 @@ export default {
 	.form-group__input:not(:placeholder-shown) + .form-group__label {
 		color: var(--color-primary);
 		font-weight: bold;
-		transform: translate(0, -5.25rem);
+		transform: translate(0, -3.5rem);
 	}
 }
 </style>

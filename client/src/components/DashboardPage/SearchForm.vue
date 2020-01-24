@@ -31,14 +31,12 @@ import { mapActions } from "vuex";
 import SearchByDateForm from "./SearchByDateForm";
 import SearchByPeriodForm from "./SearchByPeriodForm";
 import SearchByNameForm from "./SearchByNameForm";
-import AppBtn from "../utils/AppBtn";
 
 export default {
 	components: {
 		SearchByDateForm,
 		SearchByPeriodForm,
-		SearchByNameForm,
-		AppBtn
+		SearchByNameForm
 	},
 	data() {
 		return {
@@ -53,7 +51,7 @@ export default {
 	margin: 1.5rem auto;
 	padding-bottom: 1.5rem;
 	border-radius: var(--default-radius);
-	background-color: var(--color-darkgrey);
+	background-color: var(--color-fg-light);
 	box-shadow: var(--default-box-shadow);
 	overflow: hidden;
 }
@@ -66,7 +64,7 @@ export default {
 	border-top-right-radius: var(--default-radius);
 	border-top-left-radius: var(--default-radius);
 	text-align: center;
-	background-color: var(--color-secondary-light);
+	background-color: var(--color-fg-dark);
 	color: var(--color-primary);
 }
 

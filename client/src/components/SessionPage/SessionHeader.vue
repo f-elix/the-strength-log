@@ -104,4 +104,9 @@ export default {
 .title-input {
 	flex-basis: 100%;
 }
+
+.date-input,
+.bodyweigth-input {
+	margin-top: 0.75rem;
+}
 </style>

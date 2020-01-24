@@ -52,12 +52,10 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 
 // Components
-import AppBtn from "../components/utils/AppBtn";
 import SearchForm from "../components/DashboardPage/SearchForm";
 
 export default {
 	components: {
-		AppBtn,
 		SearchForm
 	},
 	data() {

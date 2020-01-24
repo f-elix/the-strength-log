@@ -56,7 +56,7 @@ export default {
 	align-items: center;
 	font-weight: bold;
 	font-size: 1.5rem;
-	background-color: var(--color-darkgrey);
+	background-color: var(--color-fg-light);
 	box-shadow: var(--default-box-shadow);
 	border-radius: var(--default-radius);
 }

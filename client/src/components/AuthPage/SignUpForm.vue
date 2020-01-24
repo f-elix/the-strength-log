@@ -9,6 +9,7 @@
 				mode="eager"
 			>
 				<form-group
+					class="input"
 					labelText="Name"
 					type="text"
 					name="name"
@@ -30,6 +31,7 @@
 				mode="eager"
 			>
 				<form-group
+					class="input"
 					labelText="E-mail"
 					type="email"
 					name="loginEmail"
@@ -51,6 +53,7 @@
 				mode="eager"
 			>
 				<form-group
+					class="input"
 					labelText="Password"
 					type="password"
 					name="loginPassword"
@@ -74,7 +77,6 @@
 import { mapActions, mapMutations } from "vuex";
 
 // Components
-import AppBtn from "../utils/AppBtn";
 import FormGroup from "../utils/forms/FormGroup";
 import ErrorMessage from "../utils/forms/ErrorMessage";
 
@@ -98,7 +100,6 @@ extend("min", {
 
 export default {
 	components: {
-		AppBtn,
 		FormGroup,
 		ErrorMessage,
 		ValidationObserver,
@@ -139,6 +140,10 @@ export default {
 </script>
 
 <style scoped>
+.input {
+	margin-top: 0.75rem;
+}
+
 .error-enter,
 .error-leave-to {
 	opacity: 0;

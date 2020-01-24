@@ -53,7 +53,7 @@ export default {
 	margin: 0.75rem;
 	padding: 0.75rem;
 	box-shadow: var(--default-box-shadow);
-	background-color: var(--color-darkgrey);
+	background-color: var(--color-fg);
 }
 
 .session__notes--displaying h2 {
