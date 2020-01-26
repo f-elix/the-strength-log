@@ -7,12 +7,7 @@
 					<p class="session-info__title">{{ session.title }}</p>
 					<md-button
 						class="app__btn info width-90"
-						@click="
-							SESSION_TRANSITION({
-								type: 'DISPLAY',
-								params: { sessionId: session._id }
-							})
-						"
+						@click="onViewSession(session)"
 					>
 						View Session
 					</md-button>
@@ -23,17 +18,23 @@
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions } from "vuex";
+// fsm
+import { searchMachine } from "../../fsm/search";
+import { sessionMachine } from "../../fsm/session";
 
 export default {
 	computed: {
-		...mapState({
-			sessions: state => state.search.sessions
-		})
+		sessions() {
+			return searchMachine.context.sessions;
+		}
 	},
 	methods: {
-		...mapActions(["SESSION_TRANSITION"])
+		onViewSession(session) {
+			sessionMachine.send({
+				type: "DISPLAY",
+				params: { sessionId: session._id }
+			});
+		}
 	}
 };
 </script>

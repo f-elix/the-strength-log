@@ -24,9 +24,6 @@
 </template>
 
 <script>
-// Vuex
-import { mapActions } from "vuex";
-
 // Components
 import SearchByDateForm from "./SearchByDateForm";
 import SearchByPeriodForm from "./SearchByPeriodForm";

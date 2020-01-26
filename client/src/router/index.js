@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Auth from "../views/Auth.vue";
 
-import store from "../store";
+import { authMachine } from "../fsm/auth";
 
 Vue.use(VueRouter);
 
@@ -20,11 +20,13 @@ const routes = [
 		// which is lazy-loaded when the route is visited.
 		component: () => import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
 		beforeEnter: (to, from, next) => {
-			if (store.state.auth.currentState.matches("authenticated")) {
-				next();
-			} else {
-				next("/");
-			}
+			setTimeout(() => {
+				if (authMachine.current.matches("authenticated")) {
+					next();
+				} else {
+					next("/");
+				}
+			}, 1);
 		}
 	},
 	{
@@ -32,7 +34,7 @@ const routes = [
 		name: "session",
 		component: () => import(/* webpackChunkName: "session" */ "../views/Session.vue"),
 		beforeEnter: (to, from, next) => {
-			if (store.state.auth.currentState.matches("authenticated")) {
+			if (authMachine.current.matches("authenticated")) {
 				next();
 			} else {
 				next("/");
@@ -44,7 +46,7 @@ const routes = [
 		name: "session/id",
 		component: () => import(/* webpackChunkName: "session" */ "../views/Session.vue"),
 		beforeEnter: (to, from, next) => {
-			if (store.state.auth.currentState.matches("authenticated")) {
+			if (authMachine.current.matches("authenticated")) {
 				next();
 			} else {
 				next("/");
@@ -56,7 +58,7 @@ const routes = [
 		name: "search results",
 		component: () => import(/* webpackChunkName: "search-results" */ "../views/SearchResults.vue"),
 		beforeEnter: (to, from, next) => {
-			if (store.state.auth.currentState.matches("authenticated")) {
+			if (authMachine.current.matches("authenticated")) {
 				next();
 			} else {
 				next("/");

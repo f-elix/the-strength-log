@@ -18,20 +18,23 @@
 			Install
 		</md-button>
 		<!-- Forms -->
-		<error-message v-if="error" from="server">{{
-			error.message
+		<error-message v-if="authContext.error" from="server">{{
+			authContext.error
 		}}</error-message>
 		<login-box />
+		<!-- Loader -->
+		<app-loader v-if="authState.matches('loading')" />
 	</div>
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions } from "vuex";
+// fsm
+import { authMachine } from "../fsm/auth";
 
 // Components
 import LoginBox from "../components/AuthPage/LoginBox";
 import ErrorMessage from "../components/utils/forms/ErrorMessage";
+import AppLoader from "../components/utils/AppLoader";
 
 // js
 import initializePwa from "../assets/pwa";
@@ -39,7 +42,8 @@ import initializePwa from "../assets/pwa";
 export default {
 	components: {
 		LoginBox,
-		ErrorMessage
+		ErrorMessage,
+		AppLoader
 	},
 	data() {
 		return {
@@ -47,21 +51,20 @@ export default {
 		};
 	},
 	computed: {
-		...mapState({
-			state: state => state.auth.currentState,
-			error: state => state.auth.error
-		})
-	},
-	methods: {
-		...mapActions(["AUTH_TRANSITION"])
+		authState() {
+			return authMachine.current;
+		},
+		authContext() {
+			return authMachine.context;
+		}
 	},
 	mounted() {
-		this.AUTH_TRANSITION({ type: "LOADED" });
 		// Initializes the PWA code - checks if the app is installed,
 		// etc.
 		(async () => {
 			this.showInstallPrompt = await initializePwa();
 		})();
+		authMachine.send({ type: "LOADED" });
 	}
 };
 </script>

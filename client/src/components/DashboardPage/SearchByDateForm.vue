@@ -14,8 +14,8 @@
 </template>
 
 <script>
-// Vuex
-import { mapActions } from "vuex";
+// fsm
+import { searchMachine } from "../../fsm/search";
 
 // Components
 import FormGroup from "../utils/forms/FormGroup";
@@ -41,14 +41,13 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions(["SEARCH_TRANSITION"]),
 		searchByDate() {
 			console.log(this.date);
 			const query = this.dateQuery;
 			query.variables = {
 				date: this.date
 			};
-			this.SEARCH_TRANSITION({
+			searchMachine.send({
 				type: "SEARCH",
 				params: { query, queryName: "getSessionsByDate" }
 			});

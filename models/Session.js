@@ -52,14 +52,13 @@ const SessionSchema = new mongoose.Schema(
 		notes: {
 			type: String
 		},
+		newSession: {
+			type: Boolean
+		},
 		creator: {
 			type: mongoose.Schema.Types.ObjectId,
 			required: true,
 			ref: "User"
-		},
-		newSession: {
-			type: Boolean,
-			required: true
 		}
 	},
 	{

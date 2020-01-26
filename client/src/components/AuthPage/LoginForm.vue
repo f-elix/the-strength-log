@@ -45,7 +45,7 @@
 					}}</error-message></transition
 				>
 			</validation-provider>
-			<md-button type="submit" class="md-raised app__btn action-light"
+			<md-button type="submit" class="md-raised app__btn info-light"
 				>Login</md-button
 			>
 		</form>
@@ -53,8 +53,8 @@
 </template>
 
 <script>
-// Vuex
-import { mapActions, mapMutations } from "vuex";
+// fsm
+import { authMachine } from "@/fsm/auth";
 
 // Components
 import FormGroup from "../utils/forms/FormGroup";
@@ -92,23 +92,21 @@ export default {
 		};
 	},
 	methods: {
-		...mapMutations(["updateAuthQuery"]),
-		...mapActions(["AUTH_TRANSITION"]),
 		onSubmit() {
 			const authQuery = {
 				query: `
-          mutation loginUser($email: String!, $password: String!) {
-            loginUser(email: $email, password: $password) {
-              token
-            }
-          }
-        `,
+				mutation loginUser($email: String!, $password: String!) {
+					loginUser(email: $email, password: $password) {
+					token
+					}
+				}
+				`,
 				variables: {
 					email: this.email,
 					password: this.password
 				}
 			};
-			this.AUTH_TRANSITION({
+			authMachine.send({
 				type: "LOGIN",
 				params: { authQuery, queryName: "loginUser" }
 			});

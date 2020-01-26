@@ -3,12 +3,7 @@
 		<!-- Remove exercise btn -->
 		<md-button
 			class="md-icon-button list__remove-exercise-btn"
-			@click.native="
-				EDIT_TRANSITION({
-					type: 'DELETE_EXERCISE',
-					params: { exerciseId: exercise.id }
-				})
-			"
+			@click="onDeleteExercise"
 		>
 			<md-icon class="md-accent">delete</md-icon>
 		</md-button>
@@ -27,15 +22,7 @@
 			<md-button
 				class="md-icon-button list__movement-btn--delete"
 				v-if="Number(movement.id.toString().split('')[1]) > 1"
-				@click.native="
-					EDIT_TRANSITION({
-						type: 'DELETE_MOVEMENT',
-						params: {
-							exercise,
-							movement
-						}
-					})
-				"
+				@click="onDeleteMovement(movement)"
 			>
 				<md-icon class="md-accent">remove_circle</md-icon>
 			</md-button>
@@ -93,16 +80,7 @@
 				<md-button
 					class="md-icon-button"
 					v-if="Number(set.id.toString().split('')[2]) > 1"
-					@click.native="
-						EDIT_TRANSITION({
-							type: 'DELETE_SET',
-							params: {
-								exercise,
-								movement,
-								setId: set.id
-							}
-						})
-					"
+					@click="onDeleteSet(movement, set)"
 				>
 					<md-icon class="md-accent">remove_circle_outline</md-icon>
 				</md-button>
@@ -110,12 +88,7 @@
 			<!-- Add set btn -->
 			<md-button
 				class="md-icon-button list__set-btn--add"
-				@click.native="
-					EDIT_TRANSITION({
-						type: 'ADD_SET',
-						params: { exercise, movement }
-					})
-				"
+				@click="onAddSet(movement)"
 			>
 				<md-icon>add_circle_outline</md-icon>
 			</md-button>
@@ -123,14 +96,7 @@
 		<!-- Add movement btn -->
 		<md-button
 			class="md-icon-button list__movement-btn--add"
-			@click.native="
-				EDIT_TRANSITION({
-					type: 'ADD_MOVEMENT',
-					params: {
-						exercise
-					}
-				})
-			"
+			@click="onAddMovement"
 		>
 			<md-icon>add_box</md-icon>
 		</md-button>
@@ -139,8 +105,8 @@
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions } from "vuex";
+// fsm
+import { sessionMachine } from "@/fsm/session";
 
 // Components
 import FormGroup from "../../utils/forms/FormGroup";
@@ -150,7 +116,45 @@ export default {
 		FormGroup
 	},
 	methods: {
-		...mapActions(["EDIT_TRANSITION"])
+		onDeleteExercise() {
+			sessionMachine.send({
+				type: "DELETE_EXERCISE",
+				params: { exerciseId: this.exercise.id }
+			});
+		},
+		onAddMovement() {
+			sessionMachine.send({
+				type: "ADD_MOVEMENT",
+				params: {
+					exercise: this.exercise
+				}
+			});
+		},
+		onDeleteMovement(movement) {
+			sessionMachine.send({
+				type: "DELETE_MOVEMENT",
+				params: {
+					exercise: this.exercise,
+					movement
+				}
+			});
+		},
+		onAddSet(movement) {
+			sessionMachine.send({
+				type: "ADD_SET",
+				params: { exercise: this.exercise, movement }
+			});
+		},
+		onDeleteSet(movement, set) {
+			sessionMachine.send({
+				type: "DELETE_SET",
+				params: {
+					exercise: this.exercise,
+					movement,
+					setId: set.id
+				}
+			});
+		}
 	},
 	props: {
 		exercise: {

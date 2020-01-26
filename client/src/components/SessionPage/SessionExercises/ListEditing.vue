@@ -4,13 +4,15 @@
 		tag="ul"
 		v-model="exercises"
 		v-bind="dragOptions"
-		@start="EDIT_TRANSITION({ type: 'DRAG' })"
-		@end="drag = EDIT_TRANSITION({ type: 'DROP' })"
+		@start="onDrag"
+		@end="onDrop"
 	>
 		<transition-group
 			class="list--editing"
 			tag="div"
-			:name="!exerciseState.matches('dragging') ? 'exercise' : null"
+			:name="
+				!sessionState.matches('editing.dragging') ? 'exercise' : null
+			"
 			mode="out-in"
 		>
 			<exercise-editing
@@ -23,8 +25,8 @@
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions } from "vuex";
+// fsm
+import { sessionMachine } from "@/fsm/session";
 
 // Components
 import ExerciseEditing from "./ExerciseEditing";
@@ -36,15 +38,18 @@ export default {
 		draggable
 	},
 	computed: {
-		...mapState({
-			exerciseState: state => state.editExercise.currentState
-		}),
+		sessionState() {
+			return sessionMachine.current;
+		},
 		exercises: {
 			get() {
-				return this.$store.state.session.sessionData.exercises;
+				return sessionMachine.context.sessionData.exercises;
 			},
 			set(value) {
-				this.$store.commit("updateExercises", value);
+				sessionMachine.send({
+					type: "UPDATE_EXERCISES",
+					params: { exercises: value }
+				});
 			}
 		},
 		dragOptions() {
@@ -57,7 +62,12 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(["EDIT_TRANSITION"])
+		onDrag() {
+			sessionMachine.send({ type: "DRAG" });
+		},
+		onDrop() {
+			sessionMachine.send({ type: "DROP" });
+		}
 	}
 };
 </script>

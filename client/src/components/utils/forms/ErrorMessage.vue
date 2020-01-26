@@ -22,7 +22,7 @@ export default {
 
 <style scoped>
 .error-message--form {
-	margin: -3rem 0 3rem;
+	margin: -1.25rem 0 2.25rem;
 	color: var(--color-error);
 }
 

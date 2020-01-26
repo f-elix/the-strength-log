@@ -9,7 +9,7 @@
 		<!-- Add exercise btn -->
 		<md-button
 			class="app__btn action-light"
-			@click.native="EDIT_TRANSITION({ type: 'ADD_EXERCISE' })"
+			@click="onAddExercise"
 			v-if="sessionState.matches('editing')"
 		>
 			<md-icon>add</md-icon>Add Exercise</md-button
@@ -18,8 +18,8 @@
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions } from "vuex";
+// fsm
+import { sessionMachine } from "@/fsm/session";
 
 // Components
 import ListDisplaying from "./ListDisplaying";
@@ -31,13 +31,17 @@ export default {
 		ListEditing
 	},
 	computed: {
-		...mapState({
-			sessionState: state => state.session.currentState,
-			exercises: state => state.session.sessionData.exercises
-		})
+		sessionState() {
+			return sessionMachine.current;
+		},
+		exercises() {
+			return sessionMachine.context.sessionData.exercises;
+		}
 	},
 	methods: {
-		...mapActions(["EDIT_TRANSITION"])
+		onAddExercise() {
+			sessionMachine.send({ type: "ADD_EXERCISE" });
+		}
 	}
 };
 </script>

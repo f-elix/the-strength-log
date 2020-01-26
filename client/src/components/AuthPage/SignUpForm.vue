@@ -67,14 +67,14 @@
 					}}</error-message></transition
 				>
 			</validation-provider>
-			<md-button class="app__btn action" type="submit">Sign Up</md-button>
+			<md-button class="app__btn info" type="submit">Sign Up</md-button>
 		</form>
 	</validation-observer>
 </template>
 
 <script>
-// Vuex
-import { mapActions, mapMutations } from "vuex";
+// fsm
+import { authMachine } from "../../fsm/auth";
 
 // Components
 import FormGroup from "../utils/forms/FormGroup";
@@ -113,24 +113,22 @@ export default {
 		};
 	},
 	methods: {
-		...mapMutations(["updateAuthQuery"]),
-		...mapActions(["AUTH_TRANSITION"]),
 		onSubmit() {
 			const authQuery = {
 				query: `
-          mutation signupUser($name: String!, $email: String!, $password: String!) {
-            signupUser(name: $name, email: $email, password: $password) {
-              token
-            }
-          }
-        `,
+					mutation signupUser($name: String!, $email: String!, $password: String!) {
+						signupUser(name: $name, email: $email, password: $password) {
+							token
+						}
+					}
+				`,
 				variables: {
 					name: this.name,
 					email: this.email,
 					password: this.password
 				}
 			};
-			this.AUTH_TRANSITION({
+			authMachine.send({
 				type: "SIGNUP",
 				params: { authQuery, queryName: "signupUser" }
 			});

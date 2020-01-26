@@ -48,7 +48,7 @@ type AuthData {
 
 # INPUT TYPES
 input SessionInput {
-	_id: ID!
+	_id: ID
 	newSession: Boolean
 	createdAt: String
 	updatedAt: String
@@ -90,7 +90,6 @@ type Query {
 type Mutation {
 	signupUser(name: String!, email: String!, password: String!): AuthData!
 	loginUser(email: String!, password: String!): AuthData!
-	createSession(sessionDate: Date!): Session!
 	saveSession(sessionData: SessionInput!): Session!
 	deleteSession(sessionId: ID!): Boolean
 }

@@ -8,6 +8,7 @@ const Session = require("../../models/Session");
 
 // Utils
 const signToken = require("../../utils/signToken");
+const createSession = require("../../utils/createSession");
 
 const mutations = {
 	// USER MUTATIONS
@@ -80,29 +81,16 @@ const mutations = {
 		};
 	},
 	// SESSION MUTATIONS
-	createSession: async (_, { sessionDate }, { currentUser }) => {
+	saveSession: async (_, { sessionData }, { currentUser }) => {
 		if (!currentUser) {
 			const error = new Error("Not authenticated");
 			error.statusCode = 401;
 			throw error;
 		}
-		const user = await User.findById(currentUser.userId);
-		const session = new Session({
-			title: "New session",
-			sessionDate,
-			creator: currentUser.userId,
-			newSession: true
-		});
-		const newSession = await session.save();
-		user.log.push(newSession);
-		await user.save();
-		return {
-			...newSession._doc,
-			_id: newSession._id.toString(),
-			createdAt: newSession.createdAt.toISOString().split("T")[0]
-		};
-	},
-	saveSession: async (_, { sessionData }, { currentUser }) => {
+		// If no id, session doesn't exist so create one and return it
+		if (!sessionData._id) {
+			return await createSession(currentUser.userId, sessionData);
+		}
 		// Find session
 		const session = await Session.findById(sessionData._id).populate("creator");
 		if (!session) {

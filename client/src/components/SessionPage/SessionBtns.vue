@@ -3,47 +3,27 @@
 		<md-button
 			class="app__btn error"
 			v-if="sessionState.matches('editing')"
-			@click.native="
-				SESSION_TRANSITION({
-					type: sessionData.newSession ? 'DELETE' : 'DISPLAY',
-					params: { sessionId: sessionData._id }
-				})
-			"
+			@click="onDiscard"
 			><md-icon>cancel</md-icon> Discard
 		</md-button>
 		<md-button
 			class="app__btn error"
 			v-if="sessionState.matches('displaying')"
-			@click.native="
-				SESSION_TRANSITION({
-					type: 'DELETE',
-					params: { sessionId: sessionData._id }
-				})
-			"
+			@click="onDelete"
 		>
 			<md-icon>delete_forever</md-icon> Delete</md-button
 		>
 		<md-button
 			class="app__btn action"
 			v-if="sessionState.matches('editing')"
-			@click.native="
-				SESSION_TRANSITION({
-					type: 'SAVE',
-					params: { sessionData }
-				})
-			"
+			@click="onSave"
 		>
 			<md-icon>check_circle</md-icon> Save
 		</md-button>
 		<md-button
 			class="app__btn action"
 			v-if="sessionState.matches('displaying')"
-			@click.native="
-				SESSION_TRANSITION({
-					type: 'EDIT',
-					params: { sessionData }
-				})
-			"
+			@click="onEdit"
 		>
 			<md-icon>edit</md-icon> Edit Session</md-button
 		>
@@ -51,18 +31,43 @@
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions } from "vuex";
+// fsm
+import { sessionMachine } from "@/fsm/session";
 
 export default {
 	computed: {
-		...mapState({
-			sessionState: state => state.session.currentState,
-			sessionData: state => state.session.sessionData
-		})
+		sessionState() {
+			return sessionMachine.current;
+		},
+		sessionData() {
+			return sessionMachine.context.sessionData;
+		}
 	},
 	methods: {
-		...mapActions(["SESSION_TRANSITION"])
+		onDiscard() {
+			sessionMachine.send({
+				type: this.sessionData._id ? "DISPLAY" : "BACK_TO_DASHBOARD",
+				params: { sessionId: this.sessionData._id }
+			});
+		},
+		onDelete() {
+			sessionMachine.send({
+				type: "DELETE",
+				params: { sessionId: this.sessionData._id }
+			});
+		},
+		onSave() {
+			sessionMachine.send({
+				type: "SAVE",
+				params: { sessionData: this.sessionData }
+			});
+		},
+		onEdit() {
+			sessionMachine.send({
+				type: "EDIT",
+				params: { sessionData: this.sessionData }
+			});
+		}
 	}
 };
 </script>

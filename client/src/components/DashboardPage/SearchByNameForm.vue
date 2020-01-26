@@ -14,8 +14,8 @@
 </template>
 
 <script>
-// Vuex
-import { mapActions } from "vuex";
+// fsm
+import { searchMachine } from "../../fsm/search";
 
 // Components
 import FormGroup from "../utils/forms/FormGroup";
@@ -29,19 +29,18 @@ export default {
 			sessionName: null,
 			titleQuery: {
 				query: `
-          query searchByTitle($title: String!) {
-            getSessionsByTitle(title: $title) {
-              _id
-              title
-              sessionDate
-            }
-          }
-        `
+					query searchByTitle($title: String!) {
+						getSessionsByTitle(title: $title) {
+							_id
+							title
+							sessionDate
+						}
+					}
+				`
 			}
 		};
 	},
 	methods: {
-		...mapActions(["SEARCH_TRANSITION"]),
 		searchByName() {
 			if (!this.sessionName) {
 				return;
@@ -50,7 +49,7 @@ export default {
 			query.variables = {
 				title: this.sessionName
 			};
-			this.SEARCH_TRANSITION({
+			searchMachine.send({
 				type: "SEARCH",
 				params: { query, queryName: "getSessionsByTitle" }
 			});

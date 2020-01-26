@@ -1,13 +1,11 @@
 <template>
 	<div class="container">
-		<div class="dashboard-ctn">
+		<spinner v-if="sessionState.matches('init')" class="spinner" />
+		<div v-else class="dashboard-ctn">
 			<!-- Main menu -->
 			<div class="dashboard-header">
 				<!-- Logout btn -->
-				<md-button
-					@click.native="AUTH_TRANSITION({ type: 'LOGOUT' })"
-					class="app__btn--small plain"
-				>
+				<md-button @click="onLogout" class="app__btn--small plain">
 					Logout
 				</md-button>
 				<p class="text-center">Started {{ user.createdAt }}</p>
@@ -16,29 +14,24 @@
 			<!-- Current session btn -->
 			<md-button
 				class="app__btn info-light"
-				v-if="dashboardState.matches('hasCurrentSession')"
-				@click="
-					SESSION_TRANSITION({
-						type: 'DISPLAY',
-						params: { sessionId: currentSession._id }
-					})
-				"
+				v-if="currentSession"
+				@click="onViewCurrentSession"
 				>View Current Session</md-button
 			>
 			<!-- New session btn -->
 			<md-button
-				class="md-fab md-fab-bottom-center new-session-btn"
+				class="md-fab md-fab-bottom-right new-session-btn"
 				aria-roledescription="Create new session"
-				@click.native="SESSION_TRANSITION({ type: 'CREATE' })"
+				@click="onCreateSession"
 			>
 				<md-icon>add</md-icon>
 			</md-button>
 			<!-- View current week btn -->
-			<md-button class="app__btn info" @click.native="getCurrentWeek"
+			<md-button class="app__btn info" @click="getCurrentWeek"
 				>View Current Week</md-button
 			>
 			<!-- View last week btn -->
-			<md-button class="app__btn info" @click.native="getLastWeek"
+			<md-button class="app__btn info" @click="getLastWeek"
 				>View Last Week</md-button
 			>
 			<!-- Search form -->
@@ -48,36 +41,81 @@
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions, mapGetters } from "vuex";
+// fsm
+import { authMachine } from "../fsm/auth";
+import { searchMachine } from "../fsm/search";
+import { sessionMachine } from "../fsm/session";
 
 // Components
 import SearchForm from "../components/DashboardPage/SearchForm";
+import Spinner from "../components/utils/Spinner";
 
 export default {
 	components: {
-		SearchForm
-	},
-	data() {
-		return {};
+		SearchForm,
+		Spinner
 	},
 	computed: {
-		...mapState({
-			user: state => state.auth.userData,
-			sessionState: state => state.session.currentState,
-			sessionData: state => state.session.sessionData,
-			dashboardState: state => state.dashboard.currentState,
-			currentSession: state => state.dashboard.currentSession
-		}),
-		...mapGetters(["currentWeekDates", "lastWeekDates"])
+		currentWeekDates() {
+			let date = new Date();
+			const monday = date.setDate(
+				date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1)
+			);
+			date = new Date();
+			const sunday = date.setDate(
+				date.getDate() - date.getDay() + (date.getDay() === 0 ? 0 : 7)
+			);
+			return {
+				monday: new Date(monday).toISOString().split("T")[0],
+				sunday: new Date(sunday).toISOString().split("T")[0]
+			};
+		},
+		lastWeekDates() {
+			let date = new Date();
+			const monday = date.setDate(
+				date.getDate() -
+					date.getDay() +
+					(date.getDay() === 0 ? -6 : 1) -
+					7
+			);
+			date = new Date();
+			const sunday = date.setDate(
+				date.getDate() -
+					date.getDay() +
+					(date.getDay() === 0 ? 0 : 7) -
+					7
+			);
+			return {
+				monday: new Date(monday).toISOString().split("T")[0],
+				sunday: new Date(sunday).toISOString().split("T")[0]
+			};
+		},
+		user() {
+			return authMachine.context.userData;
+		},
+		sessionState() {
+			return sessionMachine.current;
+		},
+		sessionData() {
+			return sessionMachine.context.sessionData;
+		},
+		currentSession() {
+			return sessionMachine.context.currentSession;
+		}
 	},
 	methods: {
-		...mapActions([
-			"AUTH_TRANSITION",
-			"SESSION_TRANSITION",
-			"SEARCH_TRANSITION",
-			"DASHBOARD_TRANSITION"
-		]),
+		onViewCurrentSession() {
+			sessionMachine.send({
+				type: "DISPLAY",
+				params: { sessionId: this.currentSession._id }
+			});
+		},
+		onCreateSession() {
+			sessionMachine.send({ type: "CREATE" });
+		},
+		onLogout() {
+			authMachine.send({ type: "LOGOUT" });
+		},
 		getCurrentWeek() {
 			const query = {
 				query: `
@@ -94,7 +132,7 @@ export default {
 					toDate: this.currentWeekDates.sunday
 				}
 			};
-			this.SEARCH_TRANSITION({
+			searchMachine.send({
 				type: "SEARCH",
 				params: { query, queryName: "getSessionsFromTo" }
 			});
@@ -115,15 +153,10 @@ export default {
 					toDate: this.lastWeekDates.sunday
 				}
 			};
-			this.SEARCH_TRANSITION({
+			searchMachine.send({
 				type: "SEARCH",
 				params: { query, queryName: "getSessionsFromTo" }
 			});
-		}
-	},
-	mounted() {
-		if (this.dashboardState.matches("idle")) {
-			this.DASHBOARD_TRANSITION({ type: "UPDATE_CURRENT_SESSION" });
 		}
 	}
 };
@@ -137,6 +170,11 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+.spinner {
+	display: block;
+	margin: 18rem auto 0;
 }
 
 .dashboard-ctn {

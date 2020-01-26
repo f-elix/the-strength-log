@@ -30,8 +30,8 @@
 </template>
 
 <script>
-// Vuex
-import { mapActions } from "vuex";
+// fsm
+import { searchMachine } from "../../fsm/search";
 
 // Components
 import FormGroup from "../utils/forms/FormGroup";
@@ -48,14 +48,14 @@ export default {
 			toDate: null,
 			fromToQuery: {
 				query: `
-          query searchByPeriod($fromDate: Date!, $toDate: Date!) {
-            getSessionsFromTo(fromDate: $fromDate, toDate: $toDate) {
-              _id
-              title
-              sessionDate
-            }
-          }
-        `
+					query searchByPeriod($fromDate: Date!, $toDate: Date!) {
+						getSessionsFromTo(fromDate: $fromDate, toDate: $toDate) {
+							_id
+							title
+							sessionDate
+						}
+					}
+				`
 			}
 		};
 	},
@@ -69,7 +69,6 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(["SEARCH_TRANSITION"]),
 		searchByPeriod() {
 			if (!this.isDatesValid) {
 				return;
@@ -79,7 +78,7 @@ export default {
 				fromDate: this.fromDate,
 				toDate: this.toDate
 			};
-			this.SEARCH_TRANSITION({
+			searchMachine.send({
 				type: "SEARCH",
 				params: { query, queryName: "getSessionsFromTo" }
 			});

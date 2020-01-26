@@ -1,7 +1,5 @@
 <template>
 	<div id="app">
-		<!-- Loader -->
-		<app-loader v-if="loading"></app-loader>
 		<transition name="page-transition">
 			<router-view></router-view>
 		</transition>
@@ -9,22 +7,8 @@
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions } from "vuex";
-
-// Components
-import AppLoader from "./components/utils/AppLoader";
-
 export default {
-	name: "app",
-	components: {
-		AppLoader
-	},
-	computed: {
-		...mapState({
-			loading: state => state.loading
-		})
-	}
+	name: "app"
 };
 </script>
 

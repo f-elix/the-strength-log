@@ -1,70 +1,90 @@
 <template>
 	<div class="search-ctn">
-		<md-button
-			class="app__btn--small plain"
-			@click.native="SEARCH_TRANSITION({ type: 'BACK' })"
-		>
+		<md-button class="app__btn--small plain" @click="onBackToMenu">
 			Back to menu
 		</md-button>
-		<!-- Search header -->
-
-		<div class="search-header">
-			<div v-if="currentQuery === 'getSessionsByDate'">
-				<p>
-					All sessions on <span>{{ searchParams.date }}</span>
-				</p>
-			</div>
-			<div v-if="currentQuery === 'getSessionsFromTo'">
-				<p>All sessions</p>
-				<div class="search-header__dates">
+		<!-- Spinner -->
+		<spinner v-show="searchState.matches('fetching')" class="spinner" />
+		<!-- Not found message -->
+		<transition name="loaded">
+			<h2 v-if="searchState.matches('error')" class="no-results-text">
+				No results found.
+			</h2>
+		</transition>
+		<transition-group name="loaded">
+			<!-- Search header -->
+			<div
+				v-if="searchState.matches('success')"
+				class="search-header"
+				key="header"
+			>
+				<div v-if="currentQuery === 'getSessionsByDate'">
 					<p>
-						From<br /><span class="search-header__param">{{
-							searchParams.dates.fromDate
-						}}</span>
+						All sessions on <span>{{ searchParams.date }}</span>
 					</p>
+				</div>
+				<div v-if="currentQuery === 'getSessionsFromTo'">
+					<p>All sessions</p>
+					<div class="search-header__dates">
+						<p>
+							From<br /><span class="search-header__param">{{
+								searchParams.dates.fromDate
+							}}</span>
+						</p>
+						<p>
+							To<br /><span class="search-header__param">{{
+								searchParams.dates.toDate
+							}}</span>
+						</p>
+					</div>
+				</div>
+				<div v-if="currentQuery === 'getSessionsByTitle'">
 					<p>
-						To<br /><span class="search-header__param">{{
-							searchParams.dates.toDate
-						}}</span>
+						All sessions with title containing
+						<span>"{{ searchParams.sessionName }}"</span>
 					</p>
 				</div>
 			</div>
-			<div v-if="currentQuery === 'getSessionsByTitle'">
-				<p>
-					All sessions with title containing
-					<span>"{{ searchParams.sessionName }}"</span>
-				</p>
-			</div>
-		</div>
-		<!-- Search results -->
-		<h2 v-if="!sessions.length" class="no-results-text">
-			No results found.
-		</h2>
-		<search-result></search-result>
+			<!-- Search results -->
+			<search-result
+				v-if="searchState.matches('success')"
+				key="results"
+			/>
+		</transition-group>
 	</div>
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions, mapGetters } from "vuex";
+// fsm
+import { searchMachine } from "../fsm/search";
 
 // Components
 import SearchResult from "../components/SearchPage/SearchResult";
+import Spinner from "../components/utils/Spinner";
 
 export default {
 	components: {
-		SearchResult
+		SearchResult,
+		Spinner
 	},
 	computed: {
-		...mapState({
-			sessions: state => state.search.sessions,
-			searchParams: state => state.search.searchParams,
-			currentQuery: state => state.search.currentQuery
-		}),
-		...mapGetters(["currentWeekDates"])
+		searchState() {
+			return searchMachine.current;
+		},
+		sessions() {
+			return searchMachine.context.sessions;
+		},
+		searchParams() {
+			return searchMachine.context.searchParams;
+		},
+		currentQuery() {
+			return searchMachine.context.currentQuery;
+		}
 	},
 	methods: {
-		...mapActions(["SEARCH_TRANSITION"])
+		onBackToMenu() {
+			searchMachine.send({ type: "BACK_TO_MENU" });
+		}
 	}
 };
 </script>
@@ -104,6 +124,11 @@ export default {
 
 .search-header__param {
 	color: var(--color-primary);
+}
+
+.spinner {
+	display: block;
+	margin: 12rem auto 0;
 }
 
 .no-results-text {

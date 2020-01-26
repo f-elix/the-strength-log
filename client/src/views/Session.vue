@@ -5,12 +5,7 @@
 			<!-- back to menu btn -->
 			<md-button
 				class="app__btn--small plain menu-btn"
-				@click.native="
-					SESSION_TRANSITION({
-						type: 'BACK_TO_DASHBOARD',
-						params: { sessionData }
-					})
-				"
+				@click="onBackToMenu"
 			>
 				Back to menu
 			</md-button>
@@ -18,66 +13,84 @@
 			<md-button
 				class="app__btn--small plain-light back-to-search-btn"
 				v-if="searchState.matches('success')"
-				@click.native="SESSION_TRANSITION({ type: 'BACK_TO_SEARCH' })"
+				@click="onBackToSearch"
 			>
 				Back to results
 			</md-button>
 			<!-- Current session btn -->
 			<md-button
 				class="app__btn--small info-light"
-				v-if="
-					dashboardState.matches('hasCurrentSession') &&
-						sessionData._id !== currentSession._id
-				"
-				@click="
-					SESSION_TRANSITION({
-						type: 'DISPLAY',
-						params: { sessionId: currentSession._id }
-					})
-				"
+				v-if="currentSession && sessionData._id !== currentSession._id"
+				@click="onViewCurrentSession"
 				>Current Session</md-button
 			>
 		</div>
-		<!-- Session Header -->
-		<session-header />
-		<!-- Session exercise list -->
-		<exercise-list />
-		<!-- Session notes -->
-		<session-notes />
-		<!-- Session btns -->
-		<session-btns />
+		<!-- Spinner -->
+		<spinner v-if="sessionState.matches('loading')" class="spinner" />
+		<!-- Session -->
+		<transition name="loaded">
+			<div>
+				<!-- Session Header -->
+				<session-header />
+				<!-- Session exercise list -->
+				<exercise-list />
+				<!-- Session notes -->
+				<session-notes />
+				<!-- Session btns -->
+				<session-btns />
+			</div>
+		</transition>
 	</div>
 </template>
 
 <script>
-// Vuex
-import { mapActions, mapState } from "vuex";
+// fsm
+import { sessionMachine } from "../fsm/session";
+import { searchMachine } from "../fsm/search";
 
 // Components
 import SessionHeader from "../components/SessionPage/SessionHeader";
 import ExerciseList from "../components/SessionPage/SessionExercises/ExerciseList";
 import SessionNotes from "../components/SessionPage/SessionNotes";
 import SessionBtns from "../components/SessionPage/SessionBtns";
+import Spinner from "../components/utils/Spinner";
 
 export default {
 	components: {
 		SessionHeader,
 		ExerciseList,
 		SessionNotes,
-		SessionBtns
+		SessionBtns,
+		Spinner
 	},
 
 	computed: {
-		...mapState({
-			sessionState: state => state.session.currentState,
-			sessionData: state => state.session.sessionData,
-			searchState: state => state.search.currentState,
-			dashboardState: state => state.dashboard.currentState,
-			currentSession: state => state.dashboard.currentSession
-		})
+		sessionState() {
+			return sessionMachine.current;
+		},
+		sessionData() {
+			return sessionMachine.context.sessionData;
+		},
+		currentSession() {
+			return sessionMachine.context.currentSession;
+		},
+		searchState() {
+			return searchMachine.current;
+		}
 	},
 	methods: {
-		...mapActions(["SESSION_TRANSITION"])
+		onBackToMenu() {
+			sessionMachine.send({ type: "BACK_TO_DASHBOARD" });
+		},
+		onBackToSearch() {
+			sessionMachine.send({ type: "BACK_TO_SEARCH" });
+		},
+		onViewCurrentSession() {
+			sessionMachine.send({
+				type: "DISPLAY",
+				params: { sessionId: this.currentSession._id }
+			});
+		}
 	}
 };
 </script>
@@ -97,5 +110,10 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+}
+
+.spinner {
+	display: block;
+	margin: 18rem auto 0;
 }
 </style>

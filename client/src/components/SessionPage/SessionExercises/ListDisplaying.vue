@@ -40,14 +40,17 @@
 </template>
 
 <script>
-// Vuex
-import { mapState } from "vuex";
+// fsm
+import { sessionMachine } from "@/fsm/session";
 
 export default {
 	computed: {
-		...mapState({
-			exercises: state => state.session.sessionData.exercises
-		})
+		sessionState() {
+			return sessionMachine.current;
+		},
+		exercises() {
+			return sessionMachine.context.sessionData.exercises;
+		}
 	}
 };
 </script>

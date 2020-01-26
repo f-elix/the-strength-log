@@ -11,22 +11,20 @@
 			>
 				<div
 					key="signup"
-					v-if="state.matches('idle.signup')"
+					v-if="authState.matches('idle.signup')"
 					class="form-btn-group__btn js-max-height"
 				>
 					<p>
 						Already have an account?
 					</p>
 
-					<md-button
-						class="app__btn action-light"
-						@click.native="AUTH_TRANSITION({ type: 'LOGIN' })"
+					<md-button class="app__btn info-light" @click="displayLogin"
 						>Login Here</md-button
 					>
 				</div>
 				<login-form
 					key="login"
-					v-if="state.matches('idle.login')"
+					v-if="authState.matches('idle.login')"
 					class="form-btn-group__form js-max-height"
 				></login-form>
 			</transition>
@@ -42,21 +40,19 @@
 			>
 				<div
 					key="login"
-					v-if="state.matches('idle.login')"
+					v-if="authState.matches('idle.login')"
 					class="form-btn-group__btn js-max-height"
 				>
 					<p>
 						Don't have an account?
 					</p>
-					<md-button
-						class="app__btn action"
-						@click.native="AUTH_TRANSITION({ type: 'SIGNUP' })"
+					<md-button class="app__btn info" @click="displaySignup"
 						>Sign Up Here</md-button
 					>
 				</div>
 				<sign-up-form
 					key="signup"
-					v-if="state.matches('idle.signup')"
+					v-if="authState.matches('idle.signup')"
 					class="form-btn-group__form js-max-height"
 				></sign-up-form>
 			</transition>
@@ -65,8 +61,8 @@
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions } from "vuex";
+// fsm
+import { authMachine } from "../../fsm/auth";
 
 // Components
 import LoginForm from "./LoginForm";
@@ -78,12 +74,17 @@ export default {
 		SignUpForm
 	},
 	computed: {
-		...mapState({
-			state: state => state.auth.currentState
-		})
+		authState() {
+			return authMachine.current;
+		}
 	},
 	methods: {
-		...mapActions(["AUTH_TRANSITION"]),
+		displaySignup() {
+			authMachine.send("SIGNUP");
+		},
+		displayLogin() {
+			authMachine.send("LOGIN");
+		},
 		// Height animation
 		setHeight() {
 			const animatedElements = document.getElementsByClassName(

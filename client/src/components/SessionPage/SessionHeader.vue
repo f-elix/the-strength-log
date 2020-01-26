@@ -51,8 +51,8 @@
 </template>
 
 <script>
-// Vuex
-import { mapState } from "vuex";
+// fsm
+import { sessionMachine } from "@/fsm/session";
 
 // Components
 import FormGroup from "../utils/forms/FormGroup";
@@ -67,10 +67,12 @@ export default {
 		};
 	},
 	computed: {
-		...mapState({
-			sessionState: state => state.session.currentState,
-			sessionData: state => state.session.sessionData
-		})
+		sessionState() {
+			return sessionMachine.current;
+		},
+		sessionData() {
+			return sessionMachine.context.sessionData;
+		}
 	}
 };
 </script>

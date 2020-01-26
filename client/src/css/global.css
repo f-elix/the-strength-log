@@ -109,3 +109,13 @@ table {
 .error-light {
 	border-color: var(--color-error);
 }
+
+/* Vue transition */
+.loaded-enter {
+	opacity: 0;
+	transform: translateY(3rem);
+}
+
+.loaded-enter-active {
+	transition: opacity 0.1s linear, transform 0.2s ease-out;
+}
