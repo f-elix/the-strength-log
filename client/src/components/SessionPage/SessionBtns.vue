@@ -4,28 +4,34 @@
 			class="app__btn error"
 			v-if="sessionState.matches('editing')"
 			@click="onDiscard"
-			><md-icon>cancel</md-icon> Discard
+			><md-icon aria-hidden="true" focusable="false">cancel</md-icon>
+			Discard
 		</md-button>
 		<md-button
 			class="app__btn error"
 			v-if="sessionState.matches('displaying')"
 			@click="onDelete"
 		>
-			<md-icon>delete_forever</md-icon> Delete</md-button
+			<md-icon aria-hidden="true" focusable="false"
+				>delete_forever</md-icon
+			>
+			Delete</md-button
 		>
 		<md-button
 			class="app__btn action"
 			v-if="sessionState.matches('editing')"
 			@click="onSave"
 		>
-			<md-icon>check_circle</md-icon> Save
+			<md-icon aria-hidden="true" focusable="false">check_circle</md-icon>
+			Save
 		</md-button>
 		<md-button
 			class="app__btn action"
 			v-if="sessionState.matches('displaying')"
 			@click="onEdit"
 		>
-			<md-icon>edit</md-icon> Edit Session</md-button
+			<md-icon aria-hidden="true" focusable="false">edit</md-icon> Edit
+			Session</md-button
 		>
 	</div>
 </template>

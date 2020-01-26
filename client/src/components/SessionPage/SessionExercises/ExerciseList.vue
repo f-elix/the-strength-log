@@ -12,7 +12,8 @@
 			@click="onAddExercise"
 			v-if="sessionState.matches('editing')"
 		>
-			<md-icon>add</md-icon>Add Exercise</md-button
+			<md-icon aria-hidden="true" focusable="false">add</md-icon>Add
+			Exercise</md-button
 		>
 	</div>
 </template>

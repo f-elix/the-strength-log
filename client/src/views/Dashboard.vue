@@ -21,10 +21,11 @@
 			<!-- New session btn -->
 			<md-button
 				class="md-fab md-fab-bottom-right new-session-btn"
-				aria-roledescription="Create new session"
+				aria-label="Create new session"
+				title="Create new session"
 				@click="onCreateSession"
 			>
-				<md-icon>add</md-icon>
+				<md-icon focusable="false">add</md-icon>
 			</md-button>
 			<!-- View current week btn -->
 			<md-button class="app__btn info" @click="getCurrentWeek"

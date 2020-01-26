@@ -3,9 +3,11 @@
 		<!-- Remove exercise btn -->
 		<md-button
 			class="md-icon-button list__remove-exercise-btn"
+			aria-label="Remove exercise"
+			title="Remove exercise"
 			@click="onDeleteExercise"
 		>
-			<md-icon class="md-accent">delete</md-icon>
+			<md-icon class="md-accent" focusable="false">delete</md-icon>
 		</md-button>
 		<!-- Movements -->
 		<form
@@ -21,10 +23,14 @@
 			<!-- Delete movement btn -->
 			<md-button
 				class="md-icon-button list__movement-btn--delete"
+				aria-label="Delete movement"
+				title="Delete movement"
 				v-if="Number(movement.id.toString().split('')[1]) > 1"
 				@click="onDeleteMovement(movement)"
 			>
-				<md-icon class="md-accent">remove_circle</md-icon>
+				<md-icon class="md-accent" focusable="false"
+					>remove_circle</md-icon
+				>
 			</md-button>
 			<!-- Name input -->
 			<form-group
@@ -79,26 +85,34 @@
 				<!-- Delete set btn -->
 				<md-button
 					class="md-icon-button"
+					aria-label="Delete set"
+					title="Delete set"
 					v-if="Number(set.id.toString().split('')[2]) > 1"
 					@click="onDeleteSet(movement, set)"
 				>
-					<md-icon class="md-accent">remove_circle_outline</md-icon>
+					<md-icon class="md-accent" focusable="false"
+						>remove_circle_outline</md-icon
+					>
 				</md-button>
 			</div>
 			<!-- Add set btn -->
 			<md-button
 				class="md-icon-button list__set-btn--add"
+				aria-label="Add set"
+				title="Add set"
 				@click="onAddSet(movement)"
 			>
-				<md-icon>add_circle_outline</md-icon>
+				<md-icon focusable="false">add_circle_outline</md-icon>
 			</md-button>
 		</form>
 		<!-- Add movement btn -->
 		<md-button
 			class="md-icon-button list__movement-btn--add"
+			aria-label="Add movement"
+			title="Add movement"
 			@click="onAddMovement"
 		>
-			<md-icon>add_box</md-icon>
+			<md-icon focusable="false">add_box</md-icon>
 		</md-button>
 		<div class="list__handle"></div>
 	</li>
