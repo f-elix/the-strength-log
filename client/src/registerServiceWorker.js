@@ -23,10 +23,17 @@ if (process.env.NODE_ENV === "production") {
 			console.log("New content is available; please refresh.");
 			const updateBanner = document.getElementById("update-banner");
 			const updateButton = document.getElementById("update-button");
+			const dismissButton = document.getElementById("dismiss-button");
 
 			updateBanner.style.display = "block";
+
 			updateButton.addEventListener("click", () => {
-				location.reload(true);
+				navigator.serviceWorker.controller.postMessage({ type: "SKIP_WAITING" });
+				window.location.reload();
+			});
+
+			dismissButton.addEventListener("click", e => {
+				updateBanner.style.display = "none";
 			});
 		},
 		offline() {

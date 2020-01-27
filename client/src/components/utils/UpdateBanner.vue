@@ -4,6 +4,9 @@
 			There's a new version of <strong>The Strength Log</strong>.<br />
 			Simply reload the app to access it.
 		</p>
+		<md-button class="app__btn--small error" id="dismiss-button"
+			>Dismiss</md-button
+		>
 		<md-button class="app__btn--small action" id="update-button"
 			>Reload</md-button
 		>
@@ -35,6 +38,7 @@ export default {};
 }
 
 .banner button {
-	margin: 1.5rem auto;
+	display: inline-block;
+	margin: 1.5rem;
 }
 </style>
