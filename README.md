@@ -1,4 +1,4 @@
-# the-strength-log
+# The Strength Log
 
 A simple strength training log PWA, perfect tracking workouts.
 
