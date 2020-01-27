@@ -4,14 +4,13 @@ A simple strength training log PWA, perfect tracking workouts.
 
 ## Technologies and packages used
 
+### Client side
 - Vue / Vue-router
 - Xstate
 - Workbox / vue-pwa-plugin
 - Vue material
 - Vuedraggable
 - Vee-validate
-
-### Client side
 
 ### Server side
 - Node.js
