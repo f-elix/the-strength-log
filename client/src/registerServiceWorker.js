@@ -28,6 +28,7 @@ if (process.env.NODE_ENV === "production") {
 			updateBanner.style.display = "block";
 
 			updateButton.addEventListener("click", () => {
+				console.log(registration);
 				registration.installing.postMessage({ type: "SKIP_WAITING" });
 				window.location.reload();
 			});
