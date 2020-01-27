@@ -18,6 +18,7 @@ export default {};
 .banner {
 	display: none;
 	position: fixed;
+	z-index: 1000;
 	top: 0;
 	width: 100%;
 	padding: 0.25rem 0;

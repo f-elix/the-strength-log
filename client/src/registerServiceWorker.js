@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === "production") {
 
 			updateBanner.style.display = "block";
 			updateButton.addEventListener("click", () => {
-				location.reload();
+				location.reload(true);
 			});
 		},
 		offline() {
