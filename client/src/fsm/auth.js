@@ -58,6 +58,7 @@ const authUser = async event => {
 			body: JSON.stringify(authQuery)
 		});
 		const data = await res.json();
+		console.log(data);
 		if (data.errors) {
 			const error = new Error();
 			error.message = data.errors[0].message;
@@ -67,6 +68,7 @@ const authUser = async event => {
 		const token = data.data[queryName].token;
 		return token;
 	} catch (err) {
+		err.message = "You need an internet connection to login.";
 		console.error(err);
 		throw err;
 	}
@@ -177,7 +179,7 @@ const machine = Machine(
 								actions: ["updateUserData", "routeDashboard"]
 							},
 							onError: {
-								target: "#idle",
+								target: "#idle.last",
 								actions: ["showError"]
 							}
 						}
@@ -212,7 +214,9 @@ const machine = Machine(
 			clearToken: () => {
 				localStorage.removeItem("token");
 			},
-			showError: assign({ error: (_, event) => event.data.message }),
+			showError: assign({
+				error: (_, event) => event.data.message
+			}),
 			clearError: assign({ error: "" }),
 			updateUserData: assign({ userData: (_, event) => event.data }),
 			clearUserData: assign({ userData: "" })
