@@ -20,7 +20,6 @@ if (process.env.NODE_ENV === "production") {
 			console.log("New content is downloading.");
 		},
 		updated(registration) {
-			console.log(registration);
 			console.log("New content is available; please refresh.");
 			const updateBanner = document.getElementById("update-banner");
 			const updateButton = document.getElementById("update-button");
@@ -29,7 +28,7 @@ if (process.env.NODE_ENV === "production") {
 			updateBanner.style.display = "block";
 
 			updateButton.addEventListener("click", () => {
-				registration.installing.postMessage({ type: "SKIP_WAITING" });
+				registration.waiting.postMessage({ type: "SKIP_WAITING" });
 				window.location.reload();
 			});
 
