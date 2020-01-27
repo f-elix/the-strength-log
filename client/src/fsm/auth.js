@@ -1,6 +1,7 @@
-import Vue from "vue";
+import { Machine, assign } from "xstate";
+import { generateVueMachine } from "./generateVueMachine";
+
 import router from "../router";
-import { Machine, interpret, assign } from "xstate";
 
 const isAuth = async () => {
 	const token = localStorage.getItem("token");
@@ -224,29 +225,4 @@ const machine = Machine(
 	}
 );
 
-export const authMachine = new Vue({
-	created() {
-		this.service
-			.onTransition(state => {
-				this.current = state;
-				console.log(`[ ${machine.id} state ]`, this.current.value);
-			})
-			.onChange(updatedContext => {
-				this.context = updatedContext;
-				console.log(`[ ${machine.id} context ]`, updatedContext);
-			})
-			.start();
-	},
-	data() {
-		return {
-			current: machine.initialState,
-			context: machine.context,
-			service: interpret(machine)
-		};
-	},
-	methods: {
-		send(event) {
-			this.service.send(event);
-		}
-	}
-});
+export const authMachine = generateVueMachine(machine);
