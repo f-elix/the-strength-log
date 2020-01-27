@@ -1,6 +1,9 @@
 module.exports = {
 	pwa: {
+		workboxPluginMode: "InjectManifest",
 		workboxOptions: {
+			swDest: "service-worker.js",
+			swSrc: "src/assets/sw-base.js",
 			exclude: ["_redirects"]
 		},
 		name: "The Strength Log",

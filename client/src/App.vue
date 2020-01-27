@@ -1,14 +1,34 @@
 <template>
 	<div id="app">
+		<offline v-if="!online" />
 		<transition name="page-transition">
-			<router-view></router-view>
+			<router-view v-if="online"></router-view>
 		</transition>
 	</div>
 </template>
 
 <script>
+// components
+import Offline from "./views/Offline";
+
 export default {
-	name: "app"
+	name: "app",
+	components: {
+		Offline
+	},
+	data() {
+		return {
+			online: navigator.onLine
+		};
+	},
+	created() {
+		window.addEventListener("offline", () => {
+			this.online = false;
+		});
+		window.addEventListener("online", () => {
+			this.online = true;
+		});
+	}
 };
 </script>
 

@@ -11,10 +11,10 @@
 		<!-- Install btn -->
 		<md-button
 			class="app__btn--small plain"
-			id="installPWA"
-			@click.prevent="showInstallPrompt()"
+			v-if="deferredPrompt"
+			@click="promptInstall"
 		>
-			<md-icon>save_alt</md-icon>
+			<md-icon focusable="false">save_alt</md-icon>
 			Install
 		</md-button>
 		<!-- Forms -->
@@ -36,8 +36,8 @@ import LoginBox from "../components/AuthPage/LoginBox";
 import ErrorMessage from "../components/utils/forms/ErrorMessage";
 import AppLoader from "../components/utils/AppLoader";
 
-// js
-import initializePwa from "../assets/pwa";
+// pwa
+import { BeforeInstallPromptEvent } from "vue-pwa-install";
 
 export default {
 	components: {
@@ -47,7 +47,7 @@ export default {
 	},
 	data() {
 		return {
-			showInstallPrompt: null
+			deferredPrompt: BeforeInstallPromptEvent
 		};
 	},
 	computed: {
@@ -58,14 +58,35 @@ export default {
 			return authMachine.context;
 		}
 	},
-	mounted() {
-		// Initializes the PWA code - checks if the app is installed,
-		// etc.
-		(async () => {
-			this.showInstallPrompt = await initializePwa();
-		})();
-		authMachine.send({ type: "LOADED" });
+	methods: {
+		promptInstall() {
+			this.deferredPrompt.prompt();
+			this.deferredPrompt.userChoice.then(choice => {
+				if (choice.outcome === "accepted") {
+					console.log(
+						"The Strength Log has been successfully installed."
+					);
+				} else {
+					console.log("User dismissed installation.");
+				}
+			});
+			this.deferredPrompt = null;
+		}
+	},
+	created() {
+		this.$on("canInstall", e => {
+			e.preventDefault();
+			this.deferredPrompt = e;
+		});
 	}
+	// mounted() {
+	// 	// Initializes the PWA code - checks if the app is installed,
+	// 	// etc.
+	// 	(async () => {
+	// 		this.showInstallPrompt = await initializePwa();
+	// 	})();
+	// 	authMachine.send({ type: "LOADED" });
+	// }
 };
 </script>
 
