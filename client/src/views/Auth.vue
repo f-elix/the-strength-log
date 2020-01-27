@@ -36,9 +36,6 @@ import LoginBox from "../components/AuthPage/LoginBox";
 import ErrorMessage from "../components/utils/forms/ErrorMessage";
 import AppLoader from "../components/utils/AppLoader";
 
-// pwa
-import { BeforeInstallPromptEvent } from "vue-pwa-install";
-
 export default {
 	components: {
 		LoginBox,
@@ -47,7 +44,7 @@ export default {
 	},
 	data() {
 		return {
-			deferredPrompt: BeforeInstallPromptEvent
+			deferredPrompt: null
 		};
 	},
 	computed: {
@@ -61,8 +58,8 @@ export default {
 	methods: {
 		promptInstall() {
 			this.deferredPrompt.prompt();
-			this.deferredPrompt.userChoice.then(choice => {
-				if (choice.outcome === "accepted") {
+			this.deferredPrompt.userChoice.then(choiceResult => {
+				if (choiceResult.outcome === "accepted") {
 					console.log(
 						"The Strength Log has been successfully installed."
 					);
@@ -74,19 +71,12 @@ export default {
 		}
 	},
 	created() {
-		this.$on("canInstall", e => {
+		window.addEventListener("beforeinstallprompt", e => {
 			e.preventDefault();
 			this.deferredPrompt = e;
+			return false;
 		});
 	}
-	// mounted() {
-	// 	// Initializes the PWA code - checks if the app is installed,
-	// 	// etc.
-	// 	(async () => {
-	// 		this.showInstallPrompt = await initializePwa();
-	// 	})();
-	// 	authMachine.send({ type: "LOADED" });
-	// }
 };
 </script>
 

@@ -1,8 +1,9 @@
 <template>
 	<div id="app">
 		<offline v-if="!online" />
+		<update-banner />
 		<transition name="page-transition">
-			<router-view v-if="online"></router-view>
+			<router-view v-if="online"> </router-view>
 		</transition>
 	</div>
 </template>
@@ -10,11 +11,13 @@
 <script>
 // components
 import Offline from "./views/Offline";
+import UpdateBanner from "./components/utils/UpdateBanner";
 
 export default {
 	name: "app",
 	components: {
-		Offline
+		Offline,
+		UpdateBanner
 	},
 	data() {
 		return {
