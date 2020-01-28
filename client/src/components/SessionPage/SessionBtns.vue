@@ -1,5 +1,6 @@
 <template>
 	<div class="session__btns">
+		<!-- Discard button (editing) -->
 		<md-button
 			class="app__btn error"
 			v-if="sessionState.matches('editing')"
@@ -7,6 +8,7 @@
 			><md-icon aria-hidden="true" focusable="false">cancel</md-icon>
 			Discard
 		</md-button>
+		<!-- Delete button (displaying) -->
 		<md-button
 			class="app__btn error"
 			v-if="sessionState.matches('displaying')"
@@ -17,6 +19,7 @@
 			>
 			Delete</md-button
 		>
+		<!-- Save button (editing) -->
 		<md-button
 			class="app__btn action"
 			v-if="sessionState.matches('editing')"
@@ -25,13 +28,14 @@
 			<md-icon aria-hidden="true" focusable="false">check_circle</md-icon>
 			Save
 		</md-button>
+		<!-- Edit button (displayiong) -->
 		<md-button
 			class="app__btn action"
 			v-if="sessionState.matches('displaying')"
 			@click="onEdit"
 		>
-			<md-icon aria-hidden="true" focusable="false">edit</md-icon> Edit
-			Session</md-button
+			<md-icon aria-hidden="true" focusable="false">edit</md-icon>
+			Edit</md-button
 		>
 	</div>
 </template>
