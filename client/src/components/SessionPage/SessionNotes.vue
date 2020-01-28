@@ -5,7 +5,6 @@
 			v-if="sessionState.matches('displaying') && sessionData.notes"
 			class="session__notes--displaying"
 		>
-			<h2>Notes:</h2>
 			<p>
 				{{ sessionData.notes }}
 			</p>
