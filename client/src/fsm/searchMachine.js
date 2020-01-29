@@ -1,5 +1,4 @@
 import { Machine, assign } from "xstate";
-import { generateVueMachine } from "./generateVueMachine";
 
 import router from "../router";
 
@@ -47,7 +46,7 @@ const getSessions = async params => {
 	}
 };
 
-const machine = Machine(
+export const searchMachine = Machine(
 	{
 		id: "search",
 		context: {
@@ -119,5 +118,3 @@ const machine = Machine(
 		}
 	}
 );
-
-export const searchMachine = generateVueMachine(machine);

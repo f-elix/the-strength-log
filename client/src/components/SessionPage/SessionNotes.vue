@@ -24,9 +24,6 @@
 </template>
 
 <script>
-// fsm
-import { sessionMachine } from "@/fsm/session";
-
 // Components
 import AppTextArea from "../utils/forms/AppTextArea";
 
@@ -36,10 +33,10 @@ export default {
 	},
 	computed: {
 		sessionState() {
-			return sessionMachine.current;
+			return this.$sessionMachine.current;
 		},
 		sessionData() {
-			return sessionMachine.context.sessionData;
+			return this.$sessionMachine.context.sessionData;
 		}
 	}
 };

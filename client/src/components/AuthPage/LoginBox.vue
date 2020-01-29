@@ -61,9 +61,6 @@
 </template>
 
 <script>
-// fsm
-import { authMachine } from "../../fsm/auth";
-
 // Components
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
@@ -75,15 +72,15 @@ export default {
 	},
 	computed: {
 		authState() {
-			return authMachine.current;
+			return this.$authMachine.current;
 		}
 	},
 	methods: {
 		displaySignup() {
-			authMachine.send("SIGNUP");
+			this.$authMachine.send("SIGNUP");
 		},
 		displayLogin() {
-			authMachine.send("LOGIN");
+			this.$authMachine.send("LOGIN");
 		},
 		// Height animation
 		setHeight() {

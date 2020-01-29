@@ -1,5 +1,4 @@
 import { Machine, assign } from "xstate";
-import { generateVueMachine } from "./generateVueMachine";
 
 import router from "../router";
 
@@ -201,7 +200,7 @@ const deleteSession = async params => {
 	}
 };
 
-const machine = Machine(
+export const sessionMachine = Machine(
 	{
 		id: "session",
 		context: {
@@ -493,5 +492,3 @@ const machine = Machine(
 		}
 	}
 );
-
-export const sessionMachine = generateVueMachine(machine);

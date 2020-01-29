@@ -18,19 +18,15 @@
 </template>
 
 <script>
-// fsm
-import { searchMachine } from "../../fsm/search";
-import { sessionMachine } from "../../fsm/session";
-
 export default {
 	computed: {
 		sessions() {
-			return searchMachine.context.sessions;
+			return this.$searchMachine.context.sessions;
 		}
 	},
 	methods: {
 		onViewSession(session) {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: "DISPLAY",
 				params: { sessionId: session._id }
 			});

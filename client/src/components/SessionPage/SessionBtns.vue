@@ -41,39 +41,36 @@
 </template>
 
 <script>
-// fsm
-import { sessionMachine } from "@/fsm/session";
-
 export default {
 	computed: {
 		sessionState() {
-			return sessionMachine.current;
+			return this.$sessionMachine.current;
 		},
 		sessionData() {
-			return sessionMachine.context.sessionData;
+			return this.$sessionMachine.context.sessionData;
 		}
 	},
 	methods: {
 		onDiscard() {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: this.sessionData._id ? "DISPLAY" : "BACK_TO_DASHBOARD",
 				params: { sessionId: this.sessionData._id }
 			});
 		},
 		onDelete() {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: "DELETE",
 				params: { sessionId: this.sessionData._id }
 			});
 		},
 		onSave() {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: "SAVE",
 				params: { sessionData: this.sessionData }
 			});
 		},
 		onEdit() {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: "EDIT",
 				params: { sessionData: this.sessionData }
 			});

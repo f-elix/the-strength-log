@@ -30,9 +30,6 @@
 </template>
 
 <script>
-// fsm
-import { searchMachine } from "../../fsm/search";
-
 // Components
 import FormGroup from "../utils/forms/FormGroup";
 import ErrorMessage from "../utils/forms/ErrorMessage";
@@ -78,7 +75,7 @@ export default {
 				fromDate: this.fromDate,
 				toDate: this.toDate
 			};
-			searchMachine.send({
+			this.$searchMachine.send({
 				type: "SEARCH",
 				params: { query, queryName: "getSessionsFromTo" }
 			});

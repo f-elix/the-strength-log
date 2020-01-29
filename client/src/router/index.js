@@ -2,8 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Auth from "../views/Auth.vue";
 
-import { authMachine } from "../fsm/auth";
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -21,7 +19,7 @@ const routes = [
 		component: () => import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
 		beforeEnter: (to, from, next) => {
 			setTimeout(() => {
-				if (authMachine.current.matches("authenticated")) {
+				if (router.app.$authMachine.current.matches("authenticated")) {
 					next();
 				} else {
 					next("/");
@@ -34,7 +32,7 @@ const routes = [
 		name: "session",
 		component: () => import(/* webpackChunkName: "session" */ "../views/Session.vue"),
 		beforeEnter: (to, from, next) => {
-			if (authMachine.current.matches("authenticated")) {
+			if (router.app.$authMachine.current.matches("authenticated")) {
 				next();
 			} else {
 				next("/");
@@ -46,7 +44,7 @@ const routes = [
 		name: "session/id",
 		component: () => import(/* webpackChunkName: "session" */ "../views/Session.vue"),
 		beforeEnter: (to, from, next) => {
-			if (authMachine.current.matches("authenticated")) {
+			if (router.app.$authMachine.current.matches("authenticated")) {
 				next();
 			} else {
 				next("/");
@@ -58,7 +56,7 @@ const routes = [
 		name: "search results",
 		component: () => import(/* webpackChunkName: "search-results" */ "../views/SearchResults.vue"),
 		beforeEnter: (to, from, next) => {
-			if (authMachine.current.matches("authenticated")) {
+			if (router.app.$authMachine.current.matches("authenticated")) {
 				next();
 			} else {
 				next("/");

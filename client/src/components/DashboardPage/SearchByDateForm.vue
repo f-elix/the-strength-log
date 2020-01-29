@@ -14,9 +14,6 @@
 </template>
 
 <script>
-// fsm
-import { searchMachine } from "../../fsm/search";
-
 // Components
 import FormGroup from "../utils/forms/FormGroup";
 
@@ -47,7 +44,7 @@ export default {
 			query.variables = {
 				date: this.date
 			};
-			searchMachine.send({
+			this.$searchMachine.send({
 				type: "SEARCH",
 				params: { query, queryName: "getSessionsByDate" }
 			});

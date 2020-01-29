@@ -73,9 +73,6 @@
 </template>
 
 <script>
-// fsm
-import { authMachine } from "../../fsm/auth";
-
 // Components
 import FormGroup from "../utils/forms/FormGroup";
 import ErrorMessage from "../utils/forms/ErrorMessage";
@@ -128,7 +125,7 @@ export default {
 					password: this.password
 				}
 			};
-			authMachine.send({
+			this.$authMachine.send({
 				type: "SIGNUP",
 				params: { authQuery, queryName: "signupUser" }
 			});

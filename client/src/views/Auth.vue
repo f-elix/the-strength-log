@@ -28,9 +28,6 @@
 </template>
 
 <script>
-// fsm
-import { authMachine } from "../fsm/auth";
-
 // Components
 import LoginBox from "../components/AuthPage/LoginBox";
 import ErrorMessage from "../components/utils/forms/ErrorMessage";
@@ -49,10 +46,10 @@ export default {
 	},
 	computed: {
 		authState() {
-			return authMachine.current;
+			return this.$authMachine.current;
 		},
 		authContext() {
-			return authMachine.context;
+			return this.$authMachine.context;
 		}
 	},
 	methods: {

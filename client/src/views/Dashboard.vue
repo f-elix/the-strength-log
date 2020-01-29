@@ -42,11 +42,6 @@
 </template>
 
 <script>
-// fsm
-import { authMachine } from "../fsm/auth";
-import { searchMachine } from "../fsm/search";
-import { sessionMachine } from "../fsm/session";
-
 // Components
 import SearchForm from "../components/DashboardPage/SearchForm";
 import Spinner from "../components/utils/Spinner";
@@ -92,30 +87,30 @@ export default {
 			};
 		},
 		user() {
-			return authMachine.context.userData;
+			return this.$authMachine.context.userData;
 		},
 		sessionState() {
-			return sessionMachine.current;
+			return this.$sessionMachine.current;
 		},
 		sessionData() {
-			return sessionMachine.context.sessionData;
+			return this.$sessionMachine.context.sessionData;
 		},
 		currentSession() {
-			return sessionMachine.context.currentSession;
+			return this.$sessionMachine.context.currentSession;
 		}
 	},
 	methods: {
 		onViewCurrentSession() {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: "DISPLAY",
 				params: { sessionId: this.currentSession._id }
 			});
 		},
 		onCreateSession() {
-			sessionMachine.send({ type: "CREATE" });
+			this.$sessionMachine.send({ type: "CREATE" });
 		},
 		onLogout() {
-			authMachine.send({ type: "LOGOUT" });
+			this.$authMachine.send({ type: "LOGOUT" });
 		},
 		getCurrentWeek() {
 			const query = {
@@ -133,7 +128,7 @@ export default {
 					toDate: this.currentWeekDates.sunday
 				}
 			};
-			searchMachine.send({
+			this.$searchMachine.send({
 				type: "SEARCH",
 				params: { query, queryName: "getSessionsFromTo" }
 			});
@@ -154,7 +149,7 @@ export default {
 					toDate: this.lastWeekDates.sunday
 				}
 			};
-			searchMachine.send({
+			this.$searchMachine.send({
 				type: "SEARCH",
 				params: { query, queryName: "getSessionsFromTo" }
 			});

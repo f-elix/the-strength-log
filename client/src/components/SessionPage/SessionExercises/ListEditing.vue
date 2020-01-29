@@ -25,9 +25,6 @@
 </template>
 
 <script>
-// fsm
-import { sessionMachine } from "@/fsm/session";
-
 // Components
 import ExerciseEditing from "./ExerciseEditing";
 import draggable from "vuedraggable";
@@ -39,14 +36,14 @@ export default {
 	},
 	computed: {
 		sessionState() {
-			return sessionMachine.current;
+			return this.$sessionMachine.current;
 		},
 		exercises: {
 			get() {
-				return sessionMachine.context.sessionData.exercises;
+				return this.$sessionMachine.context.sessionData.exercises;
 			},
 			set(value) {
-				sessionMachine.send({
+				this.$sessionMachine.send({
 					type: "UPDATE_EXERCISES",
 					params: { exercises: value }
 				});
@@ -63,10 +60,10 @@ export default {
 	},
 	methods: {
 		onDrag() {
-			sessionMachine.send({ type: "DRAG" });
+			this.$sessionMachine.send({ type: "DRAG" });
 		},
 		onDrop() {
-			sessionMachine.send({ type: "DROP" });
+			this.$sessionMachine.send({ type: "DROP" });
 		}
 	}
 };

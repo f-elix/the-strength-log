@@ -55,9 +55,6 @@
 </template>
 
 <script>
-// fsm
-import { searchMachine } from "../fsm/search";
-
 // Components
 import SearchResult from "../components/SearchPage/SearchResult";
 import Spinner from "../components/utils/Spinner";
@@ -69,21 +66,21 @@ export default {
 	},
 	computed: {
 		searchState() {
-			return searchMachine.current;
+			return this.$searchMachine.current;
 		},
 		sessions() {
-			return searchMachine.context.sessions;
+			return this.$searchMachine.context.sessions;
 		},
 		searchParams() {
-			return searchMachine.context.searchParams;
+			return this.$searchMachine.context.searchParams;
 		},
 		currentQuery() {
-			return searchMachine.context.currentQuery;
+			return this.$searchMachine.context.currentQuery;
 		}
 	},
 	methods: {
 		onBackToMenu() {
-			searchMachine.send({ type: "BACK_TO_MENU" });
+			this.$searchMachine.send({ type: "BACK_TO_MENU" });
 		}
 	}
 };

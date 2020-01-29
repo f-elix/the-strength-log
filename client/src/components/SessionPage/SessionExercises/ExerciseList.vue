@@ -19,9 +19,6 @@
 </template>
 
 <script>
-// fsm
-import { sessionMachine } from "@/fsm/session";
-
 // Components
 import ListDisplaying from "./ListDisplaying";
 import ListEditing from "./ListEditing";
@@ -33,15 +30,15 @@ export default {
 	},
 	computed: {
 		sessionState() {
-			return sessionMachine.current;
+			return this.$sessionMachine.current;
 		},
 		exercises() {
-			return sessionMachine.context.sessionData.exercises;
+			return this.$sessionMachine.context.sessionData.exercises;
 		}
 	},
 	methods: {
 		onAddExercise() {
-			sessionMachine.send({ type: "ADD_EXERCISE" });
+			this.$sessionMachine.send({ type: "ADD_EXERCISE" });
 		}
 	}
 };

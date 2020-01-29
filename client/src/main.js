@@ -2,6 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
+import { VueStateMachine } from "vue-xstate-plugin";
+import { machines } from "./fsm";
 
 // Global styles
 import { MdButton, MdIcon } from "vue-material/dist/components";
@@ -15,6 +17,7 @@ Vue.config.productionTip = false;
 
 Vue.use(MdButton);
 Vue.use(MdIcon);
+Vue.use(VueStateMachine, machines);
 
 new Vue({
 	router,

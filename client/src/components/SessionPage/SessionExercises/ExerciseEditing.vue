@@ -119,9 +119,6 @@
 </template>
 
 <script>
-// fsm
-import { sessionMachine } from "@/fsm/session";
-
 // Components
 import FormGroup from "../../utils/forms/FormGroup";
 
@@ -131,13 +128,13 @@ export default {
 	},
 	methods: {
 		onDeleteExercise() {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: "DELETE_EXERCISE",
 				params: { exerciseId: this.exercise.id }
 			});
 		},
 		onAddMovement() {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: "ADD_MOVEMENT",
 				params: {
 					exercise: this.exercise
@@ -145,7 +142,7 @@ export default {
 			});
 		},
 		onDeleteMovement(movement) {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: "DELETE_MOVEMENT",
 				params: {
 					exercise: this.exercise,
@@ -154,13 +151,13 @@ export default {
 			});
 		},
 		onAddSet(movement) {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: "ADD_SET",
 				params: { exercise: this.exercise, movement }
 			});
 		},
 		onDeleteSet(movement, set) {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: "DELETE_SET",
 				params: {
 					exercise: this.exercise,

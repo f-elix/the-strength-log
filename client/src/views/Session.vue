@@ -44,10 +44,6 @@
 </template>
 
 <script>
-// fsm
-import { sessionMachine } from "../fsm/session";
-import { searchMachine } from "../fsm/search";
-
 // Components
 import SessionHeader from "../components/SessionPage/SessionHeader";
 import ExerciseList from "../components/SessionPage/SessionExercises/ExerciseList";
@@ -66,27 +62,27 @@ export default {
 
 	computed: {
 		sessionState() {
-			return sessionMachine.current;
+			return this.$sessionMachine.current;
 		},
 		sessionData() {
-			return sessionMachine.context.sessionData;
+			return this.$sessionMachine.context.sessionData;
 		},
 		currentSession() {
-			return sessionMachine.context.currentSession;
+			return this.$sessionMachine.context.currentSession;
 		},
 		searchState() {
-			return searchMachine.current;
+			return this.$searchMachine.current;
 		}
 	},
 	methods: {
 		onBackToMenu() {
-			sessionMachine.send({ type: "BACK_TO_DASHBOARD" });
+			this.$sessionMachine.send({ type: "BACK_TO_DASHBOARD" });
 		},
 		onBackToSearch() {
-			sessionMachine.send({ type: "BACK_TO_SEARCH" });
+			this.$sessionMachine.send({ type: "BACK_TO_SEARCH" });
 		},
 		onViewCurrentSession() {
-			sessionMachine.send({
+			this.$sessionMachine.send({
 				type: "DISPLAY",
 				params: { sessionId: this.currentSession._id }
 			});

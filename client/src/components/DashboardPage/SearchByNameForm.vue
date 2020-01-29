@@ -14,9 +14,6 @@
 </template>
 
 <script>
-// fsm
-import { searchMachine } from "../../fsm/search";
-
 // Components
 import FormGroup from "../utils/forms/FormGroup";
 
@@ -49,7 +46,7 @@ export default {
 			query.variables = {
 				title: this.sessionName
 			};
-			searchMachine.send({
+			this.$searchMachine.send({
 				type: "SEARCH",
 				params: { query, queryName: "getSessionsByTitle" }
 			});

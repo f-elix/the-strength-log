@@ -40,16 +40,13 @@
 </template>
 
 <script>
-// fsm
-import { sessionMachine } from "@/fsm/session";
-
 export default {
 	computed: {
 		sessionState() {
-			return sessionMachine.current;
+			return this.$sessionMachine.current;
 		},
 		exercises() {
-			return sessionMachine.context.sessionData.exercises;
+			return this.$sessionMachine.context.sessionData.exercises;
 		}
 	}
 };

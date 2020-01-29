@@ -1,5 +1,4 @@
 import { Machine, assign } from "xstate";
-import { generateVueMachine } from "./generateVueMachine";
 
 import router from "../router";
 
@@ -59,7 +58,6 @@ const authUser = async event => {
 			body: JSON.stringify(authQuery)
 		});
 		const data = await res.json();
-		console.log(data);
 		if (data.errors) {
 			const error = new Error();
 			error.message = data.errors[0].message;
@@ -110,7 +108,7 @@ const getUserData = async token => {
 	}
 };
 
-const machine = Machine(
+export const authMachine = Machine(
 	{
 		id: "auth",
 		context: {
@@ -224,5 +222,3 @@ const machine = Machine(
 		}
 	}
 );
-
-export const authMachine = generateVueMachine(machine);
