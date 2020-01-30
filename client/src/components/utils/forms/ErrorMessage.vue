@@ -30,6 +30,7 @@ export default {
 	margin: 1.5rem auto;
 	font-size: 1.5rem;
 	font-weight: bold;
+	text-align: center;
 	color: var(--color-error);
 }
 </style>
