@@ -17,7 +17,9 @@ Vue.config.productionTip = false;
 
 Vue.use(MdButton);
 Vue.use(MdIcon);
-Vue.use(VueStateMachine, machines);
+Vue.use(VueStateMachine, {
+	machines
+});
 
 new Vue({
 	router,
