@@ -2,110 +2,132 @@ import { Machine, assign } from "xstate";
 
 import router from "../router";
 
-const isAuth = async () => {
-	const token = localStorage.getItem("token");
-	if (!token) {
-		const error = new Error();
-		error.message = "Not authenticated";
-		console.warn(error);
-		throw error;
-	}
-	const isAuthQuery = {
-		query: `
-            query isAuthenticated($token: String!) {
-         		isAuth(token: $token)
-            }
-        `,
-		variables: {
-			token: token
-		}
-	};
-	try {
-		const res = await fetch(process.env.VUE_APP_API, {
-			method: "POST",
-			headers: {
-				"content-type": "application/json"
-			},
-			body: JSON.stringify(isAuthQuery)
-		});
-		const data = await res.json();
-		if (data.errors) {
-			const error = new Error();
-			error.message = data.errors[0].message;
-			error.statusCode = data.errors[0].extensions.exception.statusCode;
-			throw error;
-		}
-		if (!data.data.isAuth) {
+const services = {
+	isAuth: async () => {
+		const token = localStorage.getItem("token");
+		if (!token) {
 			const error = new Error();
 			error.message = "Not authenticated";
+			console.warn(error);
 			throw error;
 		}
-		return token;
-	} catch (err) {
-		console.warn(err);
-		throw err;
+		const isAuthQuery = {
+			query: `
+				query isAuthenticated($token: String!) {
+					isAuth(token: $token)
+				}
+			`,
+			variables: {
+				token: token
+			}
+		};
+		try {
+			const res = await fetch(process.env.VUE_APP_API, {
+				method: "POST",
+				headers: {
+					"content-type": "application/json"
+				},
+				body: JSON.stringify(isAuthQuery)
+			});
+			const data = await res.json();
+			if (data.errors) {
+				const error = new Error();
+				error.message = data.errors[0].message;
+				error.statusCode = data.errors[0].extensions.exception.statusCode;
+				throw error;
+			}
+			if (!data.data.isAuth) {
+				const error = new Error();
+				error.message = "Not authenticated";
+				throw error;
+			}
+			return token;
+		} catch (err) {
+			console.warn(err);
+			throw err;
+		}
+	},
+	authUser: async (_, event) => {
+		const { authQuery, queryName } = event.params;
+		try {
+			const res = await fetch(process.env.VUE_APP_API, {
+				method: "POST",
+				headers: {
+					"content-type": "application/json"
+				},
+				body: JSON.stringify(authQuery)
+			});
+			const data = await res.json();
+			if (data.errors) {
+				const error = new Error();
+				error.message = data.errors[0].message;
+				error.statusCode = data.errors[0].extensions.exception.statusCode;
+				throw error;
+			}
+			const token = data.data[queryName].token;
+			return token;
+		} catch (err) {
+			err.message = "You need an internet connection to login.";
+			console.error(err);
+			throw err;
+		}
+	},
+	getUserData: async (_, event) => {
+		const token = event.data;
+		const userQuery = {
+			query: `
+				{
+					getUserData {
+						name
+						createdAt
+					}
+				}
+			`
+		};
+		try {
+			const res = await fetch(process.env.VUE_APP_API, {
+				method: "POST",
+				headers: {
+					"content-type": "application/json",
+					authorization: token
+				},
+				body: JSON.stringify(userQuery)
+			});
+			const data = await res.json();
+			if (data.errors) {
+				const error = new Error();
+				error.message = data.errors[0].message;
+				error.statusCode = data.errors[0].extensions.exception.statusCode;
+				throw error;
+			}
+			const userData = data.data.getUserData;
+			return userData;
+		} catch (err) {
+			console.log(err);
+			throw err;
+		}
 	}
 };
 
-const authUser = async event => {
-	const { authQuery, queryName } = event.params;
-	try {
-		const res = await fetch(process.env.VUE_APP_API, {
-			method: "POST",
-			headers: {
-				"content-type": "application/json"
-			},
-			body: JSON.stringify(authQuery)
-		});
-		const data = await res.json();
-		if (data.errors) {
-			const error = new Error();
-			error.message = data.errors[0].message;
-			error.statusCode = data.errors[0].extensions.exception.statusCode;
-			throw error;
-		}
-		const token = data.data[queryName].token;
-		return token;
-	} catch (err) {
-		err.message = "You need an internet connection to login.";
-		console.error(err);
-		throw err;
-	}
-};
-
-const getUserData = async token => {
-	const userQuery = {
-		query: `
-            {
-                getUserData {
-                    name
-                    createdAt
-                }
-            }
-        `
-	};
-	try {
-		const res = await fetch(process.env.VUE_APP_API, {
-			method: "POST",
-			headers: {
-				"content-type": "application/json",
-				authorization: token
-			},
-			body: JSON.stringify(userQuery)
-		});
-		const data = await res.json();
-		if (data.errors) {
-			const error = new Error();
-			error.message = data.errors[0].message;
-			error.statusCode = data.errors[0].extensions.exception.statusCode;
-			throw error;
-		}
-		const userData = data.data.getUserData;
-		return userData;
-	} catch (err) {
-		console.log(err);
-		throw err;
-	}
+const actions = {
+	routeDashboard: () => {
+		router.push("/dashboard").catch(err => console.log(err));
+	},
+	routeAuth: () => {
+		router.push("/").catch(err => console.log(err));
+	},
+	storeToken: (_, event) => {
+		localStorage.setItem("token", event.data);
+	},
+	clearToken: () => {
+		localStorage.removeItem("token");
+	},
+	showError: assign({
+		error: (_, event) => event.data.message
+	}),
+	clearError: assign({ error: "" }),
+	updateUserData: assign({ userData: (_, event) => event.data }),
+	clearUserData: assign({ userData: "" })
 };
 
 export const authMachine = Machine(
@@ -147,7 +169,7 @@ export const authMachine = Machine(
 				states: {
 					checkingForAuth: {
 						invoke: {
-							src: () => isAuth(),
+							src: "isAuth",
 							onDone: {
 								target: "loggingUser"
 							},
@@ -159,7 +181,7 @@ export const authMachine = Machine(
 					authenticatingUser: {
 						id: "authenticatingUser",
 						invoke: {
-							src: (_, event) => authUser(event),
+							src: "authUser",
 							onDone: {
 								target: "loggingUser",
 								actions: ["storeToken"]
@@ -172,7 +194,7 @@ export const authMachine = Machine(
 					},
 					loggingUser: {
 						invoke: {
-							src: (_, event) => getUserData(event.data),
+							src: "getUserData",
 							onDone: {
 								target: "#authenticated",
 								actions: ["updateUserData", "routeDashboard"]
@@ -200,25 +222,7 @@ export const authMachine = Machine(
 		}
 	},
 	{
-		actions: {
-			routeDashboard: () => {
-				router.push("/dashboard").catch(err => console.log(err));
-			},
-			routeAuth: () => {
-				router.push("/").catch(err => console.log(err));
-			},
-			storeToken: (_, event) => {
-				localStorage.setItem("token", event.data);
-			},
-			clearToken: () => {
-				localStorage.removeItem("token");
-			},
-			showError: assign({
-				error: (_, event) => event.data.message
-			}),
-			clearError: assign({ error: "" }),
-			updateUserData: assign({ userData: (_, event) => event.data }),
-			clearUserData: assign({ userData: "" })
-		}
+		services,
+		actions
 	}
 );
