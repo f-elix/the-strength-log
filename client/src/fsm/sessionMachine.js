@@ -222,7 +222,6 @@ const actions = {
 			const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : `${date.getMonth() + 1}`;
 			const day = date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
 			const formattedDate = `${date.getFullYear()}-${month}-${day}`;
-			console.log(formattedDate);
 			const newSession = {
 				title: "New Session",
 				sessionDate: formattedDate,
