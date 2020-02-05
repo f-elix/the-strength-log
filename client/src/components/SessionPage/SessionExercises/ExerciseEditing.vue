@@ -61,6 +61,7 @@
 					:id="`setQty${set.id}`"
 					:name="`setQty${set.id}`"
 					autoselect="true"
+					:autofocus="Number(set.id.toString().split('')[2]) > 1"
 					labelText="Set Qty"
 				></form-group>
 				<!-- Reps -->
