@@ -36,8 +36,8 @@ export default {
 			default: false
 		},
 		autofocus: {
-			type: String,
-			default: ""
+			type: Boolean,
+			default: false
 		},
 		autoselect: {
 			type: String,

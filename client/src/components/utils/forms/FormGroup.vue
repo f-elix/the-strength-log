@@ -51,8 +51,8 @@ export default {
 			default: null
 		},
 		autofocus: {
-			type: String,
-			default: ""
+			type: Boolean,
+			default: false
 		},
 		isInvalid: {
 			type: Boolean

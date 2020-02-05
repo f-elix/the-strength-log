@@ -25,7 +25,7 @@
 				type="text"
 				labelText="Session Title"
 				v-model="sessionData.title"
-				autofocus="true"
+				:autofocus="true"
 				autoselect="true"
 			></form-group>
 			<!-- Date input -->

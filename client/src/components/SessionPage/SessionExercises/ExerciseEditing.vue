@@ -39,7 +39,7 @@
 				v-model="movement.name"
 				:id="`movement${movement.id}`"
 				:name="`movement${movement.id}`"
-				autofocus="true"
+				:autofocus="true"
 				labelText="Movement Name"
 			></form-group>
 			<!-- Sets -->
