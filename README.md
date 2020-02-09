@@ -1,6 +1,6 @@
 # The Strength Log
 
-A simple strength training log PWA, perfect tracking workouts.
+A simple strength training log PWA, perfect for tracking workouts.
 
 ## Technologies and packages used
 
