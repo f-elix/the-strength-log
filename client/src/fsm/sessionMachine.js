@@ -1,11 +1,11 @@
-import { Machine, assign } from "xstate";
+import { Machine, assign } from 'xstate';
 
-import router from "../router";
+import router from '../router';
 
 const services = {
 	getSession: async (_, event) => {
 		const { params } = event;
-		const token = localStorage.getItem("token");
+		const token = localStorage.getItem('token');
 		const query = {
 			query: `
 				query getSessionById($id: ID!) {
@@ -37,9 +37,9 @@ const services = {
 		};
 		try {
 			const res = await fetch(process.env.VUE_APP_API, {
-				method: "POST",
+				method: 'POST',
 				headers: {
-					"content-type": "application/json",
+					'content-type': 'application/json',
 					authorization: token
 				},
 				body: JSON.stringify(query)
@@ -59,7 +59,7 @@ const services = {
 		}
 	},
 	getCurrentSession: async () => {
-		const token = localStorage.getItem("token");
+		const token = localStorage.getItem('token');
 		const date = new Date();
 		const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : `${date.getMonth() + 1}`;
 		const today = `${date.getFullYear()}-${month}-${date.getDate()}`;
@@ -77,9 +77,9 @@ const services = {
 		};
 		try {
 			const res = await fetch(process.env.VUE_APP_API, {
-				method: "POST",
+				method: 'POST',
 				headers: {
-					"content-type": "application/json",
+					'content-type': 'application/json',
 					authorization: token
 				},
 				body: JSON.stringify(query)
@@ -104,7 +104,7 @@ const services = {
 	},
 	saveSession: async (_, event) => {
 		const { params } = event;
-		const token = localStorage.getItem("token");
+		const token = localStorage.getItem('token');
 		const query = {
 			query: `
 				mutation saveSession($sessionData: SessionInput!) {
@@ -137,9 +137,9 @@ const services = {
 		};
 		try {
 			const res = await fetch(process.env.VUE_APP_API, {
-				method: "POST",
+				method: 'POST',
 				headers: {
-					"content-type": "application/json",
+					'content-type': 'application/json',
 					authorization: token
 				},
 				body: JSON.stringify(query)
@@ -160,7 +160,7 @@ const services = {
 	},
 	deleteSession: async (_, event) => {
 		const { params } = event;
-		const token = localStorage.getItem("token");
+		const token = localStorage.getItem('token');
 		const query = {
 			query: `
 				mutation deleteSession($id: ID!) {
@@ -173,9 +173,9 @@ const services = {
 		};
 		try {
 			const res = await fetch(process.env.VUE_APP_API, {
-				method: "POST",
+				method: 'POST',
 				headers: {
-					"content-type": "application/json",
+					'content-type': 'application/json',
 					authorization: token
 				},
 				body: JSON.stringify(query)
@@ -191,7 +191,7 @@ const services = {
 				return;
 			} else {
 				const error = new Error();
-				error.message = "Something went wrong";
+				error.message = 'Something went wrong';
 				error.statusCode = 500;
 				throw error;
 			}
@@ -204,17 +204,17 @@ const services = {
 
 const actions = {
 	routeNewSession: () => {
-		router.push("/session").catch(err => console.log(err));
+		router.push('/session').catch(err => console.log(err));
 	},
 	routeSession: (_, event) => {
 		const id = event.data ? event.data._id : event.params.sessionId;
-		router.push("/session/" + id).catch(err => console.log(err));
+		router.push('/session/' + id).catch(err => console.log(err));
 	},
 	routeDashboard: () => {
-		router.push("/dashboard").catch(err => console.log(err));
+		router.push('/dashboard').catch(err => console.log(err));
 	},
 	routeSearch: () => {
-		router.push("/search-results").catch(err => console.log(err));
+		router.push('/search-results').catch(err => console.log(err));
 	},
 	createSession: assign({
 		sessionData: () => {
@@ -223,7 +223,7 @@ const actions = {
 			const day = date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
 			const formattedDate = `${date.getFullYear()}-${month}-${day}`;
 			const newSession = {
-				title: "New Session",
+				title: 'New Session',
 				sessionDate: formattedDate,
 				exercises: [],
 				newSession: true
@@ -235,7 +235,7 @@ const actions = {
 	clearSessionData: assign({ sessionData: {} }),
 	updateCurrentSession: assign({
 		currentSession: (context, event) => {
-			if (event.type.includes("savingSession") && !event.data.newSession) {
+			if (event.type.includes('savingSession') && !event.data.newSession) {
 				return context.currentSession;
 			} else {
 				return event.data;
@@ -261,13 +261,13 @@ const actions = {
 				movements: [
 					{
 						id: movementId,
-						name: "",
+						name: '',
 						sets: [
 							{
 								id: setId,
 								setQty: 1,
-								repsOrTime: "1",
-								weight: ""
+								repsOrTime: '1',
+								weight: ''
 							}
 						]
 					}
@@ -292,18 +292,18 @@ const actions = {
 			const sessionData = context.sessionData;
 			const exercise = event.params.exercise;
 			const movementSubId =
-				Number(exercise.movements[exercise.movements.length - 1].id.toString().split("")[1]) + 1;
+				Number(exercise.movements[exercise.movements.length - 1].id.toString().split('')[1]) + 1;
 			const movementId = Number(`${exercise.id}${movementSubId}`);
 			const setId = Number(`${movementId}1`);
 			const newMovement = {
 				id: movementId,
-				name: "",
+				name: '',
 				sets: [
 					{
 						id: setId,
 						setQty: 1,
-						repsOrTime: "1",
-						weight: ""
+						repsOrTime: '1',
+						weight: ''
 					}
 				]
 			};
@@ -329,13 +329,13 @@ const actions = {
 		sessionData: (context, event) => {
 			const sessionData = context.sessionData;
 			const { exercise, movement } = event.params;
-			const setSubId = Number(movement.sets[movement.sets.length - 1].id.toString().split("")[2]) + 1;
+			const setSubId = Number(movement.sets[movement.sets.length - 1].id.toString().split('')[2]) + 1;
 			const id = Number(`${movement.id}${setSubId}`);
 			const newSet = {
 				id,
 				setQty: 1,
-				repsOrTime: "1",
-				weight: ""
+				repsOrTime: '1',
+				weight: ''
 			};
 			const movementIndex = exercise.movements.indexOf(movement);
 			const exerciseIndex = sessionData.exercises.indexOf(exercise);
@@ -360,130 +360,135 @@ const actions = {
 
 export const sessionMachine = Machine(
 	{
-		id: "session",
+		id: 'session',
 		context: {
 			sessionData: {},
 			currentSession: null
 		},
-		initial: "init",
+		initial: 'init',
 		states: {
 			init: {
-				id: "init",
+				id: 'init',
 				invoke: {
-					src: "getCurrentSession",
+					src: 'getCurrentSession',
 					onDone: {
-						target: "idle",
-						actions: ["updateCurrentSession"]
+						target: 'idle',
+						actions: ['updateCurrentSession']
 					},
-					onError: "idle"
+					onError: 'idle'
 				}
 			},
 			idle: {
-				id: "idle",
+				id: 'idle',
 				on: {
 					DISPLAY: {
-						target: "loading.fetchingSession",
-						actions: ["routeSession"]
+						target: 'loading.fetchingSession',
+						actions: ['routeSession']
 					},
 					CREATE: {
-						target: "editing",
-						actions: ["createSession", "routeNewSession"]
+						target: 'editing',
+						actions: ['createSession', 'routeNewSession']
 					}
 				}
 			},
 			loading: {
-				id: "loading",
+				id: 'loading',
 				states: {
 					fetchingSession: {
 						invoke: {
-							src: "getSession",
+							src: 'getSession',
 							onDone: {
-								target: "#displaying",
-								actions: ["updateSessionData"]
+								target: '#displaying',
+								actions: ['updateSessionData']
 							},
 							onError: {
-								target: "#idle",
-								actions: ["routeSearch"]
+								target: '#idle',
+								actions: ['routeSearch']
 							}
 						}
 					},
 					savingSession: {
 						invoke: {
-							src: "saveSession",
+							src: 'saveSession',
 							onDone: {
-								target: "#displaying",
-								actions: ["updateSessionData", "updateCurrentSession"]
+								target: '#displaying',
+								actions: ['updateSessionData', 'updateCurrentSession']
 							},
-							onError: "#editing"
+							onError: '#editing'
 						}
 					},
 					deletingSession: {
 						invoke: {
-							src: "deleteSession",
+							src: 'deleteSession',
 							onDone: {
-								target: "#init",
-								actions: ["routeDashboard"]
+								target: '#init',
+								actions: ['routeDashboard']
 							},
-							onError: "#displaying"
+							onError: '#displaying'
 						}
 					}
 				}
 			},
 			displaying: {
-				id: "displaying",
+				id: 'displaying',
 				on: {
-					EDIT: "editing",
-					DISPLAY: "loading.fetchingSession",
-					DELETE: "loading.deletingSession",
+					EDIT: 'editing',
+					DISPLAY: 'loading.fetchingSession',
+					DELETE: 'loading.deletingSession',
+					DISCARD: {
+						target: 'idle',
+						actions: ['clearSessionData']
+					},
 					BACK_TO_DASHBOARD: {
-						target: "idle",
-						actions: ["clearSessionData", "routeDashboard"]
+						actions: ['routeDashboard']
 					},
 					BACK_TO_SEARCH: {
-						target: "idle",
-						actions: ["clearSessionData", "routeSearch"]
+						actions: ['routeSearch']
 					}
 				}
 			},
 			editing: {
-				id: "editing",
-				initial: "idle",
+				id: 'editing',
+				initial: 'idle',
 				states: {
 					idle: {
 						on: {
-							SAVE: "#loading.savingSession",
-							DISPLAY: "#loading.fetchingSession",
-							DELETE: "#loading.deletingSession",
+							SAVE: '#loading.savingSession',
+							DISPLAY: '#loading.fetchingSession',
+							DELETE: '#loading.deletingSession',
+							DISCARD: {
+								target: '#idle',
+								actions: ['clearSessionData']
+							},
 							BACK_TO_DASHBOARD: {
-								target: "#idle",
-								actions: ["clearSessionData", "routeDashboard"]
+								actions: ['routeDashboard']
 							},
 							ADD_EXERCISE: {
-								actions: ["addExercise"]
+								actions: ['addExercise']
 							},
 							DELETE_EXERCISE: {
-								actions: ["deleteExercise"]
+								actions: ['deleteExercise']
 							},
 							ADD_MOVEMENT: {
-								actions: ["addMovement"]
+								actions: ['addMovement']
 							},
 							DELETE_MOVEMENT: {
-								actions: ["deleteMovement"]
+								actions: ['deleteMovement']
 							},
 							ADD_SET: {
-								actions: ["addSet"]
+								actions: ['addSet']
 							},
 							DELETE_SET: {
-								actions: ["deleteSet"]
+								actions: ['deleteSet']
 							},
-							DRAG: "dragging"
+							DRAG: 'dragging'
 						}
 					},
 					dragging: {
 						on: {
-							DROP: "idle",
+							DROP: 'idle',
 							UPDATE_EXERCISES: {
-								actions: ["updateExercises"]
+								actions: ['updateExercises']
 							}
 						}
 					}

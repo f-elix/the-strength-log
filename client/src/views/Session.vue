@@ -87,6 +87,9 @@ export default {
 				params: { sessionId: this.currentSession._id }
 			});
 		}
+	},
+	destroyed() {
+		this.$sessionMachine.send({ type: "DISCARD" });
 	}
 };
 </script>
