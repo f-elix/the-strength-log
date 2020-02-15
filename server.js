@@ -5,8 +5,9 @@ const path = require('path');
 // Packages
 const jwt = require('jsonwebtoken');
 
-// Apollo imports
-const { ApolloServer, AuthenticationError } = require('apollo-server');
+// Fastify imports
+const fastify = require('fastify')({});
+const gql = require('fastify-gql');
 
 // GraphQL imports
 const typeDefs = fs.readFileSync(path.join(__dirname, 'graphql', 'typeDefs.gql'), 'utf-8');
@@ -21,22 +22,30 @@ const getUser = async token => {
 		try {
 			return await jwt.verify(token, process.env.SECRET);
 		} catch (err) {
-			throw new AuthenticationError('Your session has ended. Please sign in again.');
+			throw new Error('Your session has ended. Please sign in again.');
 		}
 	}
 };
 
-const server = new ApolloServer({
-	typeDefs,
+fastify.register(require('fastify-cors'), {
+	origin: '*',
+	credentials: true
+});
+
+fastify.register(gql, {
+	graphiql: 'playground',
+	schema: typeDefs,
 	resolvers,
-	context: async ({ req }) => {
-		const token = req.headers.authorization || '';
+	context: async (request, reply) => {
+		const token = request.headers.authorization || '';
 		const currentUser = await getUser(token);
 		return {
 			currentUser
 		};
 	}
 });
+
+const localPort = 4000;
 
 mongoose
 	.connect(process.env.DB_URL, {
@@ -47,9 +56,10 @@ mongoose
 	})
 	.then(() => {
 		console.log('DB connected');
-		return server.listen({ port: process.env.PORT || 4000 });
+		return fastify.listen(localPort, '::');
 	})
-	.then(({ url }) => {
-		console.log('Server listening on ' + url);
+	.then(url => {
+		console.log(`Server listening on http://localhost:${localPort}/graphql`);
+		console.log(`Playground on http://localhost:${localPort}/playground`);
 	})
 	.catch(err => console.log(err));
