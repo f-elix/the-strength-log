@@ -43,7 +43,7 @@ const getUser = async token => {
 // });
 
 fastify.register(require('fastify-cors'), {
-	origin: '*',
+	origin: 'https://the-strength-log.netlify.com/',
 	credentials: true
 });
 
