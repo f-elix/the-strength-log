@@ -45,8 +45,6 @@ fastify.register(gql, {
 	}
 });
 
-const localPort = 4000;
-
 mongoose
 	.connect(process.env.DB_URL, {
 		useNewUrlParser: true,
@@ -56,10 +54,10 @@ mongoose
 	})
 	.then(() => {
 		console.log('DB connected');
-		return fastify.listen(process.env.PORT || localPort, '::');
+		return fastify.listen(process.env.PORT || 4000);
 	})
 	.then(url => {
-		console.log(`Server listening on http://localhost:${localPort}/graphql`);
-		console.log(`Playground on http://localhost:${localPort}/playground`);
+		console.log(`Server listening on ${url}`);
+		console.log(`Playground on ${url}`);
 	})
 	.catch(err => console.log(err));
