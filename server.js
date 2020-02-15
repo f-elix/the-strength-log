@@ -43,8 +43,8 @@ const getUser = async token => {
 // });
 
 fastify.register(require('fastify-cors'), {
-	origin: true,
-	methods: ['POST']
+	origin: '*',
+	credentials: true
 });
 
 fastify.register(gql, {
