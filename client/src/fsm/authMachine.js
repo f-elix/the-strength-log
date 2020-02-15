@@ -67,7 +67,6 @@ const services = {
 			const token = data.data[queryName].token;
 			return token;
 		} catch (err) {
-			err.errorMsg = 'You need an internet connection to login.';
 			console.error(err);
 			throw err;
 		}
@@ -103,7 +102,6 @@ const services = {
 			const userData = data.data.getUserData;
 			return userData;
 		} catch (err) {
-			err.errorMsg = 'Something went wrong, please try again.';
 			console.log(err);
 			throw err;
 		}
@@ -124,7 +122,7 @@ const actions = {
 		localStorage.removeItem('token');
 	},
 	showError: assign({
-		error: (_, event) => event.data.errorMsg || event.data.err.message
+		error: (_, event) => event.data.errorMsg || event.data.message
 	}),
 	clearError: assign({ error: '' }),
 	updateUserData: assign({ userData: (_, event) => event.data }),
