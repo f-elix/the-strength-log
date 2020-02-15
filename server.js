@@ -1,23 +1,19 @@
-require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
+require("dotenv").config();
+const fs = require("fs");
+const path = require("path");
 
 // Packages
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 // Apollo imports
-// const { ApolloServer, AuthenticationError } = require("apollo-server");
-
-// Fastify imports
-const fastify = require('fastify')();
-const gql = require('fastify-gql');
+const { ApolloServer, AuthenticationError } = require("apollo-server");
 
 // GraphQL imports
-const typeDefs = fs.readFileSync(path.join(__dirname, 'graphql', 'typeDefs.gql'), 'utf-8');
-const resolvers = require('./graphql/resolvers/index');
+const typeDefs = fs.readFileSync(path.join(__dirname, "graphql", "typeDefs.gql"), "utf-8");
+const resolvers = require("./graphql/resolvers/index");
 
 // MongoDB imports
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Get current user on every request
 const getUser = async token => {
@@ -25,11 +21,16 @@ const getUser = async token => {
 		try {
 			return await jwt.verify(token, process.env.SECRET);
 		} catch (err) {
+<<<<<<< HEAD
 			throw new Error('Your session has ended. Please sign in again.');
+=======
+			throw new AuthenticationError("Your session has ended. Please sign in again.");
+>>>>>>> parent of e1e566c... Use Fastify instead of Apollo
 		}
 	}
 };
 
+<<<<<<< HEAD
 // const server = new ApolloServer({
 // 	typeDefs,
 // 	resolvers,
@@ -51,9 +52,13 @@ fastify.register(gql, {
 	// jit: 1,
 	graphiql: 'playground',
 	schema: typeDefs,
+=======
+const server = new ApolloServer({
+	typeDefs,
+>>>>>>> parent of e1e566c... Use Fastify instead of Apollo
 	resolvers,
-	context: async (req, reply) => {
-		const token = req.headers.authorization || '';
+	context: async ({ req }) => {
+		const token = req.headers.authorization || "";
 		const currentUser = await getUser(token);
 		return {
 			currentUser
@@ -69,11 +74,10 @@ mongoose
 		useFindAndModify: false
 	})
 	.then(() => {
-		console.log('\x1b[94m%s', 'MongoDB connected');
-		return fastify.listen(process.env.PORT || 4000);
+		console.log("DB connected");
+		return server.listen({ port: process.env.PORT || 4000 });
 	})
-	.then(url => {
-		console.log('\x1b[96m%s \x1b[93m%s', `Server listening at`, `${url}/graphql`, '\x1b[0m');
-		console.log('\x1b[96m%s \x1b[95m%s', `Playground at`, `${url}/playground`, '\x1b[0m');
+	.then(({ url }) => {
+		console.log("Server listening on " + url);
 	})
 	.catch(err => console.log(err));

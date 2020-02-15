@@ -1,13 +1,13 @@
-import { Machine, assign } from 'xstate';
+import { Machine, assign } from "xstate";
 
-import router from '../router';
+import router from "../router";
 
 const services = {
 	isAuth: async () => {
-		const token = localStorage.getItem('token');
+		const token = localStorage.getItem("token");
 		if (!token) {
 			const error = new Error();
-			error.message = 'Not authenticated';
+			error.message = "Not authenticated";
 			console.warn(error);
 			throw error;
 		}
@@ -23,9 +23,9 @@ const services = {
 		};
 		try {
 			const res = await fetch(process.env.VUE_APP_API, {
-				method: 'POST',
+				method: "POST",
 				headers: {
-					'content-type': 'application/json'
+					"content-type": "application/json"
 				},
 				body: JSON.stringify(isAuthQuery)
 			});
@@ -38,7 +38,7 @@ const services = {
 			}
 			if (!data.data.isAuth) {
 				const error = new Error();
-				error.message = 'Not authenticated';
+				error.message = "Not authenticated";
 				throw error;
 			}
 			return token;
@@ -51,9 +51,9 @@ const services = {
 		const { authQuery, queryName } = event.params;
 		try {
 			const res = await fetch(process.env.VUE_APP_API, {
-				method: 'POST',
+				method: "POST",
 				headers: {
-					'content-type': 'application/json'
+					"content-type": "application/json"
 				},
 				body: JSON.stringify(authQuery)
 			});
@@ -67,7 +67,7 @@ const services = {
 			const token = data.data[queryName].token;
 			return token;
 		} catch (err) {
-			err.errorMsg = 'Something went wrong, please try again.';
+			err.message = "You need an internet connection to login.";
 			console.error(err);
 			throw err;
 		}
@@ -86,9 +86,9 @@ const services = {
 		};
 		try {
 			const res = await fetch(process.env.VUE_APP_API, {
-				method: 'POST',
+				method: "POST",
 				headers: {
-					'content-type': 'application/json',
+					"content-type": "application/json",
 					authorization: token
 				},
 				body: JSON.stringify(userQuery)
@@ -103,7 +103,6 @@ const services = {
 			const userData = data.data.getUserData;
 			return userData;
 		} catch (err) {
-			err.errorMsg = 'Something went wrong, please try again.';
 			console.log(err);
 			throw err;
 		}
@@ -112,111 +111,111 @@ const services = {
 
 const actions = {
 	routeDashboard: () => {
-		router.push('/dashboard').catch(err => console.log(err));
+		router.push("/dashboard").catch(err => console.log(err));
 	},
 	routeAuth: () => {
-		router.push('/').catch(err => console.log(err));
+		router.push("/").catch(err => console.log(err));
 	},
 	storeToken: (_, event) => {
-		localStorage.setItem('token', event.data);
+		localStorage.setItem("token", event.data);
 	},
 	clearToken: () => {
-		localStorage.removeItem('token');
+		localStorage.removeItem("token");
 	},
 	showError: assign({
-		error: (_, event) => event.data.errorMsg || event.data.message
+		error: (_, event) => event.data.message
 	}),
-	clearError: assign({ error: '' }),
+	clearError: assign({ error: "" }),
 	updateUserData: assign({ userData: (_, event) => event.data }),
-	clearUserData: assign({ userData: '' })
+	clearUserData: assign({ userData: "" })
 };
 
 export const authMachine = Machine(
 	{
-		id: 'auth',
+		id: "auth",
 		context: {
 			userData: {},
-			error: '',
+			error: "",
 			loading: false
 		},
-		initial: 'loading',
+		initial: "loading",
 		states: {
 			idle: {
-				id: 'idle',
-				initial: 'login',
+				id: "idle",
+				initial: "login",
 				states: {
 					login: {
 						on: {
-							SIGNUP: 'signup',
-							LOGIN: '#loading.authenticatingUser'
+							SIGNUP: "signup",
+							LOGIN: "#loading.authenticatingUser"
 						},
-						exit: ['clearError']
+						exit: ["clearError"]
 					},
 					signup: {
 						on: {
-							LOGIN: 'login',
-							SIGNUP: '#loading.authenticatingUser'
+							LOGIN: "login",
+							SIGNUP: "#loading.authenticatingUser"
 						},
-						exit: ['clearError']
+						exit: ["clearError"]
 					},
 					last: {
-						type: 'history'
+						type: "history"
 					}
 				}
 			},
 			loading: {
-				id: 'loading',
-				initial: 'checkingForAuth',
+				id: "loading",
+				initial: "checkingForAuth",
 				states: {
 					checkingForAuth: {
 						invoke: {
-							src: 'isAuth',
+							src: "isAuth",
 							onDone: {
-								target: 'loggingUser'
+								target: "loggingUser"
 							},
 							onError: {
-								target: '#idle'
+								target: "#idle"
 							}
 						}
 					},
 					authenticatingUser: {
-						id: 'authenticatingUser',
+						id: "authenticatingUser",
 						invoke: {
-							src: 'authUser',
+							src: "authUser",
 							onDone: {
-								target: 'loggingUser',
-								actions: ['storeToken']
+								target: "loggingUser",
+								actions: ["storeToken"]
 							},
 							onError: {
-								target: '#idle.last',
-								actions: ['showError']
+								target: "#idle.last",
+								actions: ["showError"]
 							}
 						}
 					},
 					loggingUser: {
 						invoke: {
-							src: 'getUserData',
+							src: "getUserData",
 							onDone: {
-								target: '#authenticated',
-								actions: ['updateUserData', 'routeDashboard']
+								target: "#authenticated",
+								actions: ["updateUserData", "routeDashboard"]
 							},
 							onError: {
-								target: '#idle.last',
-								actions: ['showError']
+								target: "#idle.last",
+								actions: ["showError"]
 							}
 						}
 					}
 				}
 			},
 			authenticated: {
-				id: 'authenticated',
+				id: "authenticated",
 				on: {
 					LOGOUT: {
-						target: 'idle',
-						actions: ['clearToken', 'clearUserData', 'routeAuth']
+						target: "idle",
+						actions: ["clearToken", "clearUserData", "routeAuth"]
 					},
 					LOADED: {
-						actions: ['routeDashboard']
+						actions: ["routeDashboard"]
 					}
 				}
 			}
