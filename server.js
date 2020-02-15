@@ -56,7 +56,7 @@ mongoose
 	})
 	.then(() => {
 		console.log('DB connected');
-		return fastify.listen(localPort, '::');
+		return fastify.listen(process.env.PORT || localPort, '::');
 	})
 	.then(url => {
 		console.log(`Server listening on http://localhost:${localPort}/graphql`);
