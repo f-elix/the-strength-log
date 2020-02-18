@@ -7,7 +7,7 @@ A simple strength training log PWA, perfect for tracking workouts.
 ### Client side
 
 -   Vue / Vue-router
--   XState
+-   XState / vue-xstate-plugin
 -   Workbox / vue-pwa-plugin
 -   Vue material
 -   Vuedraggable
