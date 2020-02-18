@@ -23,20 +23,17 @@ Vue.use(VueStateMachine, [
 	{
 		config: authMachine,
 		logState: true,
-		logContext: true,
-		persistState: true
+		logContext: true
 	},
 	{
 		config: searchMachine,
 		logState: true,
-		logContext: true,
-		persistState: true
+		logContext: true
 	},
 	{
 		config: sessionMachine,
 		logState: true,
-		logContext: true,
-		persistState: true
+		logContext: true
 	}
 ]);
 
