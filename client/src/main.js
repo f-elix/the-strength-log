@@ -3,7 +3,6 @@ import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
 import { VueStateMachine } from 'vue-xstate-plugin';
-import { machines } from './fsm';
 import { authMachine } from './fsm/authMachine';
 import { searchMachine } from './fsm/searchMachine';
 import { sessionMachine } from './fsm/sessionMachine';
