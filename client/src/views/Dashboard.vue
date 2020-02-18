@@ -55,11 +55,11 @@ export default {
 		currentWeekDates() {
 			let date = new Date();
 			const monday = date.setDate(
-				date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1)
+				date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 0)
 			);
 			date = new Date();
 			const sunday = date.setDate(
-				date.getDate() - date.getDay() + (date.getDay() === 0 ? 0 : 7)
+				date.getDate() - date.getDay() + (date.getDay() === 0 ? 0 : 6)
 			);
 			return {
 				monday: new Date(monday).toISOString().split("T")[0],
@@ -71,14 +71,14 @@ export default {
 			const monday = date.setDate(
 				date.getDate() -
 					date.getDay() +
-					(date.getDay() === 0 ? -6 : 1) -
+					(date.getDay() === 0 ? -6 : 0) -
 					7
 			);
 			date = new Date();
 			const sunday = date.setDate(
 				date.getDate() -
 					date.getDay() +
-					(date.getDay() === 0 ? 0 : 7) -
+					(date.getDay() === 0 ? 0 : 6) -
 					7
 			);
 			return {
